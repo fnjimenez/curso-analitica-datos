@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analítica de Datos - Sesión 7 | Universidad del SABES</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .presentation-container { 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 60px;
+        }
+        .header-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .university-logo {
+            width: 32px; 
+            height: 32px;
+            background: linear-gradient(135deg, #3498db, #f39c12);
+            border-radius: 6px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .course-info h1 { 
+            font-size: 1.1rem; 
+            color: #ffd700; 
+            margin-bottom: 2px;
+        }
+        .course-info p { 
+            font-size: 0.65rem; 
+            opacity: 0.8; 
+            line-height: 1.2;
+        }
+        .nav-btn-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; 
+            border: none; 
+            padding: 6px 12px;
+            border-radius: 15px; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .nav-btn-header:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        .nav-btn-header:disabled { 
+            opacity: 0.5; 
+            cursor: not-allowed; 
+        }
+        .timer-display {
+            background: rgba(255, 107, 107, 0.2);
+            padding: 6px 12px; 
+            border-radius: 15px;
+            border: 2px solid rgba(255, 107, 107, 0.5);
+            font-size: 1rem; 
+            font-weight: bold; 
+            color: #ff6b6b;
+        }
+        .timer-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none; 
+            color: white; 
+            padding: 4px 8px;
+            border-radius: 12px; 
+            cursor: pointer; 
+            margin: 0 2px;
+            font-size: 0.75rem;
+        }
+        .timer-controls {
+            display: flex;
+            gap: 3px;
+        }
+        .navigation-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .slide-container {
+            flex: 1; 
+            display: flex; 
+            align-items: center;
+            justify-content: center; 
+            padding: 30px;
+            overflow: visible; /* CORRECCIÓN #1: Cambiado de hidden a visible */
+        }
+        .slide {
+            max-width: 1200px; width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px); 
+            border-radius: 20px;
+            padding: 40px; 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center; 
+            display: none;
+            min-height: 60vh;
+            overflow-y: auto;
+            margin: 10px;
+            /* CORRECCIÓN #2: Optimización GPU */
+            will-change: transform;
+            transform: translateZ(0);
+        }
+        .slide.active { 
+            display: block; 
+        }
+        .slide h1 {
+            font-size: 2.5rem; 
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .slide h2 {
+            font-size: 2rem; 
+            margin-bottom: 25px;
+            color: #ffd700;
+        }
+        .slide h3 { 
+            font-size: 1.5rem; 
+            margin-bottom: 20px; 
+            color: #e8f4fd; 
+        }
+        .slide p { 
+            font-size: 1.1rem; 
+            line-height: 1.6; 
+            margin-bottom: 20px; 
+        }
+        .slide ul { 
+            text-align: left; 
+            max-width: 800px; 
+            margin: 0 auto 20px; 
+        }
+        .slide li { 
+            font-size: 1.1rem; 
+            margin-bottom: 15px; 
+            margin-left: 20px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px; 
+            margin: 30px 0;
+        }
+        .tool-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px; 
+            padding: 20px;
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+            /* CORRECCIÓN #3: Z-index management */
+            z-index: 1;
+        }
+        .tool-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.03);
+            border-color: #ffd700;
+            z-index: 50; /* CORRECCIÓN #4: Valor z-index optimizado */
+        }
+        .feature-highlight {
+            background: rgba(46, 213, 115, 0.2);
+            border: 2px solid rgba(46, 213, 115, 0.5);
+            border-radius: 10px; 
+            padding: 15px; 
+            margin: 15px 0;
+        }
+        .interactive-element {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px; 
+            padding: 20px; 
+            margin: 20px 0;
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1; /* CORRECCIÓN #5: Z-index consistency */
+        }
+        .interactive-element:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            z-index: 50;
+        }
+        .code-example {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px; 
+            padding: 15px; 
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            text-align: left; 
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        .progress-indicator {
+            position: fixed; 
+            bottom: 0; 
+            left: 0;
+            width: 100%; 
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 9999; /* CORRECCIÓN #6: Z-index máximo para progress */
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            transition: width 0.3s ease;
+        }
+        .slide-counter {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px; 
+            border-radius: 12px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .storytelling-showcase {
+            background: rgba(255, 165, 0, 0.1);
+            border: 2px solid rgba(255, 165, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+        .storytelling-showcase::before {
+            content: "📖";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: rgba(255, 165, 0, 0.2);
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+        }
+        .design-block {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+        .design-block::before {
+            content: "🎨";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #ffd700;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .quiz-element {
+            background: rgba(155, 89, 182, 0.1);
+            border: 2px solid rgba(155, 89, 182, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .quiz-element:hover {
+            background: rgba(155, 89, 182, 0.2);
+            transform: scale(1.02);
+        }
+        .fun-fact {
+            background: rgba(138, 43, 226, 0.2);
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        .best-practice {
+            background: rgba(52, 152, 219, 0.1);
+            border: 2px solid rgba(52, 152, 219, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .animated-icon {
+            display: inline-block;
+            animation: bounce 2s infinite;
+            /* CORRECCIÓN #7: Optimización GPU para animaciones */
+            will-change: transform;
+            transform: translateZ(0);
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { 
+                transform: translateY(0) translateZ(0); 
+            }
+            40% { 
+                transform: translateY(-10px) translateZ(0); 
+            }
+            60% { 
+                transform: translateY(-5px) translateZ(0); 
+            }
+        }
+        .citation {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #bdc3c7;
+            margin-top: 10px;
+        }
+        .references-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .references-section h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .reference-item {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            padding-left: 20px;
+            text-indent: -20px;
+        }
+        
+        /* CORRECCIÓN #8: Responsive breakpoints completos */
+        @media (max-width: 480px) {
+            .header { 
+                flex-direction: column; 
+                gap: 8px; 
+                text-align: center;
+                padding: 6px 10px;
+                min-height: auto;
+            }
+            .slide { 
+                padding: 20px 10px; 
+                min-height: 50vh;
+            }
+            .slide h1 { font-size: 1.8rem; }
+            .slide h2 { font-size: 1.5rem; }
+            .tools-grid { 
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .nav-btn-header {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            .slide {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1023px) {
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 1024px) and (orientation: landscape) {
+            .slide {
+                padding: 20px;
+                max-height: 80vh;
+            }
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* CORRECCIÓN #9: Accesibilidad mejorada */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* CORRECCIÓN #10: Focus indicators para accesibilidad */
+        .nav-btn-header:focus,
+        .timer-btn:focus,
+        .tool-card:focus,
+        .interactive-element:focus,
+        .quiz-element:focus {
+            outline: 2px solid #ffd700;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="header">
+            <div class="header-group">
+                <div class="university-logo" aria-label="Universidad del SABES">🎓</div>
+                <div class="course-info">
+                    <h1>ANALÍTICA DE DATOS</h1>
+                    <p>Universidad del SABES | Sesión 7 de 12 | 24 de junio 2025</p>
+                    <p>Prof. Fausto Noé Jiménez</p>
+                </div>
+            </div>
+            <div class="header-group">
+                <div class="navigation-controls">
+                    <button class="nav-btn-header" id="prevBtn" onclick="navigateSlide(-1)" aria-label="Ir a diapositiva anterior">⬅️ Anterior</button>
+                    <div class="slide-counter" aria-live="polite">
+                        <span id="currentSlide">1</span>/<span id="totalSlides">20</span>
+                    </div>
+                    <button class="nav-btn-header" id="nextBtn" onclick="navigateSlide(1)" aria-label="Ir a diapositiva siguiente">Siguiente ➡️</button>
+                </div>
+            </div>
+            <div class="header-group">
+                <div class="timer-display" aria-live="polite">
+                    ⏱️ <span id="timeRemaining">50:00</span>
+                    <span class="sr-only">Tiempo restante de sesión</span>
+                </div>
+                <div class="timer-controls">
+                    <button class="timer-btn" onclick="controlTimer('start')" aria-label="Iniciar cronómetro">▶️</button>
+                    <button class="timer-btn" onclick="controlTimer('pause')" aria-label="Pausar cronómetro">⏸️</button>
+                    <button class="timer-btn" onclick="controlTimer('reset')" aria-label="Reiniciar cronómetro">🔄</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-container">
+            <!-- Slide 1: Título -->
+            <div class="slide active">
+                <h1>📊 VISUALIZACIÓN PROFESIONAL</h1>
+                <div style="font-size: 5rem; margin: 30px 0;">
+                    <span class="animated-icon">📈</span>
+                    <span class="animated-icon">🎨</span>
+                    <span class="animated-icon">💡</span>
+                </div>
+                <h3>Sesión 7: Storytelling y Design Thinking para Dashboards</h3>
+                <p><strong>Semana:</strong> 24 - 30 de junio 2025</p>
+                
+                <div class="interactive-element" onclick="PresentationController.showInfo('Transformaremos tus datos en narrativas visuales que impulsen decisiones estratégicas')" tabindex="0" role="button" aria-label="Información sobre transformación de datos en narrativas visuales">
+                    <h3>🎯 ¡De Datos a Decisiones Estratégicas!</h3>
+                    <p>"Los datos cuentan historias, pero solo los visualizadores expertos las hacen memorables"</p>
+                </div>
+                
+                <p style="font-size: 1rem; font-style: italic; margin-top: 20px;">
+                    "El data storytelling es una técnica que combina la información visual e impactante con una narrativa asertiva" - Prometeo FP (2025)
+                </p>
+            </div>
+
+            <!-- Slide 2: Objetivos -->
+            <div class="slide">
+                <h2>🎯 OBJETIVOS DE LA SESIÓN</h2>
+                <ul>
+                    <li><strong>Dominar</strong> los principios del data storytelling</li>
+                    <li><strong>Aplicar</strong> design thinking a dashboards</li>
+                    <li><strong>Crear</strong> visualizaciones que comunican insights</li>
+                    <li><strong>Implementar</strong> mejores prácticas de UX/UI</li>
+                    <li><strong>Diseñar</strong> interactividad intuitiva</li>
+                    <li><strong>Construir</strong> dashboards dignos de C-Suite</li>
+                </ul>
+                
+                <div class="interactive-element" onclick="PresentationController.showInfo('Construiremos sobre tus modelos optimizados para crear experiencias visuales excepcionales')" tabindex="0" role="button" aria-label="Información sobre evolución del analista de datos">
+                    <h3>🏗️ Evolución del Analista de Datos</h3>
+                    <p>Datos limpios + Modelos optimizados + Visualización profesional = ¡Impact Executive!</p>
+                </div>
+                
+                <div class="citation">
+                    Se espera que el mercado mundial de big data crezca hasta los 229.400 millones de dólares en 2025 (Universidad de Chicago, 2025)
+                </div>
+            </div>
+
+            <!-- Slide 3: ¿Qué es Data Storytelling? -->
+            <div class="slide">
+                <h2>📖 ¿QUÉ ES DATA STORYTELLING?</h2>
+                <div style="font-size: 4rem; margin: 20px 0;">📊📚✨</div>
+                
+                <div class="storytelling-showcase">
+                    <h3>💡 La Alquimia de los Datos</h3>
+                    <p>"El data storytelling es el proceso de comunicar hallazgos y conclusiones a partir de datos de una manera convincente y fácil de comprender" (ISDI, 2024)</p>
+                    <ul>
+                        <li><strong>Datos:</strong> La materia prima de la verdad</li>
+                        <li><strong>Narrativa:</strong> El contexto que da significado</li>
+                        <li><strong>Visualización:</strong> El vehículo emocional</li>
+                        <li><strong>Acción:</strong> El objetivo final</li>
+                    </ul>
+                </div>
+
+                <div class="fun-fact">
+                    <h4>🧠 Neurociencia de los Datos:</h4>
+                    <p>"Es 22 veces más probable recordar un dato cuando está narrado como una historia" - Esta estadística revela por qué el storytelling es fundamental en analytics (Universidad de Chicago, 2025)</p>
+                </div>
+
+                <div class="quiz-element" onclick="PresentationController.showQuiz('storytelling-components')" tabindex="0" role="button" aria-label="Desafío sobre los 3 pilares del data storytelling">
+                    <h3>🧠 Challenge: Los 3 Pilares</h3>
+                    <p>¿Cuáles son los 3 componentes esenciales del data storytelling efectivo?</p>
+                    <p><small>🖱️ ¡Haz clic para descubrir la fórmula!</small></p>
+                </div>
+            </div>
+
+            <!-- Slide 4: El Arco Narrativo en Dashboards -->
+            <div class="slide">
+                <h2>🎭 EL ARCO NARRATIVO EN DASHBOARDS</h2>
+                
+                <div class="storytelling-showcase">
+                    <h3>🎬 Estructura Dramática de los Datos</h3>
+                    <p>"El storytelling impulsado por datos sigue la línea narrativa tradicional (arco narrativo) de comienzo, desarrollo y fin" (SAP, 2025)</p>
+                </div>
+
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="PresentationController.showNarrativeExample('exposition')" tabindex="0" role="button" aria-label="Ejemplo de exposición en dashboard">
+                        <div style="font-size: 2.5rem;">🎪</div>
+                        <h3>EXPOSICIÓN</h3>
+                        <p><strong>¿Qué está pasando?</strong></p>
+                        <p>KPIs principales, métricas de contexto, panorama general</p>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showNarrativeExample('conflict')" tabindex="0" role="button" aria-label="Ejemplo de conflicto en dashboard">
+                        <div style="font-size: 2.5rem;">⚡</div>
+                        <h3>CONFLICTO</h3>
+                        <p><strong>¿Dónde están los problemas?</strong></p>
+                        <p>Anomalías, tendencias negativas, oportunidades perdidas</p>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showNarrativeExample('resolution')" tabindex="0" role="button" aria-label="Ejemplo de resolución en dashboard">
+                        <div style="font-size: 2.5rem;">🏆</div>
+                        <h3>RESOLUCIÓN</h3>
+                        <p><strong>¿Qué acciones tomar?</strong></p>
+                        <p>Insights accionables, recomendaciones, próximos pasos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Colores que Comunican -->
+            <div class="slide">
+                <h2>🎨 COLORES QUE COMUNICAN</h2>
+                
+                <div class="design-block">
+                    <h3>🌈 Psicología del Color en Dashboards</h3>
+                    <p>"The color palette used in a dashboard's design should also be considered as a context. Many B2B SaaS product dashboards are designed in a dark-themed UI because they are used for several hours straight" (Toptal, 2017)</p>
+                </div>
+
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="PresentationController.showColorStrategy('brand')" tabindex="0" role="button" aria-label="Estrategia de colores de marca">
+                        <div style="font-size: 2.5rem;">🏢</div>
+                        <h3>BRAND COLORS</h3>
+                        <p>Usa colores corporativos para generar confianza y reconocimiento de marca</p>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showColorStrategy('semantic')" tabindex="0" role="button" aria-label="Estrategia de colores semánticos">
+                        <div style="font-size: 2.5rem;">🚦</div>
+                        <h3>COLORES SEMÁNTICOS</h3>
+                        <p>Verde = positivo, Rojo = negativo, Amarillo = precaución, Azul = información</p>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showColorStrategy('accessibility')" tabindex="0" role="button" aria-label="Estrategia de colores accesibles">
+                        <div style="font-size: 2.5rem;">👁️</div>
+                        <h3>COLORBLIND FRIENDLY</h3>
+                        <p>Evita rojo-verde juntos, usa patrones y texturas como alternativa</p>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="PresentationController.showFutureDashboard()" tabindex="0" role="button" aria-label="Demo del dashboard del futuro">
+                    <h3>🔮 Demo: Dashboard del Futuro</h3>
+                    <p>Experimenta con un prototipo de dashboard con IA integrada</p>
+                    <div class="code-example">// Ejemplo: AI Assistant Integration
+💬 "¿Por qué bajaron las ventas en marzo?"
+🤖 "Detecté 3 factores: 
+    • Competencia lanzó promoción (-8%)
+    • Inventario agotado 5 días (-12%)  
+    • Cambio estacional típico (-3%)
+    📊 ¿Quieres ver el análisis detallado?"</div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Referencias -->
+            <div class="slide">
+                <h2>📚 REFERENCIAS</h2>
+                
+                <div class="references-section">
+                    <h3>Referencias Bibliográficas (Formato APA)</h3>
+                    
+                    <div class="reference-item">
+                        AufaitUX. (2025, January 17). Top 10 best practices for UI/UX design in Power BI dashboards. <em>AufaitUX Blog</em>. https://www.aufaitux.com/blog/power-bi-dashboard-design-best-practices/
+                    </div>
+                    
+                    <div class="reference-item">
+                        datdata. (2023, March 13). Buenas prácticas de data storytelling. <em>datdata Blog</em>. https://www.datdata.com/blog/buenas-practicas-data-storytelling
+                    </div>
+                    
+                    <div class="reference-item">
+                        ISDI. (2024, June 10). ¿En qué consiste el data storytelling? <em>ISDI Education Blog</em>. https://www.isdi.education/es/blog/que-es-el-data-stortytelling
+                    </div>
+                    
+                    <div class="reference-item">
+                        SAP. (2025). ¿Qué es el storytelling de datos? Definición, importancia, ejemplos. <em>SAP Latin America</em>. https://www.sap.com/latinamerica/products/data-cloud/cloud-analytics/what-is-data-storytelling.html
+                    </div>
+                    
+                    <div class="reference-item">
+                        Toptal. (2017, November 9). Dashboard design: Best practices with examples. <em>Toptal Design Blog</em>. https://www.toptal.com/designers/data-visualization/dashboard-design-best-practices
+                    </div>
+                    
+                    <div class="reference-item">
+                        Universidad de Chicago. (2025, March 10). Curso online de storytelling y visualización de datos estratégicos. <em>UChicago Professional Education</em>. https://online.professional.uchicago.edu/es/curso/storytelling-y-visualizacion-de-datos-estrategicos/
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="progress-indicator" role="progressbar" aria-label="Progreso de la presentación">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <script>
+        // CORRECCIÓN #11: Clase PresentationController optimizada y corregida
+        class PresentationController {
+            constructor() {
+                // Constantes de configuración
+                this.SESSION_DURATION_MINUTES = 50;
+                this.sessionTime = this.SESSION_DURATION_MINUTES * 60;
+                this.timeRemaining = this.sessionTime;
+                this.timerInterval = null;
+                this.isTimerRunning = false;
+                this.currentSlideIndex = 0;
+                this.slides = [];
+                this.totalSlides = 0;
+                this.domElements = {};
+                this.eventListeners = []; // CORRECCIÓN #12: Tracking de event listeners
+                
+                this.init();
+            }
+
+            init() {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        this.initPresentation();
+                        this.setupEventListeners();
+                    });
+                } else {
+                    this.initPresentation();
+                    this.setupEventListeners();
+                }
+            }
+
+            initPresentation() {
+                try { // CORRECCIÓN #13: Error handling
+                    // Cachear elementos DOM con validación
+                    this.domElements = {
+                        currentSlide: document.getElementById('currentSlide'),
+                        totalSlidesDisplay: document.getElementById('totalSlides'),
+                        progressBar: document.getElementById('progressBar'),
+                        timeRemaining: document.getElementById('timeRemaining'),
+                        prevBtn: document.getElementById('prevBtn'),
+                        nextBtn: document.getElementById('nextBtn')
+                    };
+
+                    // CORRECCIÓN #14: Validar que elementos existen
+                    Object.keys(this.domElements).forEach(key => {
+                        if (!this.domElements[key]) {
+                            console.warn(`⚠️ Elemento DOM no encontrado: ${key}`);
+                        }
+                    });
+
+                    this.slides = document.querySelectorAll('.slide');
+                    this.totalSlides = this.slides.length;
+                    
+                    if (this.slides.length > 0) {
+                        this.slides[0].classList.add('active');
+                        this.slides[0].style.display = 'block';
+                    }
+                    
+                    if (this.domElements.totalSlidesDisplay) {
+                        this.domElements.totalSlidesDisplay.textContent = this.totalSlides;
+                    }
+                    
+                    this.updateDisplay();
+                } catch (error) {
+                    console.error('Error en initPresentation:', error);
+                }
+            }
+
+            setupEventListeners() {
+                try {
+                    // CORRECCIÓN #15: Event listeners con cleanup tracking
+                    const keydownHandler = (e) => {
+                        switch(e.key) {
+                            case 'ArrowLeft':
+                                e.preventDefault();
+                                this.navigateSlide(-1);
+                                break;
+                            case 'ArrowRight':
+                                e.preventDefault();
+                                this.navigateSlide(1);
+                                break;
+                            case ' ':
+                                e.preventDefault();
+                                if (this.isTimerRunning) {
+                                    this.controlTimer('pause');
+                                } else {
+                                    this.controlTimer('start');
+                                }
+                                break;
+                            case 'f':
+                            case 'F':
+                                this.toggleFullscreen();
+                                break;
+                        }
+                    };
+
+                    document.addEventListener('keydown', keydownHandler);
+                    this.eventListeners.push({ element: document, event: 'keydown', handler: keydownHandler });
+
+                    // Touch events para móvil
+                    let touchStartX = 0;
+                    let touchEndX = 0;
+
+                    const touchStartHandler = (e) => {
+                        touchStartX = e.changedTouches[0].screenX;
+                    };
+
+                    const touchEndHandler = (e) => {
+                        touchEndX = e.changedTouches[0].screenX;
+                        this.handleSwipe();
+                    };
+
+                    document.addEventListener('touchstart', touchStartHandler);
+                    document.addEventListener('touchend', touchEndHandler);
+                    
+                    this.eventListeners.push({ element: document, event: 'touchstart', handler: touchStartHandler });
+                    this.eventListeners.push({ element: document, event: 'touchend', handler: touchEndHandler });
+
+                    this.handleSwipe = () => {
+                        const swipeThreshold = 50;
+                        const diff = touchStartX - touchEndX;
+                        
+                        if (Math.abs(diff) > swipeThreshold) {
+                            if (diff > 0) {
+                                this.navigateSlide(1);
+                            } else {
+                                this.navigateSlide(-1);
+                            }
+                        }
+                    };
+
+                    // Context menu help
+                    const contextMenuHandler = (e) => {
+                        e.preventDefault();
+                        this.showHelp();
+                    };
+
+                    document.addEventListener('contextmenu', contextMenuHandler);
+                    this.eventListeners.push({ element: document, event: 'contextmenu', handler: contextMenuHandler });
+                } catch (error) {
+                    console.error('Error en setupEventListeners:', error);
+                }
+            }
+
+            navigateSlide(direction) {
+                try { // CORRECCIÓN #16: Error handling en navegación
+                    if (this.slides.length === 0) return;
+                    
+                    if (this.currentSlideIndex < 0 || this.currentSlideIndex >= this.totalSlides) {
+                        this.currentSlideIndex = 0;
+                    }
+                    
+                    this.slides[this.currentSlideIndex].classList.remove('active');
+                    this.slides[this.currentSlideIndex].style.display = 'none';
+                    
+                    this.currentSlideIndex = (this.currentSlideIndex + direction + this.totalSlides) % this.totalSlides;
+                    
+                    this.slides[this.currentSlideIndex].style.display = 'block';
+                    setTimeout(() => {
+                        this.slides[this.currentSlideIndex].classList.add('active');
+                        this.updateDisplay();
+                    }, 50);
+                } catch (error) {
+                    console.error('Error en navigateSlide:', error);
+                }
+            }
+
+            controlTimer(action) {
+                try {
+                    switch (action) {
+                        case 'start':
+                            if (!this.isTimerRunning) {
+                                this.isTimerRunning = true;
+                                this.timerInterval = setInterval(() => this.updateTimer(), 1000);
+                            }
+                            break;
+                            
+                        case 'pause':
+                            this.pauseTimer();
+                            break;
+                            
+                        case 'reset':
+                            this.pauseTimer();
+                            this.timeRemaining = this.sessionTime;
+                            this.updateTimerDisplay();
+                            break;
+                    }
+                } catch (error) {
+                    console.error('Error en controlTimer:', error);
+                }
+            }
+
+            pauseTimer() {
+                if (this.isTimerRunning) {
+                    this.isTimerRunning = false;
+                    if (this.timerInterval) {
+                        clearInterval(this.timerInterval);
+                        this.timerInterval = null;
+                    }
+                }
+            }
+
+            updateTimer() {
+                this.timeRemaining--;
+                this.updateTimerDisplay();
+                
+                if (this.timeRemaining <= 0) {
+                    this.controlTimer('pause');
+                    alert('⏰ ¡Tiempo completado! ¿Listos para el design thinking workshop?');
+                }
+            }
+
+            updateTimerDisplay() {
+                const minutes = Math.floor(this.timeRemaining / 60);
+                const seconds = this.timeRemaining % 60;
+                
+                if (this.domElements.timeRemaining) {
+                    this.domElements.timeRemaining.textContent = 
+                        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            }
+
+            updateDisplay() {
+                try {
+                    if (this.domElements.currentSlide) {
+                        this.domElements.currentSlide.textContent = this.currentSlideIndex + 1;
+                    }
+                    
+                    if (this.domElements.progressBar) {
+                        const progress = ((this.currentSlideIndex + 1) / this.totalSlides) * 100;
+                        this.domElements.progressBar.style.width = `${progress}%`;
+                    }
+                    
+                    if (this.domElements.prevBtn) {
+                        this.domElements.prevBtn.disabled = this.currentSlideIndex === 0;
+                    }
+                    if (this.domElements.nextBtn) {
+                        this.domElements.nextBtn.disabled = this.currentSlideIndex === this.totalSlides - 1;
+                    }
+                } catch (error) {
+                    console.error('Error en updateDisplay:', error);
+                }
+            }
+
+            toggleFullscreen() {
+                try {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {
+                            console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                        });
+                    } else {
+                        document.exitFullscreen();
+                    }
+                } catch (error) {
+                    console.error('Error en toggleFullscreen:', error);
+                }
+            }
+
+            showHelp() {
+                alert('⌨️ CONTROLES DE LA PRESENTACIÓN:\n\n🖱️ Navegación:\n• Flechas ← → : Cambiar diapositiva\n• Swipe en móvil\n• Botones en pantalla\n\n⏱️ Temporizador:\n• Barra espaciadora: Play/Pausa\n• Botones de control\n\n🎯 Interactividad:\n• Clic en elementos destacados\n• Elementos con cursor pointer\n\n🔧 Extras:\n• F: Pantalla completa\n• Clic derecho: Esta ayuda\n\n💡 ¡Explora todos los elementos interactivos!');
+            }
+
+            // CORRECCIÓN #17: Cleanup method para memory leaks
+            destroy() {
+                try {
+                    // Limpiar timer
+                    this.pauseTimer();
+                    
+                    // Remover event listeners
+                    this.eventListeners.forEach(({ element, event, handler }) => {
+                        element.removeEventListener(event, handler);
+                    });
+                    this.eventListeners = [];
+                    
+                    // Limpiar referencias
+                    this.domElements = {};
+                    this.slides = [];
+                } catch (error) {
+                    console.error('Error en destroy:', error);
+                }
+            }
+
+            // MÉTODOS ESTÁTICOS PARA FUNCIONALIDAD INTERACTIVA - CORREGIDOS
+            static showInfo(info) {
+                try {
+                    alert('💡 ' + info);
+                } catch (error) {
+                    console.error('Error en showInfo:', error);
+                }
+            }
+
+            static showQuiz(topic) {
+                try {
+                    if (topic === 'storytelling-components') {
+                        alert('📖 LOS 3 PILARES DEL DATA STORYTELLING:\n\n1️⃣ DATOS (Data)\n• Información precisa y relevante\n• Métricas que respondan preguntas de negocio\n• Contexto temporal y comparativo\n\n2️⃣ NARRATIVA (Narrative)\n• Historia clara con inicio, desarrollo y final\n• Conexión emocional con la audiencia\n• Call-to-action específico\n\n3️⃣ VISUALIZACIÓN (Visualization)\n• Gráficos que amplifican el mensaje\n• Diseño que guía la atención\n• Interactividad que invita a explorar\n\n🎯 Cuando estos 3 elementos se combinan correctamente, los datos se transforman en decisiones.');
+                    }
+                } catch (error) {
+                    console.error('Error en showQuiz:', error);
+                }
+            }
+
+            static showNarrativeExample(phase) {
+                try {
+                    const examples = {
+                        'exposition': '🎪 EXPOSICIÓN - Setting the Stage:\n\n📊 KPIs Principales al top\n• Revenue: $2.4M (vs $2.1M target)\n• Customer Acquisition: 1,247 new users\n• Retention Rate: 87% (industry avg: 82%)\n\n💡 Da contexto inmediato: "¿Estamos bien o mal?"\n\n✅ Best Practice: 3-5 métricas máximo, comparaciones claras',
+                        
+                        'conflict': '⚡ CONFLICTO - The Plot Thickens:\n\n🚨 Identificar Anomalías\n• Churn rate increased 15% in Q3\n• Mobile conversions down 23%\n• Support tickets up 40%\n\n💡 Usa colores de alerta, trending down arrows\n\n✅ Best Practice: Contextualizar con "¿Por qué?" y drill-down options',
+                        
+                        'resolution': '🏆 RESOLUCIÓN - The Path Forward:\n\n🎯 Insights Accionables\n• Mobile UX needs optimization → -23% conversion\n• New feature causing confusion → +40% tickets\n• Seasonal churn pattern → normal for Q3\n\n💡 Cada insight = recommended action\n\n✅ Best Practice: Priorizar por impact vs effort matrix'
+                    };
+                    alert(examples[phase] || 'Ejemplo no disponible');
+                } catch (error) {
+                    console.error('Error en showNarrativeExample:', error);
+                }
+            }
+
+            // CORRECCIÓN #18: Función showFutureDashboard() COMPLETA
+            static showFutureDashboard() {
+                try {
+                    alert('🔮 DEMO: DASHBOARD DEL FUTURO\n\n🤖 AI ASSISTANT INTEGRATION:\n\n💬 USER: "¿Por qué bajaron las ventas en marzo?"\n\n🧠 AI RESPONSE:\n"Analizando 47 variables, identifiqué 3 factores principales:\n\n🏆 FACTOR 1: Competencia (Impacto: -8%)\n• SpringCorp lanzó promoción 40% off\n• Duración: 15-31 marzo\n• Productos afectados: Premium line\n\n📦 FACTOR 2: Inventario (Impacto: -12%)\n• Stock agotado 5 días en marzo\n• SKUs críticos: P001, P045, P078\n• Tiempo reposición: 7-10 días\n\n🌱 FACTOR 3: Estacional (Impacto: -3%)\n• Patrón histórico marzo (-2% a -4%)\n• Consistente últimos 3 años\n• Recuperación esperada en abril\n\n🎯 RECOMENDACIONES:\n1. Monitorear competencia más cerca\n2. Optimizar niveles de inventario\n3. Planificar promociones counter-attack\n\n📊 ¿Quieres ver el análisis detallado o explorar soluciones?"\n\n💡 El futuro del analytics es conversacional y predictivo!');
+                } catch (error) {
+                    console.error('Error en showFutureDashboard:', error);
+                }
+            }
+
+            // CORRECCIÓN #19: Función showColorStrategy() COMPLETA con string cerrado
+            static showColorStrategy(strategy) {
+                try {
+                    const strategies = {
+                        'brand': '🏢 BRAND COLORS - Corporate Identity:\n\n🎨 Primary Brand Color:\n• Main CTAs y elementos importantes\n• Headers y navigation\n• Key metrics highlighting\n\n🔗 Secondary Colors:\n• Supporting elements\n• Categories differentiation\n• Accent colors\n\n⚖️ Balance:\n• 60% neutral colors\n• 30% primary brand\n• 10% accent colors\n\n💡 Mantén brand consistency pero prioriza usabilidad',
+                        
+                        'semantic': '🚦 COLORES SEMÁNTICOS - Universal Language:\n\n🟢 Verde (Success/Positive):\n• Metrics above target\n• Positive trends\n• Completed tasks\n• Success states\n\n🔴 Rojo (Danger/Negative):\n• Below target\n• Declining trends\n• Errors y alerts\n• Critical issues\n\n🟡 Amarillo (Warning/Caution):\n• At risk metrics\n• Pending states\n• Need attention\n\n🔵 Azul (Information/Neutral):\n• General information\n• Navigation elements\n• Neutral states',
+                        
+                        'accessibility': '👁️ COLORBLIND FRIENDLY - Design for All:\n\n🚫 EVITAR:\n• Red-Green combinations solo\n• Información solo por color\n• Contraste insuficiente\n• Paletas saturadas\n\n✅ USAR:\n• Blue-Orange combinations\n• Patterns + Color\n• High contrast ratios (4.5:1+)\n• Color Oracle testing\n\n🎨 PALETAS RECOMENDADAS:\n• Paul Tol: Scientifically optimized\n• ColorBrewer: Cartography tested\n• Accessible Colors: WCAG compliant\n\n💡 Test with Color Oracle simulator'
+                    };
+                    alert(strategies[strategy] || 'Estrategia no disponible');
+                } catch (error) {
+                    console.error('Error en showColorStrategy:', error);
+                }
+            }
+        }
+
+        // CORRECCIÓN #20: Funciones globales con error handling
+        function navigateSlide(direction) {
+            try {
+                if (window.presentationController) {
+                    window.presentationController.navigateSlide(direction);
+                }
+            } catch (error) {
+                console.error('Error en navigateSlide global:', error);
+            }
+        }
+
+        function controlTimer(action) {
+            try {
+                if (window.presentationController) {
+                    window.presentationController.controlTimer(action);
+                }
+            } catch (error) {
+                console.error('Error en controlTimer global:', error);
+            }
+        }
+
+        // CORRECCIÓN #21: Inicialización mejorada con cleanup
+        let presentationInstance = null;
+
+        function initializePresentation() {
+            try {
+                // Cleanup existing instance
+                if (presentationInstance) {
+                    presentationInstance.destroy();
+                }
+                
+                // Create new instance
+                presentationInstance = new PresentationController();
+                window.presentationController = presentationInstance;
+                window.PresentationController = PresentationController;
+            } catch (error) {
+                console.error('Error en initializePresentation:', error);
+            }
+        }
+
+        // CORRECCIÓN #22: Cleanup en beforeunload
+        window.addEventListener('beforeunload', () => {
+            if (presentationInstance) {
+                presentationInstance.destroy();
+            }
+        });
+
+        // Inicializar
+        initializePresentation();
+    </script>
+</body>
+</html>
