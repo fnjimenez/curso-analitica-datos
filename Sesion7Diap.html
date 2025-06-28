@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analítica de Datos - Sesión 7 | Universidad del SABES</title>
+    <title>Analítica de Datos - Sesión 6 | Universidad del SABES</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -106,7 +106,7 @@
             align-items: center;
             justify-content: center; 
             padding: 30px;
-            overflow: visible; /* CORRECCIÓN #1: Cambiado de hidden a visible */
+            overflow: visible; /* CORRECCIÓN #1: Permite animaciones completas */
         }
         .slide {
             max-width: 1200px; width: 100%;
@@ -120,9 +120,6 @@
             min-height: 60vh;
             overflow-y: auto;
             margin: 10px;
-            /* CORRECCIÓN #2: Optimización GPU */
-            will-change: transform;
-            transform: translateZ(0);
         }
         .slide.active { 
             display: block; 
@@ -133,7 +130,6 @@
             background: linear-gradient(45deg, #ffd700, #ff6b6b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         .slide h2 {
             font-size: 2rem; 
@@ -177,15 +173,13 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            position: relative;
-            /* CORRECCIÓN #3: Z-index management */
-            z-index: 1;
+            position: relative; /* CORRECCIÓN #2: Contexto para z-index */
         }
         .tool-card:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.03);
             border-color: #ffd700;
-            z-index: 50; /* CORRECCIÓN #4: Valor z-index optimizado */
+            z-index: 10; /* CORRECCIÓN #3: Evita overlap en hover */
         }
         .feature-highlight {
             background: rgba(46, 213, 115, 0.2);
@@ -202,13 +196,12 @@
             margin: 20px 0;
             cursor: pointer; 
             transition: all 0.3s ease;
-            position: relative;
-            z-index: 1; /* CORRECCIÓN #5: Z-index consistency */
+            position: relative; /* CORRECCIÓN #4: Contexto para animaciones */
         }
         .interactive-element:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
-            z-index: 50;
+            z-index: 5; /* CORRECCIÓN #5: Z-index para hover */
         }
         .code-example {
             background: rgba(0, 0, 0, 0.4);
@@ -229,7 +222,7 @@
             width: 100%; 
             height: 4px;
             background: rgba(255, 255, 255, 0.2);
-            z-index: 9999; /* CORRECCIÓN #6: Z-index máximo para progress */
+            z-index: 1000; /* CORRECCIÓN #6: Siempre visible */
         }
         .progress-bar {
             height: 100%;
@@ -243,34 +236,34 @@
             font-size: 0.8rem;
             white-space: nowrap;
         }
-        .storytelling-showcase {
-            background: rgba(255, 165, 0, 0.1);
-            border: 2px solid rgba(255, 165, 0, 0.5);
+        .formula-showcase {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.5);
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
             position: relative;
         }
-        .storytelling-showcase::before {
-            content: "📖";
+        .formula-showcase::before {
+            content: "🔧";
             position: absolute;
             top: -10px;
             left: 20px;
-            background: rgba(255, 165, 0, 0.2);
+            background: rgba(255, 215, 0, 0.2);
             padding: 5px 10px;
             border-radius: 10px;
             font-size: 1.2rem;
         }
-        .design-block {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        .m-language-block {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             border: 2px solid rgba(255, 255, 255, 0.5);
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
             position: relative;
         }
-        .design-block::before {
-            content: "🎨";
+        .m-language-block::before {
+            content: "M";
             position: absolute;
             top: -10px;
             left: 20px;
@@ -282,8 +275,8 @@
             font-size: 1rem;
         }
         .quiz-element {
-            background: rgba(155, 89, 182, 0.1);
-            border: 2px solid rgba(155, 89, 182, 0.5);
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid rgba(255, 107, 107, 0.5);
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
@@ -291,7 +284,7 @@
             transition: all 0.3s ease;
         }
         .quiz-element:hover {
-            background: rgba(155, 89, 182, 0.2);
+            background: rgba(255, 107, 107, 0.2);
             transform: scale(1.02);
         }
         .fun-fact {
@@ -302,60 +295,18 @@
             margin: 15px 0;
             text-align: left;
         }
-        .best-practice {
-            background: rgba(52, 152, 219, 0.1);
-            border: 2px solid rgba(52, 152, 219, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
         .animated-icon {
             display: inline-block;
             animation: bounce 2s infinite;
-            /* CORRECCIÓN #7: Optimización GPU para animaciones */
-            will-change: transform;
-            transform: translateZ(0);
         }
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { 
-                transform: translateY(0) translateZ(0); 
-            }
-            40% { 
-                transform: translateY(-10px) translateZ(0); 
-            }
-            60% { 
-                transform: translateY(-5px) translateZ(0); 
-            }
-        }
-        .citation {
-            font-size: 0.9rem;
-            font-style: italic;
-            color: #bdc3c7;
-            margin-top: 10px;
-        }
-        .references-section {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        .references-section h3 {
-            color: #ffd700;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .reference-item {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            line-height: 1.4;
-            padding-left: 20px;
-            text-indent: -20px;
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
         
-        /* CORRECCIÓN #8: Responsive breakpoints completos */
-        @media (max-width: 480px) {
+        /* Responsive Design - CORRECCIÓN #7: Mejorado */
+        @media (max-width: 768px) {
             .header { 
                 flex-direction: column; 
                 gap: 8px; 
@@ -364,36 +315,22 @@
                 min-height: auto;
             }
             .slide { 
-                padding: 20px 10px; 
+                padding: 30px 15px; 
                 min-height: 50vh;
             }
-            .slide h1 { font-size: 1.8rem; }
-            .slide h2 { font-size: 1.5rem; }
+            .slide h1 { font-size: 2rem; }
+            .slide h2 { font-size: 1.7rem; }
             .tools-grid { 
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
             .nav-btn-header {
-                padding: 8px 12px;
+                padding: 8px 12px; /* CORRECCIÓN #8: Botones más grandes en móvil */
                 font-size: 0.9rem;
             }
         }
-
-        @media (min-width: 481px) and (max-width: 768px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-            .slide {
-                padding: 30px 20px;
-            }
-        }
         
-        @media (min-width: 769px) and (max-width: 1023px) {
-            .tools-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
+        /* CORRECCIÓN #9: Media query para tablets */
         @media (max-width: 1024px) and (orientation: landscape) {
             .slide {
                 padding: 20px;
@@ -403,60 +340,36 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
-        /* CORRECCIÓN #9: Accesibilidad mejorada */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* CORRECCIÓN #10: Focus indicators para accesibilidad */
-        .nav-btn-header:focus,
-        .timer-btn:focus,
-        .tool-card:focus,
-        .interactive-element:focus,
-        .quiz-element:focus {
-            outline: 2px solid #ffd700;
-            outline-offset: 2px;
-        }
     </style>
 </head>
 <body>
     <div class="presentation-container">
         <div class="header">
             <div class="header-group">
-                <div class="university-logo" aria-label="Universidad del SABES">🎓</div>
+                <div class="university-logo">🎓</div>
                 <div class="course-info">
                     <h1>ANALÍTICA DE DATOS</h1>
-                    <p>Universidad del SABES | Sesión 7 de 12 | 24 de junio 2025</p>
+                    <p>Universidad del SABES | Sesión 6 de 12 | 17 de junio 2025</p>
                     <p>Prof. Fausto Noé Jiménez</p>
                 </div>
             </div>
             <div class="header-group">
                 <div class="navigation-controls">
-                    <button class="nav-btn-header" id="prevBtn" onclick="navigateSlide(-1)" aria-label="Ir a diapositiva anterior">⬅️ Anterior</button>
-                    <div class="slide-counter" aria-live="polite">
-                        <span id="currentSlide">1</span>/<span id="totalSlides">20</span>
+                    <button class="nav-btn-header" id="prevBtn" onclick="navigateSlide(-1)">⬅️ Anterior</button>
+                    <div class="slide-counter">
+                        <span id="currentSlide">1</span>/<span id="totalSlides">18</span>
                     </div>
-                    <button class="nav-btn-header" id="nextBtn" onclick="navigateSlide(1)" aria-label="Ir a diapositiva siguiente">Siguiente ➡️</button>
+                    <button class="nav-btn-header" id="nextBtn" onclick="navigateSlide(1)">Siguiente ➡️</button>
                 </div>
             </div>
             <div class="header-group">
-                <div class="timer-display" aria-live="polite">
-                    ⏱️ <span id="timeRemaining">50:00</span>
-                    <span class="sr-only">Tiempo restante de sesión</span>
+                <div class="timer-display">
+                    ⏱️ <span id="timeRemaining">45:00</span>
                 </div>
                 <div class="timer-controls">
-                    <button class="timer-btn" onclick="controlTimer('start')" aria-label="Iniciar cronómetro">▶️</button>
-                    <button class="timer-btn" onclick="controlTimer('pause')" aria-label="Pausar cronómetro">⏸️</button>
-                    <button class="timer-btn" onclick="controlTimer('reset')" aria-label="Reiniciar cronómetro">🔄</button>
+                    <button class="timer-btn" onclick="controlTimer('start')">▶️</button>
+                    <button class="timer-btn" onclick="controlTimer('pause')">⏸️</button>
+                    <button class="timer-btn" onclick="controlTimer('reset')">🔄</button>
                 </div>
             </div>
         </div>
@@ -464,22 +377,22 @@
         <div class="slide-container">
             <!-- Slide 1: Título -->
             <div class="slide active">
-                <h1>📊 VISUALIZACIÓN PROFESIONAL</h1>
+                <h1>🔧 TRATAMIENTO AVANZADO</h1>
                 <div style="font-size: 5rem; margin: 30px 0;">
-                    <span class="animated-icon">📈</span>
-                    <span class="animated-icon">🎨</span>
-                    <span class="animated-icon">💡</span>
+                    <span class="animated-icon">📊</span>
+                    <span class="animated-icon">🔧</span>
+                    <span class="animated-icon">⚡</span>
                 </div>
-                <h3>Sesión 7: Storytelling y Design Thinking para Dashboards</h3>
-                <p><strong>Semana:</strong> 24 - 30 de junio 2025</p>
+                <h3>Sesión 6: Fórmulas y Lenguaje M en Power BI</h3>
+                <p><strong>Semana:</strong> 17 - 23 de junio 2025</p>
                 
-                <div class="interactive-element" onclick="PresentationController.showInfo('Transformaremos tus datos en narrativas visuales que impulsen decisiones estratégicas')" tabindex="0" role="button" aria-label="Información sobre transformación de datos en narrativas visuales">
-                    <h3>🎯 ¡De Datos a Decisiones Estratégicas!</h3>
-                    <p>"Los datos cuentan historias, pero solo los visualizadores expertos las hacen memorables"</p>
+                <div class="interactive-element" onclick="PresentationController.showInfo('¡Hoy construiremos columnas que harán magia con tus datos!')">
+                    <h3>🎯 ¡De Datos Limpios a Insights Poderosos!</h3>
+                    <p>"Tu dataset limpio + fórmulas inteligentes = análisis épico"</p>
                 </div>
                 
                 <p style="font-size: 1rem; font-style: italic; margin-top: 20px;">
-                    "El data storytelling es una técnica que combina la información visual e impactante con una narrativa asertiva" - Prometeo FP (2025)
+                    "El poder real está en transformar datos en decisiones" - Prof. Jiménez
                 </p>
             </div>
 
@@ -487,173 +400,598 @@
             <div class="slide">
                 <h2>🎯 OBJETIVOS DE LA SESIÓN</h2>
                 <ul>
-                    <li><strong>Dominar</strong> los principios del data storytelling</li>
-                    <li><strong>Aplicar</strong> design thinking a dashboards</li>
-                    <li><strong>Crear</strong> visualizaciones que comunican insights</li>
-                    <li><strong>Implementar</strong> mejores prácticas de UX/UI</li>
-                    <li><strong>Diseñar</strong> interactividad intuitiva</li>
-                    <li><strong>Construir</strong> dashboards dignos de C-Suite</li>
+                    <li><strong>Dominar</strong> el lenguaje M de Power Query</li>
+                    <li><strong>Crear</strong> columnas calculadas dinámicas</li>
+                    <li><strong>Construir</strong> medidas DAX poderosas</li>
+                    <li><strong>Aplicar</strong> transformaciones avanzadas</li>
+                    <li><strong>Optimizar</strong> modelos de datos</li>
+                    <li><strong>Preparar</strong> dashboards interactivos</li>
                 </ul>
                 
-                <div class="interactive-element" onclick="PresentationController.showInfo('Construiremos sobre tus modelos optimizados para crear experiencias visuales excepcionales')" tabindex="0" role="button" aria-label="Información sobre evolución del analista de datos">
-                    <h3>🏗️ Evolución del Analista de Datos</h3>
-                    <p>Datos limpios + Modelos optimizados + Visualización profesional = ¡Impact Executive!</p>
-                </div>
-                
-                <div class="citation">
-                    Se espera que el mercado mundial de big data crezca hasta los 229.400 millones de dólares en 2025 (Universidad de Chicago, 2025)
+                <div class="interactive-element" onclick="PresentationController.showInfo('Usaremos tu dataset ya limpio de la semana pasada como base')">
+                    <h3>🏗️ Construyendo sobre tu trabajo</h3>
+                    <p>Dataset limpio + Fórmulas M + DAX = ¡Dashboard profesional!</p>
                 </div>
             </div>
 
-            <!-- Slide 3: ¿Qué es Data Storytelling? -->
+            <!-- Slide 3: ¿Qué es el Lenguaje M? -->
             <div class="slide">
-                <h2>📖 ¿QUÉ ES DATA STORYTELLING?</h2>
-                <div style="font-size: 4rem; margin: 20px 0;">📊📚✨</div>
+                <h2>🔤 ¿QUÉ ES EL LENGUAJE M?</h2>
+                <div style="font-size: 4rem; margin: 20px 0;">🤖📝✨</div>
                 
-                <div class="storytelling-showcase">
-                    <h3>💡 La Alquimia de los Datos</h3>
-                    <p>"El data storytelling es el proceso de comunicar hallazgos y conclusiones a partir de datos de una manera convincente y fácil de comprender" (ISDI, 2024)</p>
+                <div class="m-language-block">
+                    <h3>💡 M Language: El motor de Power Query</h3>
                     <ul>
-                        <li><strong>Datos:</strong> La materia prima de la verdad</li>
-                        <li><strong>Narrativa:</strong> El contexto que da significado</li>
-                        <li><strong>Visualización:</strong> El vehículo emocional</li>
-                        <li><strong>Acción:</strong> El objetivo final</li>
+                        <li><strong>Funcional:</strong> Cada paso es una función pura</li>
+                        <li><strong>Inmutable:</strong> No modifica datos originales</li>
+                        <li><strong>Poderoso:</strong> Transformaciones complejas simples</li>
+                        <li><strong>Legible:</strong> Código que se explica solo</li>
                     </ul>
                 </div>
 
                 <div class="fun-fact">
-                    <h4>🧠 Neurociencia de los Datos:</h4>
-                    <p>"Es 22 veces más probable recordar un dato cuando está narrado como una historia" - Esta estadística revela por qué el storytelling es fundamental en analytics (Universidad de Chicago, 2025)</p>
+                    <h4>🎮 Dato Curioso:</h4>
+                    <p>"M" viene de "Mashup" - porque "mezcla" datos de múltiples fuentes de manera elegante. ¡Es como ser un DJ de datos! 🎧</p>
                 </div>
 
-                <div class="quiz-element" onclick="PresentationController.showQuiz('storytelling-components')" tabindex="0" role="button" aria-label="Desafío sobre los 3 pilares del data storytelling">
-                    <h3>🧠 Challenge: Los 3 Pilares</h3>
-                    <p>¿Cuáles son los 3 componentes esenciales del data storytelling efectivo?</p>
-                    <p><small>🖱️ ¡Haz clic para descubrir la fórmula!</small></p>
+                <div class="quiz-element" onclick="PresentationController.showQuiz('M Language')">
+                    <h3>🧠 Mini Quiz: ¿Verdadero o Falso?</h3>
+                    <p>"El lenguaje M solo funciona con archivos Excel"</p>
+                    <p><small>🖱️ ¡Haz clic para descubrir!</small></p>
                 </div>
             </div>
 
-            <!-- Slide 4: El Arco Narrativo en Dashboards -->
+            <!-- Slide 4: Anatomía de una Fórmula M -->
             <div class="slide">
-                <h2>🎭 EL ARCO NARRATIVO EN DASHBOARDS</h2>
+                <h2>🔬 ANATOMÍA DE UNA FÓRMULA M</h2>
                 
-                <div class="storytelling-showcase">
-                    <h3>🎬 Estructura Dramática de los Datos</h3>
-                    <p>"El storytelling impulsado por datos sigue la línea narrativa tradicional (arco narrativo) de comienzo, desarrollo y fin" (SAP, 2025)</p>
+                <div class="formula-showcase">
+                    <h3>🧬 Estructura Básica</h3>
+                    <div class="code-example">let
+    // 1. VARIABLES (let-in block)
+    Fuente = Excel.Workbook(File.Contents("C:\mi_archivo.xlsx")),
+    Hoja = Fuente{[Name="Ventas"]}[Data],
+    
+    // 2. TRANSFORMACIONES
+    TiposCorregidos = Table.TransformColumnTypes(Hoja, {{"Fecha", type date}}),
+    ColumnaNueva = Table.AddColumn(TiposCorregidos, "Beneficio", 
+        each [Ventas] - [Costos]),
+    
+    // 3. RESULTADO FINAL
+    ResultadoFinal = ColumnaNueva
+in
+    ResultadoFinal</div>
                 </div>
 
                 <div class="tools-grid">
-                    <div class="tool-card" onclick="PresentationController.showNarrativeExample('exposition')" tabindex="0" role="button" aria-label="Ejemplo de exposición en dashboard">
-                        <div style="font-size: 2.5rem;">🎪</div>
-                        <h3>EXPOSICIÓN</h3>
-                        <p><strong>¿Qué está pasando?</strong></p>
-                        <p>KPIs principales, métricas de contexto, panorama general</p>
+                    <div class="tool-card" onclick="PresentationController.showInfo('let-in: Define variables temporales para organizar el código')">
+                        <div style="font-size: 2.5rem;">📝</div>
+                        <h3>LET-IN BLOCK</h3>
+                        <p>Organiza tu código como un chef organiza ingredientes</p>
+                    </div>
+                    <div class="tool-card" onclick="PresentationController.showInfo('each: Aplica una función a cada fila de la tabla')">
+                        <div style="font-size: 2.5rem;">🔄</div>
+                        <h3>EACH KEYWORD</h3>
+                        <p>Magia que se aplica a cada fila automáticamente</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Fórmulas M Esenciales -->
+            <div class="slide">
+                <h2>⚡ FÓRMULAS M ESENCIALES</h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="PresentationController.showFormulaExample('Table.AddColumn')">
+                        <div style="font-size: 2.5rem;">➕</div>
+                        <h3>Table.AddColumn</h3>
+                        <p>Crea nuevas columnas con lógica personalizada</p>
+                        <div class="code-example">Table.AddColumn(tabla, "Nueva", 
+    each [Col1] + [Col2])</div>
                     </div>
                     
-                    <div class="tool-card" onclick="PresentationController.showNarrativeExample('conflict')" tabindex="0" role="button" aria-label="Ejemplo de conflicto en dashboard">
+                    <div class="tool-card" onclick="PresentationController.showFormulaExample('Text.Combine')">
+                        <div style="font-size: 2.5rem;">🔗</div>
+                        <h3>Text.Combine</h3>
+                        <p>Une textos como un hechizo de concatenación</p>
+                        <div class="code-example">Text.Combine({[Nombre], [Apellido]}, " ")</div>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showFormulaExample('Date.AddDays')">
+                        <div style="font-size: 2.5rem;">📅</div>
+                        <h3>Date.AddDays</h3>
+                        <p>Viaja en el tiempo sumando/restando días</p>
+                        <div class="code-example">Date.AddDays([FechaVenta], 30)</div>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showFormulaExample('Number.Round')">
+                        <div style="font-size: 2.5rem;">🎯</div>
+                        <h3>Number.Round</h3>
+                        <p>Redondea números con precisión matemática</p>
+                        <div class="code-example">Number.Round([Precio] * 1.16, 2)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Ejemplos Divertidos -->
+            <div class="slide">
+                <h2>🎪 EJEMPLOS DIVERTIDOS</h2>
+                
+                <div class="interactive-element" onclick="PresentationController.showExample('detective')">
+                    <h3>🕵️ El Detective de Correos</h3>
+                    <p><strong>Misión:</strong> Extraer el dominio de emails</p>
+                    <div class="code-example">// De "juan@empresa.com" → "empresa.com"
+Table.AddColumn(Source, "Dominio", 
+    each Text.AfterDelimiter([Email], "@"))</div>
+                </div>
+
+                <div class="interactive-element" onclick="PresentationController.showExample('chef')">
+                    <h3>👨‍🍳 El Chef de Categorías</h3>
+                    <p><strong>Misión:</strong> Clasificar ventas por tamaño</p>
+                    <div class="code-example">// Clasifica ventas: Pequeña, Mediana, Grande
+Table.AddColumn(Source, "Categoria", 
+    each if [Ventas] < 1000 then "Pequeña"
+         else if [Ventas] < 5000 then "Mediana" 
+         else "Grande")</div>
+                </div>
+
+                <div class="interactive-element" onclick="PresentationController.showExample('time-traveler')">
+                    <h3>⏰ El Viajero del Tiempo</h3>
+                    <p><strong>Misión:</strong> Calcular edad en días</p>
+                    <div class="code-example">// ¿Cuántos días has vivido?
+Table.AddColumn(Source, "DíasVividos", 
+    each Duration.Days(DateTime.LocalNow() - [FechaNacimiento]))</div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Condicionales en M -->
+            <div class="slide">
+                <h2>🤔 CONDICIONALES EN M</h2>
+                
+                <div class="formula-showcase">
+                    <h3>🧠 IF-THEN-ELSE: La lógica del universo</h3>
+                    <div class="code-example">// Estructura básica
+if [condición] then [valor_si_verdadero] else [valor_si_falso]
+
+// Ejemplo real: Clasificar estudiantes
+Table.AddColumn(Source, "Estatus", 
+    each if [Calificacion] >= 90 then "Excelente"
+         else if [Calificacion] >= 80 then "Bueno"
+         else if [Calificacion] >= 70 then "Regular"
+         else "Necesita mejorar")</div>
+                </div>
+
+                <div class="quiz-element" onclick="PresentationController.showComplexExample()">
+                    <h3>🎯 Desafío Épico: El Calculador de Bonos</h3>
+                    <p>Un empleado recibe bono si:</p>
+                    <ul style="text-align: left;">
+                        <li>Ventas > $10,000 AND antigüedad > 2 años</li>
+                        <li>OR es del departamento "Premium"</li>
+                        <li>Bono = 10% de ventas (máximo $2,000)</li>
+                    </ul>
+                    <p><small>🖱️ ¡Haz clic para ver la solución!</small></p>
+                </div>
+            </div>
+
+            <!-- Slide 8: Trabajando con Fechas -->
+            <div class="slide">
+                <h2>📅 MAESTRÍA EN FECHAS</h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="PresentationController.showDateExample('extract')">
+                        <h3>🎯 Extraer Componentes</h3>
+                        <div class="code-example">// Año, mes, día, día de la semana
+Date.Year([Fecha])
+Date.Month([Fecha]) 
+Date.Day([Fecha])
+Date.DayOfWeek([Fecha])</div>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showDateExample('calculations')">
+                        <h3>⚡ Cálculos Temporales</h3>
+                        <div class="code-example">// Diferencia entre fechas
+Duration.Days([FechaFin] - [FechaInicio])
+
+// Agregar tiempo
+Date.AddMonths([Fecha], 3)</div>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showDateExample('business')">
+                        <h3>💼 Lógica de Negocio</h3>
+                        <div class="code-example">// Es fin de semana?
+Date.DayOfWeek([Fecha]) >= 5
+
+// Trimestre
+"Q" & Text.From(Date.QuarterOfYear([Fecha]))</div>
+                    </div>
+                </div>
+
+                <div class="fun-fact">
+                    <h4>🎭 Teatro de Fechas:</h4>
+                    <p>En Power BI, las fechas son números disfrazados. El 1 de enero de 1900 = 1. ¡Como contar días desde el año 1900! 📊</p>
+                </div>
+            </div>
+
+            <!-- Slide 9: Transformaciones de Texto -->
+            <div class="slide">
+                <h2>✂️ CIRUGÍA DE TEXTO</h2>
+                
+                <div class="interactive-element" onclick="PresentationController.showTextTransformation('clean')">
+                    <h3>🧼 El Limpiador Supremo</h3>
+                    <div class="code-example">// Limpia texto como un profesional
+Table.TransformColumns(Source, 
+    {{"Nombre", each Text.Trim(Text.Proper(Text.Clean(_)))}})
+
+// Resultado: "  jUaN péREz  " → "Juan Pérez"</div>
+                </div>
+
+                <div class="interactive-element" onclick="PresentationController.showTextTransformation('extract')">
+                    <h3>🔍 El Extractor de Secretos</h3>
+                    <div class="code-example">// Extrae códigos de productos: "PROD-ABC-123"
+Table.AddColumn(Source, "Categoria", 
+    each Text.BetweenDelimiters([Codigo], "-", "-"))
+
+// Resultado: "PROD-ABC-123" → "ABC"</div>
+                </div>
+
+                <div class="interactive-element" onclick="PresentationController.showTextTransformation('replace')">
+                    <h3>🎭 El Maestro del Disfraz</h3>
+                    <div class="code-example">// Reemplaza múltiples valores en una sola línea
+Text.Replace(Text.Replace([Texto], "viejo1", "nuevo1"), "viejo2", "nuevo2")
+
+// O mejor aún, con una función personalizada!</div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Columnas Calculadas Avanzadas -->
+            <div class="slide">
+                <h2>🎯 COLUMNAS CALCULADAS ÉPICAS</h2>
+                
+                <div class="formula-showcase">
+                    <h3>🏆 El Ranking Inteligente</h3>
+                    <div class="code-example">// Crea ranking de ventas por región
+let
+    Fuente = #"Paso anterior",
+    
+    // Agregar ranking dentro de cada región
+    RankingPorRegion = Table.AddColumn(Fuente, "Ranking",
+        each 
+            let
+                RegionActual = [Region],
+                VentasActuales = [Ventas],
+                FilasMismaRegion = Table.SelectRows(Fuente, 
+                    each [Region] = RegionActual and [Ventas] > VentasActuales)
+            in
+                Table.RowCount(FilasMismaRegion) + 1)
+in
+    RankingPorRegion</div>
+                </div>
+
+                <div class="quiz-element" onclick="PresentationController.showAdvancedExample('rfm')">
+                    <h3>💎 Análisis RFM (Recency, Frequency, Monetary)</h3>
+                    <p>Clasifica clientes en: Champions, Potential Loyalists, At Risk, etc.</p>
+                    <p><small>🖱️ ¡Haz clic para ver el código completo!</small></p>
+                </div>
+            </div>
+
+            <!-- Slide 11: Funciones Personalizadas -->
+            <div class="slide">
+                <h2>🛠️ CREANDO TUS PROPIAS FUNCIONES</h2>
+                
+                <div class="m-language-block">
+                    <h3>🎨 Tu primera función personalizada</h3>
+                    <div class="code-example">// Función para calcular descuento progresivo
+(cantidad as number) as number =>
+    if cantidad >= 10000 then cantidad * 0.15
+    else if cantidad >= 5000 then cantidad * 0.10
+    else if cantidad >= 1000 then cantidad * 0.05
+    else 0
+
+// Uso: CalcularDescuento(8500) = 850</div>
+                </div>
+
+                <div class="interactive-element" onclick="PresentationController.showCustomFunction('email')">
+                    <h3>📧 Función: Validador de Emails</h3>
+                    <p>Crea una función que valide si un email es correcto</p>
+                    <div class="code-example">(email as text) as logical =>
+    Text.Contains(email, "@") and 
+    Text.Contains(email, ".") and
+    Text.Length(email) > 5</div>
+                </div>
+
+                <div class="interactive-element" onclick="PresentationController.showCustomFunction('score')">
+                    <h3>🎯 Función: Calculadora de Score</h3>
+                    <p>Combina múltiples factores en un score único</p>
+                    <div class="code-example">(ventas as number, antiguedad as number, region as text) as number =>
+    let
+        BaseScore = ventas / 1000,
+        BonusAntiguedad = antiguedad * 5,
+        BonusRegion = if region = "Premium" then 50 else 0
+    in
+        BaseScore + BonusAntiguedad + BonusRegion</div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Medidas DAX -->
+            <div class="slide">
+                <h2>⚡ PODER DAX: MEDIDAS DINÁMICAS</h2>
+                <div style="font-size: 4rem; margin: 20px 0;">📊⚡🎯</div>
+                
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="PresentationController.showDAXExample('basic')">
+                        <div style="font-size: 2.5rem;">🧮</div>
+                        <h3>DAX BÁSICO</h3>
+                        <div class="code-example">// Ventas totales
+Total Ventas = SUM(Ventas[Monto])
+
+// Promedio con filtros
+Promedio Ventas = AVERAGE(Ventas[Monto])</div>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showDAXExample('time')">
+                        <div style="font-size: 2.5rem;">📅</div>
+                        <h3>INTELIGENCIA TEMPORAL</h3>
+                        <div class="code-example">// Ventas año anterior
+Ventas Año Anterior = 
+CALCULATE([Total Ventas], 
+    SAMEPERIODLASTYEAR(Calendario[Fecha]))
+
+// Crecimiento %
+Crecimiento % = 
+DIVIDE([Total Ventas] - [Ventas Año Anterior], 
+    [Ventas Año Anterior], 0)</div>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showDAXExample('advanced')">
+                        <div style="font-size: 2.5rem;">🚀</div>
+                        <h3>DAX AVANZADO</h3>
+                        <div class="code-example">// Top 3 productos por región
+Top 3 Productos = 
+CALCULATE([Total Ventas],
+    TOPN(3, 
+        ALLSELECTED(Productos[Nombre]),
+        [Total Ventas]))</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Patterns de DAX -->
+            <div class="slide">
+                <h2>🎨 PATTERNS DAX PROFESIONALES</h2>
+                
+                <div class="feature-highlight">
+                    <h3>🏆 Pattern: ABC Analysis</h3>
+                    <div class="code-example">ABC Classification = 
+VAR VentasProducto = [Total Ventas]
+VAR TotalGeneral = CALCULATE([Total Ventas], ALL(Productos))
+VAR PorcentajeAcumulado = 
+    CALCULATE(
+        DIVIDE(
+            SUMX(
+                FILTER(
+                    ALL(Productos),
+                    [Total Ventas] >= VentasProducto
+                ),
+                [Total Ventas]
+            ),
+            TotalGeneral
+        )
+    )
+RETURN
+    IF(PorcentajeAcumulado <= 0.8, "A",
+        IF(PorcentajeAcumulado <= 0.95, "B", "C"))</div>
+                </div>
+
+                <div class="interactive-element" onclick="PresentationController.showDAXPattern('cohort')">
+                    <h3>📈 Pattern: Análisis de Cohortes</h3>
+                    <p>Analiza retención de clientes por mes de adquisición</p>
+                    <p><small>🖱️ ¡Haz clic para ver la fórmula completa!</small></p>
+                </div>
+            </div>
+
+            <!-- Slide 14: Optimización de Modelos -->
+            <div class="slide">
+                <h2>🏎️ OPTIMIZACIÓN DE MODELOS</h2>
+                
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="PresentationController.showOptimization('relationships')">
+                        <div style="font-size: 2.5rem;">🔗</div>
+                        <h3>RELACIONES INTELIGENTES</h3>
+                        <ul style="text-align: left;">
+                            <li>Estrella > Copo de nieve</li>
+                            <li>Bidireccional solo si necesario</li>
+                            <li>Tabla de fechas siempre</li>
+                            <li>Claves únicas garantizadas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tool-card" onclick="PresentationController.showOptimization('performance')">
                         <div style="font-size: 2.5rem;">⚡</div>
-                        <h3>CONFLICTO</h3>
-                        <p><strong>¿Dónde están los problemas?</strong></p>
-                        <p>Anomalías, tendencias negativas, oportunidades perdidas</p>
+                        <h3>PERFORMANCE</h3>
+                        <ul style="text-align: left;">
+                            <li>Columnas calculadas vs Medidas</li>
+                            <li>SUMMARIZE vs ADDCOLUMNS</li>
+                            <li>Variables en DAX</li>
+                            <li>Filtros tempranos</li>
+                        </ul>
                     </div>
                     
-                    <div class="tool-card" onclick="PresentationController.showNarrativeExample('resolution')" tabindex="0" role="button" aria-label="Ejemplo de resolución en dashboard">
-                        <div style="font-size: 2.5rem;">🏆</div>
-                        <h3>RESOLUCIÓN</h3>
-                        <p><strong>¿Qué acciones tomar?</strong></p>
-                        <p>Insights accionables, recomendaciones, próximos pasos</p>
+                    <div class="tool-card" onclick="PresentationController.showOptimization('memory')">
+                        <div style="font-size: 2.5rem;">💾</div>
+                        <h3>MEMORIA</h3>
+                        <ul style="text-align: left;">
+                            <li>Cardinalidad baja en dimensiones</li>
+                            <li>Tipos de datos correctos</li>
+                            <li>Eliminar columnas innecesarias</li>
+                            <li>Compresión automática</li>
+                        </ul>
                     </div>
+                </div>
+
+                <div class="fun-fact">
+                    <h4>🧠 Neurona de Datos:</h4>
+                    <p>Un modelo bien optimizado puede ser 10x más rápido. ¡Es la diferencia entre esperar 10 segundos o 100 segundos por un reporte! ⚡</p>
                 </div>
             </div>
 
-            <!-- Slide 5: Colores que Comunican -->
+            <!-- Slide 15: Ejercicio Práctico -->
             <div class="slide">
-                <h2>🎨 COLORES QUE COMUNICAN</h2>
+                <h2>🎯 EJERCICIO PRÁCTICO</h2>
+                <div style="font-size: 4rem; margin: 20px 0;">🏋️‍♂️💪🎪</div>
                 
-                <div class="design-block">
-                    <h3>🌈 Psicología del Color en Dashboards</h3>
-                    <p>"The color palette used in a dashboard's design should also be considered as a context. Many B2B SaaS product dashboards are designed in a dark-themed UI because they are used for several hours straight" (Toptal, 2017)</p>
+                <div class="quiz-element" onclick="PresentationController.showPracticalExercise()">
+                    <h3>🎪 Desafío: Dashboard de Análisis de Ventas</h3>
+                    <p><strong>Tu misión, si decides aceptarla:</strong></p>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>📊 Crear columna "Estacionalidad" basada en fecha</li>
+                        <li>🎯 Calcular "Score de Cliente" (RFM simplificado)</li>
+                        <li>📈 Medida de "Crecimiento vs Mes Anterior"</li>
+                        <li>🏆 Ranking de productos por región</li>
+                        <li>⚡ KPI de "Clientes en Riesgo"</li>
+                    </ul>
+                    <p><strong>Tiempo:</strong> 25 minutos | <strong>Dificultad:</strong> 🌶️🌶️🌶️</p>
+                    <p><small>🖱️ ¡Haz clic para obtener las fórmulas de apoyo!</small></p>
                 </div>
+            </div>
 
+            <!-- Slide 16: Tips y Trucos -->
+            <div class="slide">
+                <h2>💡 TIPS Y TRUCOS NINJA</h2>
+                
                 <div class="tools-grid">
-                    <div class="tool-card" onclick="PresentationController.showColorStrategy('brand')" tabindex="0" role="button" aria-label="Estrategia de colores de marca">
-                        <div style="font-size: 2.5rem;">🏢</div>
-                        <h3>BRAND COLORS</h3>
-                        <p>Usa colores corporativos para generar confianza y reconocimiento de marca</p>
+                    <div class="tool-card" onclick="PresentationController.showTip('debugging')">
+                        <div style="font-size: 2.5rem;">🐛</div>
+                        <h3>DEBUGGING</h3>
+                        <ul style="text-align: left;">
+                            <li>Usa #"Paso anterior" para claridad</li>
+                            <li>Comenta tu código extensivamente</li>
+                            <li>Prueba transformaciones paso a paso</li>
+                            <li>Query Dependencies para mapear flujo</li>
+                        </ul>
                     </div>
                     
-                    <div class="tool-card" onclick="PresentationController.showColorStrategy('semantic')" tabindex="0" role="button" aria-label="Estrategia de colores semánticos">
-                        <div style="font-size: 2.5rem;">🚦</div>
-                        <h3>COLORES SEMÁNTICOS</h3>
-                        <p>Verde = positivo, Rojo = negativo, Amarillo = precaución, Azul = información</p>
+                    <div class="tool-card" onclick="PresentationController.showTip('shortcuts')">
+                        <div style="font-size: 2.5rem;">⌨️</div>
+                        <h3>SHORTCUTS</h3>
+                        <ul style="text-align: left;">
+                            <li>Ctrl+M: Nuevo Query</li>
+                            <li>Ctrl+Enter: Evaluar query</li>
+                            <li>Ctrl+Shift+M: Fusionar queries</li>
+                            <li>F2: Renombrar paso</li>
+                        </ul>
                     </div>
                     
-                    <div class="tool-card" onclick="PresentationController.showColorStrategy('accessibility')" tabindex="0" role="button" aria-label="Estrategia de colores accesibles">
-                        <div style="font-size: 2.5rem;">👁️</div>
-                        <h3>COLORBLIND FRIENDLY</h3>
-                        <p>Evita rojo-verde juntos, usa patrones y texturas como alternativa</p>
+                    <div class="tool-card" onclick="PresentationController.showTip('performance')">
+                        <div style="font-size: 2.5rem;">🚀</div>
+                        <h3>PERFORMANCE</h3>
+                        <ul style="text-align: left;">
+                            <li>Filtra datos temprano</li>
+                            <li>Evita columnas calculadas pesadas</li>
+                            <li>Usa Table.Buffer para tablas estáticas</li>
+                            <li>Query Folding cuando sea posible</li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="interactive-element" onclick="PresentationController.showFutureDashboard()" tabindex="0" role="button" aria-label="Demo del dashboard del futuro">
-                    <h3>🔮 Demo: Dashboard del Futuro</h3>
-                    <p>Experimenta con un prototipo de dashboard con IA integrada</p>
-                    <div class="code-example">// Ejemplo: AI Assistant Integration
-💬 "¿Por qué bajaron las ventas en marzo?"
-🤖 "Detecté 3 factores: 
-    • Competencia lanzó promoción (-8%)
-    • Inventario agotado 5 días (-12%)  
-    • Cambio estacional típico (-3%)
-    📊 ¿Quieres ver el análisis detallado?"</div>
+                <div class="interactive-element" onclick="PresentationController.showSecretTip()">
+                    <h3>🎩 Tip Secreto del Profesor</h3>
+                    <p>El truco más poderoso que ningun tutorial te enseña...</p>
+                    <p><small>🖱️ ¡Haz clic para revelar el secreto!</small></p>
                 </div>
             </div>
 
-            <!-- Slide 6: Referencias -->
+            <!-- Slide 17: Recursos y Documentación -->
             <div class="slide">
-                <h2>📚 REFERENCIAS</h2>
+                <h2>📚 RECURSOS PARA NINJAS</h2>
                 
-                <div class="references-section">
-                    <h3>Referencias Bibliográficas (Formato APA)</h3>
-                    
-                    <div class="reference-item">
-                        AufaitUX. (2025, January 17). Top 10 best practices for UI/UX design in Power BI dashboards. <em>AufaitUX Blog</em>. https://www.aufaitux.com/blog/power-bi-dashboard-design-best-practices/
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="PresentationController.showResource('official')">
+                        <h3>🏛️ DOCUMENTACIÓN OFICIAL</h3>
+                        <ul style="text-align: left;">
+                            <li>Microsoft Power Query M Reference</li>
+                            <li>DAX Guide (dax.guide)</li>
+                            <li>Power BI Community</li>
+                            <li>SQLBI.com (Marco Russo & Alberto Ferrari)</li>
+                        </ul>
                     </div>
                     
-                    <div class="reference-item">
-                        datdata. (2023, March 13). Buenas prácticas de data storytelling. <em>datdata Blog</em>. https://www.datdata.com/blog/buenas-practicas-data-storytelling
+                    <div class="tool-card" onclick="PresentationController.showResource('practice')">
+                        <h3>🏋️ PRÁCTICA INTENSIVA</h3>
+                        <ul style="text-align: left;">
+                            <li>Enterprise DNA Platform</li>
+                            <li>PowerBI.tips</li>
+                            <li>Kaggle Datasets para práctica</li>
+                            <li>YouTube: Guy in a Cube</li>
+                        </ul>
                     </div>
                     
-                    <div class="reference-item">
-                        ISDI. (2024, June 10). ¿En qué consiste el data storytelling? <em>ISDI Education Blog</em>. https://www.isdi.education/es/blog/que-es-el-data-stortytelling
-                    </div>
-                    
-                    <div class="reference-item">
-                        SAP. (2025). ¿Qué es el storytelling de datos? Definición, importancia, ejemplos. <em>SAP Latin America</em>. https://www.sap.com/latinamerica/products/data-cloud/cloud-analytics/what-is-data-storytelling.html
-                    </div>
-                    
-                    <div class="reference-item">
-                        Toptal. (2017, November 9). Dashboard design: Best practices with examples. <em>Toptal Design Blog</em>. https://www.toptal.com/designers/data-visualization/dashboard-design-best-practices
-                    </div>
-                    
-                    <div class="reference-item">
-                        Universidad de Chicago. (2025, March 10). Curso online de storytelling y visualización de datos estratégicos. <em>UChicago Professional Education</em>. https://online.professional.uchicago.edu/es/curso/storytelling-y-visualizacion-de-datos-estrategicos/
+                    <div class="tool-card" onclick="PresentationController.showResource('community')">
+                        <h3>👥 COMUNIDAD</h3>
+                        <ul style="text-align: left;">
+                            <li>Power BI Community Forum</li>
+                            <li>Reddit r/PowerBI</li>
+                            <li>LinkedIn Power BI Groups</li>
+                            <li>Twitter #PowerBI #DAX</li>
+                        </ul>
                     </div>
                 </div>
+
+                <div class="fun-fact">
+                    <h4>🎓 Para convertirte en Maestro Jedi de Power BI:</h4>
+                    <p>1 hora de práctica diaria durante 3 meses = Nivel Ninja garantizado 🥷</p>
+                </div>
             </div>
-            
+
+            <!-- Slide 18: Próxima Sesión -->
+            <div class="slide">
+                <h1>🚀 PRÓXIMA MISIÓN</h1>
+                <div style="font-size: 4rem; margin: 20px 0;">
+                    <span class="animated-icon">📈</span>
+                    <span class="animated-icon">🎨</span>
+                    <span class="animated-icon">🏆</span>
+                </div>
+                
+                <h3>Sesión 7: Visualización de Datos Profesional</h3>
+                <ul>
+                    <li><strong>Storytelling con datos:</strong> Narrativas que convencen</li>
+                    <li><strong>Visualizaciones avanzadas:</strong> Más allá de barras y líneas</li>
+                    <li><strong>Design thinking:</strong> UX/UI para dashboards</li>
+                    <li><strong>Interactividad:</strong> Filtros, slicers y drill-through</li>
+                </ul>
+                
+                <div class="interactive-element" onclick="PresentationController.showInfo('Traigan sus modelos optimizados - los convertiremos en dashboards espectaculares')">
+                    <h3>📝 Preparación requerida:</h3>
+                    <ul style="text-align: left;">
+                        <li>✅ Modelo de datos optimizado</li>
+                        <li>✅ Al menos 5 medidas DAX funcionales</li>
+                        <li>✅ 3 columnas calculadas útiles</li>
+                        <li>✅ Relaciones validadas</li>
+                    </ul>
+                    <p><strong>¡Convertiremos tu trabajo en un dashboard digno de CEO! 👔📊</strong></p>
+                </div>
+
+                <h2 style="margin-top: 30px;">🎉 ¡MISIÓN CUMPLIDA!</h2>
+                <p><strong>Ahora:</strong> 30 minutos de laboratorio práctico</p>
+                <p><strong>Desafío:</strong> Implementar 3 fórmulas M + 2 medidas DAX</p>
+                
+                <div class="fun-fact">
+                    <h4>🏆 Logro Desbloqueado:</h4>
+                    <p>"Constructor de Fórmulas" - Ahora puedes crear transformaciones que otros consideran magia ✨</p>
+                </div>
+            </div>
         </div>
 
-        <div class="progress-indicator" role="progressbar" aria-label="Progreso de la presentación">
+        <div class="progress-indicator">
             <div class="progress-bar" id="progressBar"></div>
         </div>
     </div>
 
     <script>
-        // CORRECCIÓN #11: Clase PresentationController optimizada y corregida
+        // CORRECCIÓN #10: Clase PresentationController para organizar funciones
         class PresentationController {
             constructor() {
-                // Constantes de configuración
-                this.SESSION_DURATION_MINUTES = 50;
+                // CORRECCIÓN #11: Constantes en lugar de magic numbers
+                this.SESSION_DURATION_MINUTES = 45;
                 this.sessionTime = this.SESSION_DURATION_MINUTES * 60;
                 this.timeRemaining = this.sessionTime;
                 this.timerInterval = null;
@@ -662,181 +1000,154 @@
                 this.slides = [];
                 this.totalSlides = 0;
                 this.domElements = {};
-                this.eventListeners = []; // CORRECCIÓN #12: Tracking de event listeners
                 
                 this.init();
             }
 
             init() {
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', () => {
-                        this.initPresentation();
-                        this.setupEventListeners();
-                    });
-                } else {
+                document.addEventListener('DOMContentLoaded', () => {
                     this.initPresentation();
                     this.setupEventListeners();
-                }
+                });
             }
 
+            // CORRECCIÓN #12: Validación de DOM elements antes de uso
             initPresentation() {
-                try { // CORRECCIÓN #13: Error handling
-                    // Cachear elementos DOM con validación
-                    this.domElements = {
-                        currentSlide: document.getElementById('currentSlide'),
-                        totalSlidesDisplay: document.getElementById('totalSlides'),
-                        progressBar: document.getElementById('progressBar'),
-                        timeRemaining: document.getElementById('timeRemaining'),
-                        prevBtn: document.getElementById('prevBtn'),
-                        nextBtn: document.getElementById('nextBtn')
-                    };
+                this.domElements = {
+                    currentSlide: document.getElementById('currentSlide'),
+                    totalSlidesDisplay: document.getElementById('totalSlides'),
+                    progressBar: document.getElementById('progressBar'),
+                    timeRemaining: document.getElementById('timeRemaining'),
+                    prevBtn: document.getElementById('prevBtn'),
+                    nextBtn: document.getElementById('nextBtn')
+                };
 
-                    // CORRECCIÓN #14: Validar que elementos existen
-                    Object.keys(this.domElements).forEach(key => {
-                        if (!this.domElements[key]) {
-                            console.warn(`⚠️ Elemento DOM no encontrado: ${key}`);
-                        }
-                    });
+                // Validar que elementos existen
+                Object.keys(this.domElements).forEach(key => {
+                    if (!this.domElements[key]) {
+                        console.warn(`⚠️ Elemento DOM no encontrado: ${key}`);
+                    }
+                });
 
-                    this.slides = document.querySelectorAll('.slide');
-                    this.totalSlides = this.slides.length;
-                    
-                    if (this.slides.length > 0) {
-                        this.slides[0].classList.add('active');
-                        this.slides[0].style.display = 'block';
-                    }
-                    
-                    if (this.domElements.totalSlidesDisplay) {
-                        this.domElements.totalSlidesDisplay.textContent = this.totalSlides;
-                    }
-                    
-                    this.updateDisplay();
-                } catch (error) {
-                    console.error('Error en initPresentation:', error);
+                this.slides = document.querySelectorAll('.slide');
+                this.totalSlides = this.slides.length;
+                
+                if (this.slides.length > 0) {
+                    this.slides[0].classList.add('active');
+                    this.slides[0].style.display = 'block';
                 }
+                
+                if (this.domElements.totalSlidesDisplay) {
+                    this.domElements.totalSlidesDisplay.textContent = this.totalSlides;
+                }
+                
+                this.updateDisplay();
             }
 
+            // CORRECCIÓN #13: Event listeners centralizados con preventDefault
             setupEventListeners() {
-                try {
-                    // CORRECCIÓN #15: Event listeners con cleanup tracking
-                    const keydownHandler = (e) => {
-                        switch(e.key) {
-                            case 'ArrowLeft':
-                                e.preventDefault();
-                                this.navigateSlide(-1);
-                                break;
-                            case 'ArrowRight':
-                                e.preventDefault();
-                                this.navigateSlide(1);
-                                break;
-                            case ' ':
-                                e.preventDefault();
-                                if (this.isTimerRunning) {
-                                    this.controlTimer('pause');
-                                } else {
-                                    this.controlTimer('start');
-                                }
-                                break;
-                            case 'f':
-                            case 'F':
-                                this.toggleFullscreen();
-                                break;
-                        }
-                    };
-
-                    document.addEventListener('keydown', keydownHandler);
-                    this.eventListeners.push({ element: document, event: 'keydown', handler: keydownHandler });
-
-                    // Touch events para móvil
-                    let touchStartX = 0;
-                    let touchEndX = 0;
-
-                    const touchStartHandler = (e) => {
-                        touchStartX = e.changedTouches[0].screenX;
-                    };
-
-                    const touchEndHandler = (e) => {
-                        touchEndX = e.changedTouches[0].screenX;
-                        this.handleSwipe();
-                    };
-
-                    document.addEventListener('touchstart', touchStartHandler);
-                    document.addEventListener('touchend', touchEndHandler);
-                    
-                    this.eventListeners.push({ element: document, event: 'touchstart', handler: touchStartHandler });
-                    this.eventListeners.push({ element: document, event: 'touchend', handler: touchEndHandler });
-
-                    this.handleSwipe = () => {
-                        const swipeThreshold = 50;
-                        const diff = touchStartX - touchEndX;
-                        
-                        if (Math.abs(diff) > swipeThreshold) {
-                            if (diff > 0) {
-                                this.navigateSlide(1);
+                document.addEventListener('keydown', (e) => {
+                    switch(e.key) {
+                        case 'ArrowLeft':
+                            e.preventDefault(); // CORRECCIÓN #14: Prevenir scroll
+                            this.navigateSlide(-1);
+                            break;
+                        case 'ArrowRight':
+                            e.preventDefault();
+                            this.navigateSlide(1);
+                            break;
+                        case ' ':
+                            e.preventDefault();
+                            if (this.isTimerRunning) {
+                                this.controlTimer('pause');
                             } else {
-                                this.navigateSlide(-1);
+                                this.controlTimer('start');
                             }
+                            break;
+                        case 'f':
+                        case 'F':
+                            this.toggleFullscreen();
+                            break;
+                    }
+                });
+
+                // CORRECCIÓN #15: Touch events para móvil
+                let touchStartX = 0;
+                let touchEndX = 0;
+
+                document.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    this.handleSwipe();
+                });
+
+                const handleSwipe = () => {
+                    const swipeThreshold = 50;
+                    const diff = touchStartX - touchEndX;
+                    
+                    if (Math.abs(diff) > swipeThreshold) {
+                        if (diff > 0) {
+                            this.navigateSlide(1); // Swipe left = next
+                        } else {
+                            this.navigateSlide(-1); // Swipe right = previous
                         }
-                    };
+                    }
+                };
 
-                    // Context menu help
-                    const contextMenuHandler = (e) => {
-                        e.preventDefault();
-                        this.showHelp();
-                    };
+                this.handleSwipe = handleSwipe;
 
-                    document.addEventListener('contextmenu', contextMenuHandler);
-                    this.eventListeners.push({ element: document, event: 'contextmenu', handler: contextMenuHandler });
-                } catch (error) {
-                    console.error('Error en setupEventListeners:', error);
-                }
+                // Easter egg: Konami code
+                this.setupKonamiCode();
+
+                // Context menu help
+                document.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    this.showHelp();
+                });
             }
 
             navigateSlide(direction) {
-                try { // CORRECCIÓN #16: Error handling en navegación
-                    if (this.slides.length === 0) return;
-                    
-                    if (this.currentSlideIndex < 0 || this.currentSlideIndex >= this.totalSlides) {
-                        this.currentSlideIndex = 0;
-                    }
-                    
-                    this.slides[this.currentSlideIndex].classList.remove('active');
-                    this.slides[this.currentSlideIndex].style.display = 'none';
-                    
-                    this.currentSlideIndex = (this.currentSlideIndex + direction + this.totalSlides) % this.totalSlides;
-                    
-                    this.slides[this.currentSlideIndex].style.display = 'block';
-                    setTimeout(() => {
-                        this.slides[this.currentSlideIndex].classList.add('active');
-                        this.updateDisplay();
-                    }, 50);
-                } catch (error) {
-                    console.error('Error en navigateSlide:', error);
+                if (this.slides.length === 0) return;
+                
+                // CORRECCIÓN #16: Validar índice antes de usar
+                if (this.currentSlideIndex < 0 || this.currentSlideIndex >= this.totalSlides) {
+                    this.currentSlideIndex = 0;
                 }
+                
+                this.slides[this.currentSlideIndex].classList.remove('active');
+                this.slides[this.currentSlideIndex].style.display = 'none';
+                
+                this.currentSlideIndex = (this.currentSlideIndex + direction + this.totalSlides) % this.totalSlides;
+                
+                this.slides[this.currentSlideIndex].style.display = 'block';
+                setTimeout(() => {
+                    this.slides[this.currentSlideIndex].classList.add('active');
+                    this.updateDisplay();
+                }, 50);
             }
 
+            // CORRECCIÓN #17: Timer mejorado con manejo de memory leaks
             controlTimer(action) {
-                try {
-                    switch (action) {
-                        case 'start':
-                            if (!this.isTimerRunning) {
-                                this.isTimerRunning = true;
-                                this.timerInterval = setInterval(() => this.updateTimer(), 1000);
-                            }
-                            break;
-                            
-                        case 'pause':
-                            this.pauseTimer();
-                            break;
-                            
-                        case 'reset':
-                            this.pauseTimer();
-                            this.timeRemaining = this.sessionTime;
-                            this.updateTimerDisplay();
-                            break;
-                    }
-                } catch (error) {
-                    console.error('Error en controlTimer:', error);
+                switch (action) {
+                    case 'start':
+                        if (!this.isTimerRunning) {
+                            this.isTimerRunning = true;
+                            this.timerInterval = setInterval(() => this.updateTimer(), 1000);
+                        }
+                        break;
+                        
+                    case 'pause':
+                        this.pauseTimer();
+                        break;
+                        
+                    case 'reset':
+                        this.pauseTimer(); // CORRECCIÓN #18: Siempre pausa antes de reset
+                        this.timeRemaining = this.sessionTime;
+                        this.updateTimerDisplay();
+                        break;
                 }
             }
 
@@ -845,7 +1156,7 @@
                     this.isTimerRunning = false;
                     if (this.timerInterval) {
                         clearInterval(this.timerInterval);
-                        this.timerInterval = null;
+                        this.timerInterval = null; // CORRECCIÓN #19: Limpiar referencia
                     }
                 }
             }
@@ -856,7 +1167,7 @@
                 
                 if (this.timeRemaining <= 0) {
                     this.controlTimer('pause');
-                    alert('⏰ ¡Tiempo completado! ¿Listos para el design thinking workshop?');
+                    alert('⏰ ¡Tiempo completado! ¿Listos para la práctica?');
                 }
             }
 
@@ -871,174 +1182,207 @@
             }
 
             updateDisplay() {
-                try {
-                    if (this.domElements.currentSlide) {
-                        this.domElements.currentSlide.textContent = this.currentSlideIndex + 1;
-                    }
-                    
-                    if (this.domElements.progressBar) {
-                        const progress = ((this.currentSlideIndex + 1) / this.totalSlides) * 100;
-                        this.domElements.progressBar.style.width = `${progress}%`;
-                    }
-                    
-                    if (this.domElements.prevBtn) {
-                        this.domElements.prevBtn.disabled = this.currentSlideIndex === 0;
-                    }
-                    if (this.domElements.nextBtn) {
-                        this.domElements.nextBtn.disabled = this.currentSlideIndex === this.totalSlides - 1;
-                    }
-                } catch (error) {
-                    console.error('Error en updateDisplay:', error);
+                if (this.domElements.currentSlide) {
+                    this.domElements.currentSlide.textContent = this.currentSlideIndex + 1;
+                }
+                
+                if (this.domElements.progressBar) {
+                    const progress = ((this.currentSlideIndex + 1) / this.totalSlides) * 100;
+                    this.domElements.progressBar.style.width = `${progress}%`;
+                }
+                
+                if (this.domElements.prevBtn) {
+                    this.domElements.prevBtn.disabled = this.currentSlideIndex === 0;
+                }
+                if (this.domElements.nextBtn) {
+                    this.domElements.nextBtn.disabled = this.currentSlideIndex === this.totalSlides - 1;
                 }
             }
 
             toggleFullscreen() {
-                try {
-                    if (!document.fullscreenElement) {
-                        document.documentElement.requestFullscreen().catch(err => {
-                            console.log(`Error attempting to enable fullscreen: ${err.message}`);
-                        });
-                    } else {
-                        document.exitFullscreen();
-                    }
-                } catch (error) {
-                    console.error('Error en toggleFullscreen:', error);
-                }
-            }
-
-            showHelp() {
-                alert('⌨️ CONTROLES DE LA PRESENTACIÓN:\n\n🖱️ Navegación:\n• Flechas ← → : Cambiar diapositiva\n• Swipe en móvil\n• Botones en pantalla\n\n⏱️ Temporizador:\n• Barra espaciadora: Play/Pausa\n• Botones de control\n\n🎯 Interactividad:\n• Clic en elementos destacados\n• Elementos con cursor pointer\n\n🔧 Extras:\n• F: Pantalla completa\n• Clic derecho: Esta ayuda\n\n💡 ¡Explora todos los elementos interactivos!');
-            }
-
-            // CORRECCIÓN #17: Cleanup method para memory leaks
-            destroy() {
-                try {
-                    // Limpiar timer
-                    this.pauseTimer();
-                    
-                    // Remover event listeners
-                    this.eventListeners.forEach(({ element, event, handler }) => {
-                        element.removeEventListener(event, handler);
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.log(`Error attempting to enable fullscreen: ${err.message}`);
                     });
-                    this.eventListeners = [];
-                    
-                    // Limpiar referencias
-                    this.domElements = {};
-                    this.slides = [];
-                } catch (error) {
-                    console.error('Error en destroy:', error);
+                } else {
+                    document.exitFullscreen();
                 }
             }
 
-            // MÉTODOS ESTÁTICOS PARA FUNCIONALIDAD INTERACTIVA - CORREGIDOS
+            setupKonamiCode() {
+                let konamiCode = [];
+                const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight'];
+                
+                document.addEventListener('keydown', (e) => {
+                    konamiCode.push(e.key);
+                    if (konamiCode.length > konamiSequence.length) {
+                        konamiCode.shift();
+                    }
+                    
+                    if (konamiCode.join('') === konamiSequence.join('')) {
+                        alert('🎉 CÓDIGO KONAMI ACTIVADO!\n\n🚀 Modo Ultra Nerd desbloqueado:\n• Shortcuts adicionales habilitados\n• Funciones avanzadas disponibles\n• Acceso a tips secretos del profesor\n\n💎 ¡Eres oficialmente un Power BI Ninja! 🥷');
+                        konamiCode = [];
+                    }
+                });
+            }
+
+            // CORRECCIÓN #20: Funciones estáticas para uso global uniforme
             static showInfo(info) {
-                try {
-                    alert('💡 ' + info);
-                } catch (error) {
-                    console.error('Error en showInfo:', error);
-                }
+                alert('💡 ' + info);
             }
 
             static showQuiz(topic) {
-                try {
-                    if (topic === 'storytelling-components') {
-                        alert('📖 LOS 3 PILARES DEL DATA STORYTELLING:\n\n1️⃣ DATOS (Data)\n• Información precisa y relevante\n• Métricas que respondan preguntas de negocio\n• Contexto temporal y comparativo\n\n2️⃣ NARRATIVA (Narrative)\n• Historia clara con inicio, desarrollo y final\n• Conexión emocional con la audiencia\n• Call-to-action específico\n\n3️⃣ VISUALIZACIÓN (Visualization)\n• Gráficos que amplifican el mensaje\n• Diseño que guía la atención\n• Interactividad que invita a explorar\n\n🎯 Cuando estos 3 elementos se combinan correctamente, los datos se transforman en decisiones.');
-                    }
-                } catch (error) {
-                    console.error('Error en showQuiz:', error);
+                if (topic === 'M Language') {
+                    alert('❌ ¡FALSO!\n\nEl lenguaje M funciona con:\n• Bases de datos (SQL Server, Oracle, MySQL)\n• APIs web (REST, OData)\n• Archivos (Excel, CSV, JSON, XML)\n• Servicios en la nube (Salesforce, Google Analytics)\n• ¡Y mucho más!\n\n🚀 ¡M es el superhéroe de las conexiones de datos!');
                 }
             }
 
-            static showNarrativeExample(phase) {
-                try {
-                    const examples = {
-                        'exposition': '🎪 EXPOSICIÓN - Setting the Stage:\n\n📊 KPIs Principales al top\n• Revenue: $2.4M (vs $2.1M target)\n• Customer Acquisition: 1,247 new users\n• Retention Rate: 87% (industry avg: 82%)\n\n💡 Da contexto inmediato: "¿Estamos bien o mal?"\n\n✅ Best Practice: 3-5 métricas máximo, comparaciones claras',
-                        
-                        'conflict': '⚡ CONFLICTO - The Plot Thickens:\n\n🚨 Identificar Anomalías\n• Churn rate increased 15% in Q3\n• Mobile conversions down 23%\n• Support tickets up 40%\n\n💡 Usa colores de alerta, trending down arrows\n\n✅ Best Practice: Contextualizar con "¿Por qué?" y drill-down options',
-                        
-                        'resolution': '🏆 RESOLUCIÓN - The Path Forward:\n\n🎯 Insights Accionables\n• Mobile UX needs optimization → -23% conversion\n• New feature causing confusion → +40% tickets\n• Seasonal churn pattern → normal for Q3\n\n💡 Cada insight = recommended action\n\n✅ Best Practice: Priorizar por impact vs effort matrix'
-                    };
-                    alert(examples[phase] || 'Ejemplo no disponible');
-                } catch (error) {
-                    console.error('Error en showNarrativeExample:', error);
+            static showFormulaExample(formula) {
+                const examples = {
+                    'Table.AddColumn': '🎯 Ejemplo práctico:\n\n// Calcula comisión según región\nTable.AddColumn(Source, "Comisión", \n    each if [Región] = "Norte" then [Ventas] * 0.15\n         else if [Región] = "Sur" then [Ventas] * 0.12\n         else [Ventas] * 0.10)',
+                    
+                    'Text.Combine': '🔗 Ejemplo práctico:\n\n// Crea código de empleado único\nText.Combine({[Departamento], Text.From([ID]), [Iniciales]}, "-")\n\n// Resultado: "VENTAS-1234-JD"',
+                    
+                    'Date.AddDays': '📅 Ejemplo práctico:\n\n// Calcula fecha de vencimiento (30 días)\nDate.AddDays([FechaFactura], 30)\n\n// O fecha de seguimiento (7 días después)\nDate.AddDays([FechaVenta], 7)',
+                    
+                    'Number.Round': '🎯 Ejemplo práctico:\n\n// Calcula precio con IVA redondeado\nNumber.Round([PrecioBase] * 1.16, 2)\n\n// O descuento aplicado\nNumber.Round([Precio] * (1 - [PorcentajeDescuento]), 2)'
+                };
+                alert(examples[formula] || 'Ejemplo no disponible');
+            }
+
+            static showExample(type) {
+                const examples = {
+                    'detective': '🕵️ ¡Perfecto para:\n• Análisis de dominios de email corporativos\n• Segmentación por proveedor de email\n• Detección de emails personales vs empresariales\n\n💡 Tip: Combina con COUNTIF para ver distribución de dominios!',
+                    
+                    'chef': '👨‍🍳 ¡Ideal para:\n• Segmentación de clientes por valor\n• Análisis ABC de productos\n• Comisiones variables por volumen\n\n💡 Tip: Usa percentiles para rangos más equilibrados!',
+                    
+                    'time-traveler': '⏰ ¡Genial para:\n• Análisis demográfico de clientes\n• Cálculo de antigüedad de empleados\n• Estudios de cohortes por edad\n\n💡 Tip: Combina con Date.Year para análisis por generación!'
+                };
+                alert(examples[type] || 'Ejemplo no disponible');
+            }
+
+            static showComplexExample() {
+                alert('🎯 ¡SOLUCIÓN ÉPICA!\n\n// El Calculador de Bonos\nTable.AddColumn(Source, "Bono", \n    each \n        let\n            CumpleVentas = [Ventas] > 10000,\n            CumpleAntiguedad = [Antigüedad] > 2,\n            EsPremium = [Departamento] = "Premium",\n            TieneBono = (CumpleVentas and CumpleAntiguedad) or EsPremium,\n            BonoPreliminar = [Ventas] * 0.10,\n            BonoFinal = if BonoPreliminar > 2000 then 2000 else BonoPreliminar\n        in\n            if TieneBono then BonoFinal else 0)\n\n🏆 ¡Variables en M para código más legible!');
+            }
+
+            static showDateExample(type) {
+                const examples = {
+                    'extract': '📅 Casos de uso:\n• Análisis de estacionalidad por mes\n• Reportes semanales automáticos\n• Segmentación por día de la semana\n\n💡 Tip: Date.DayOfWeek devuelve 0=Domingo, 6=Sábado',
+                    
+                    'calculations': '⚡ Aplicaciones prácticas:\n• Días transcurridos desde última compra\n• Proyecciones de vencimiento\n• Cálculo de antigüedad\n\n💡 Tip: Duration.TotalDays() para números decimales',
+                    
+                    'business': '💼 Lógica empresarial:\n• Excluir fines de semana de cálculos\n• Reportes trimestrales automáticos\n• Alertas de vencimiento\n\n💡 Tip: Crea tabla calendario personalizada para holidays'
+                };
+                alert(examples[type] || 'Ejemplo no disponible');
+            }
+
+            static showTextTransformation(type) {
+                const examples = {
+                    'clean': '🧼 El Toque Mágico:\n• Elimina espacios extra\n• Convierte a Formato Título\n• Remueve caracteres especiales\n• Resultado consistente siempre\n\n💡 ¡Perfecto para nombres de clientes!',
+                    
+                    'extract': '🔍 Casos reales:\n• Códigos de producto estructurados\n• Extraer departamento de email\n• Separar nombre y apellido\n• Análisis de códigos postales\n\n💡 Text.Start() y Text.End() también útiles!',
+                    
+                    'replace': '🎭 El Transformador:\n• Normalizar variaciones de nombres\n• Corregir errores comunes\n• Estandarizar abreviaciones\n• Limpiar importaciones masivas\n\n💡 Usa List.Accumulate para múltiples reemplazos!'
+                };
+                alert(examples[type] || 'Ejemplo no disponible');
+            }
+
+            static showAdvancedExample(type) {
+                if (type === 'rfm') {
+                    alert('💎 ANÁLISIS RFM COMPLETO:\n\n// 1. Recency: Días desde última compra\nTable.AddColumn(Source, "Recency", \n    each Duration.Days(DateTime.LocalNow() - [UltimaCompra]))\n\n// 2. Frequency: Número de compras\nTable.AddColumn(Source, "Frequency", \n    each Table.RowCount(Table.SelectRows(Ventas, \n        each [ClienteID] = [ClienteID])))\n\n// 3. Monetary: Valor total gastado\nTable.AddColumn(Source, "Monetary", \n    each List.Sum(Table.SelectRows(Ventas, \n        each [ClienteID] = [ClienteID])[Monto]))\n\n🏆 ¡Luego clasifica con IF-THEN-ELSE anidados!');
                 }
             }
 
-            // CORRECCIÓN #18: Función showFutureDashboard() COMPLETA
-            static showFutureDashboard() {
-                try {
-                    alert('🔮 DEMO: DASHBOARD DEL FUTURO\n\n🤖 AI ASSISTANT INTEGRATION:\n\n💬 USER: "¿Por qué bajaron las ventas en marzo?"\n\n🧠 AI RESPONSE:\n"Analizando 47 variables, identifiqué 3 factores principales:\n\n🏆 FACTOR 1: Competencia (Impacto: -8%)\n• SpringCorp lanzó promoción 40% off\n• Duración: 15-31 marzo\n• Productos afectados: Premium line\n\n📦 FACTOR 2: Inventario (Impacto: -12%)\n• Stock agotado 5 días en marzo\n• SKUs críticos: P001, P045, P078\n• Tiempo reposición: 7-10 días\n\n🌱 FACTOR 3: Estacional (Impacto: -3%)\n• Patrón histórico marzo (-2% a -4%)\n• Consistente últimos 3 años\n• Recuperación esperada en abril\n\n🎯 RECOMENDACIONES:\n1. Monitorear competencia más cerca\n2. Optimizar niveles de inventario\n3. Planificar promociones counter-attack\n\n📊 ¿Quieres ver el análisis detallado o explorar soluciones?"\n\n💡 El futuro del analytics es conversacional y predictivo!');
-                } catch (error) {
-                    console.error('Error en showFutureDashboard:', error);
+            static showCustomFunction(type) {
+                const functions = {
+                    'email': '📧 Función Validadora:\n\n✅ Verifica presencia de @\n✅ Confirma punto en dominio\n✅ Longitud mínima\n✅ Formato básico correcto\n\n💡 Úsala en columnas condicionales: if ValidarEmail([Email]) then [Email] else "REVISAR"',
+                    
+                    'score': '🎯 Score Inteligente:\n\n💰 Ventas / 1000 = Score base\n⏰ Años * 5 = Bonus experiencia\n🏆 Región premium = +50 puntos\n📊 Score total combinado\n\n💡 Personaliza pesos según tu negocio!'
+                };
+                alert(functions[type] || 'Función no disponible');
+            }
+
+            static showDAXExample(type) {
+                const examples = {
+                    'basic': '🧮 DAX Fundamental:\n\n• SUM(): Suma simple y rápida\n• AVERAGE(): Promedio inteligente (ignora blancos)\n• COUNT(): Cuenta valores no vacíos\n• DISTINCTCOUNT(): Valores únicos\n\n💡 Siempre especifica la tabla: SUM(Ventas[Monto])',
+                    
+                    'time': '📅 Inteligencia Temporal:\n\n• SAMEPERIODLASTYEAR(): Periodo anterior automático\n• DATEADD(): Viaja en el tiempo flexiblemente\n• TOTALYTD(): Acumulado desde enero\n• PARALLELPERIOD(): Compara periodos paralelos\n\n🚀 ¡Power BI entiende el tiempo!',
+                    
+                    'advanced': '🚀 DAX Ninja:\n\n• TOPN(): Rankings dinámicos\n• RANKX(): Posiciones relativas\n• CALCULATE(): El corazón de DAX\n• FILTER(): Contexto personalizado\n\n⚡ CALCULATE = superpoder de DAX'
+                };
+                alert(examples[type] || 'Ejemplo no disponible');
+            }
+
+            static showDAXPattern(type) {
+                if (type === 'cohort') {
+                    alert('📈 ANÁLISIS DE COHORTES:\n\nRetención por Mes = \nVAR MesCliente = CALCULATE(MIN(Ventas[Fecha]), \n    ALLEXCEPT(Ventas, Ventas[ClienteID]))\nVAR MesesTranscurridos = \n    DATEDIFF(MesCliente, MAX(Ventas[Fecha]), MONTH)\nVAR ClientesCohorte = \n    CALCULATE(DISTINCTCOUNT(Ventas[ClienteID]),\n        Ventas[Fecha] = MesCliente)\nVAR ClientesActivos = DISTINCTCOUNT(Ventas[ClienteID])\nRETURN\n    DIVIDE(ClientesActivos, ClientesCohorte)\n\n🎯 ¡Analiza retención mes por mes!');
                 }
             }
 
-            // CORRECCIÓN #19: Función showColorStrategy() COMPLETA con string cerrado
-            static showColorStrategy(strategy) {
-                try {
-                    const strategies = {
-                        'brand': '🏢 BRAND COLORS - Corporate Identity:\n\n🎨 Primary Brand Color:\n• Main CTAs y elementos importantes\n• Headers y navigation\n• Key metrics highlighting\n\n🔗 Secondary Colors:\n• Supporting elements\n• Categories differentiation\n• Accent colors\n\n⚖️ Balance:\n• 60% neutral colors\n• 30% primary brand\n• 10% accent colors\n\n💡 Mantén brand consistency pero prioriza usabilidad',
-                        
-                        'semantic': '🚦 COLORES SEMÁNTICOS - Universal Language:\n\n🟢 Verde (Success/Positive):\n• Metrics above target\n• Positive trends\n• Completed tasks\n• Success states\n\n🔴 Rojo (Danger/Negative):\n• Below target\n• Declining trends\n• Errors y alerts\n• Critical issues\n\n🟡 Amarillo (Warning/Caution):\n• At risk metrics\n• Pending states\n• Need attention\n\n🔵 Azul (Information/Neutral):\n• General information\n• Navigation elements\n• Neutral states',
-                        
-                        'accessibility': '👁️ COLORBLIND FRIENDLY - Design for All:\n\n🚫 EVITAR:\n• Red-Green combinations solo\n• Información solo por color\n• Contraste insuficiente\n• Paletas saturadas\n\n✅ USAR:\n• Blue-Orange combinations\n• Patterns + Color\n• High contrast ratios (4.5:1+)\n• Color Oracle testing\n\n🎨 PALETAS RECOMENDADAS:\n• Paul Tol: Scientifically optimized\n• ColorBrewer: Cartography tested\n• Accessible Colors: WCAG compliant\n\n💡 Test with Color Oracle simulator'
-                    };
-                    alert(strategies[strategy] || 'Estrategia no disponible');
-                } catch (error) {
-                    console.error('Error en showColorStrategy:', error);
-                }
+            static showOptimization(type) {
+                const tips = {
+                    'relationships': '🔗 Relaciones Inteligentes:\n\n✅ Usa esquema en estrella siempre\n✅ Tabla calendario dedicada\n✅ Claves enteras cuando sea posible\n✅ Evita relaciones muchos-a-muchos\n\n💡 Una buena estructura = queries 10x más rápidas',
+                    
+                    'performance': '⚡ Performance Tips:\n\n🚀 Variables DAX reducen cálculos repetidos\n🚀 ADDCOLUMNS > SUMMARIZE en la mayoría de casos\n🚀 Filtros tempranos en CALCULATE\n🚀 Medidas > Columnas calculadas\n\n💡 Usa Performance Analyzer regularmente',
+                    
+                    'memory': '💾 Optimización de Memoria:\n\n📊 Integer < Decimal < Text en tamaño\n📊 Fechas como Date, no Text\n📊 Elimina columnas no utilizadas\n📊 Usa tipos de datos más pequeños\n\n💡 Query Diagnostics muestra consumo de memoria'
+                };
+                alert(tips[type] || 'Tip no disponible');
+            }
+
+            static showPracticalExercise() {
+                alert('🎪 FÓRMULAS DE APOYO:\n\n🌿 Estacionalidad:\nif Date.Month([Fecha]) in {12,1,2} then "Invierno"\nelse if Date.Month([Fecha]) in {3,4,5} then "Primavera"\nelse if Date.Month([Fecha]) in {6,7,8} then "Verano"\nelse "Otoño"\n\n📊 Score RFM Simplificado:\n(100 - [DíasDesdeÚltimaCompra]) + ([NumeroCompras] * 10) + ([MontoTotal] / 100)\n\n📈 Crecimiento vs Mes Anterior (DAX):\nCrecimiento = \nVAR VentasActuales = [Total Ventas]\nVAR VentasMesAnterior = CALCULATE([Total Ventas], DATEADD(Calendario[Fecha], -1, MONTH))\nRETURN DIVIDE(VentasActuales - VentasMesAnterior, VentasMesAnterior, 0)\n\n¡A trabajar! 💪');
+            }
+
+            static showTip(type) {
+                const tips = {
+                    'debugging': '🐛 Debugging Pro:\n\n✅ Nombra cada paso descriptivamente\n✅ #"Paso anterior" mantiene legibilidad\n✅ Prueba transformaciones en datos pequeños\n✅ Query Dependencies = mapa de tu lógica\n\n💡 Comment code extensively!',
+                    
+                    'shortcuts': '⌨️ Shortcuts Ninja:\n\n⚡ Ctrl+M = Nuevo Query\n⚡ Ctrl+Enter = Ejecutar query\n⚡ Ctrl+Shift+M = Merge queries\n⚡ F2 = Renombrar paso\n⚡ Ctrl+G = Ir a paso específico\n\n🚀 ¡Velocidad = productividad!',
+                    
+                    'performance': '🚀 Performance Hacks:\n\n✅ Filtra datos en la fuente\n✅ Table.Buffer para tablas lookup\n✅ Query Folding cuando sea posible\n✅ Evita columnas calculadas complejas\n\n💡 Menos datos = más velocidad!'
+                };
+                alert(tips[type] || 'Tip no disponible');
+            }
+
+            static showSecretTip() {
+                alert('🎩 EL SECRETO DEL PROFESOR:\n\n🔮 "Documenta tu PORQUÉ, no solo tu QUÉ"\n\nCada fórmula debe tener un comentario explicando:\n• ¿Por qué esta lógica?\n• ¿Qué casos especiales maneja?\n• ¿Qué alternativas consideraste?\n\n💎 El código que explica su razón de ser es código que sobrevive años y cambios de equipo.\n\n📚 Tu yo del futuro te lo agradecerá infinitamente.\n\n🏆 Este es el diferencial entre developer junior y senior!');
+            }
+
+            static showResource(type) {
+                const resources = {
+                    'official': '🏛️ Documentación Oficial:\n\n📖 docs.microsoft.com/power-query/\n📊 dax.guide (LA referencia DAX)\n💬 community.powerbi.com\n🎓 sqlbi.com (Marco Russo experto mundial)\n\n💡 Bookmarks these - tu biblioteca personal!',
+                    
+                    'practice': '🏋️ Práctica Diaria:\n\n🎯 Enterprise DNA (cursos estructurados)\n💡 PowerBI.tips (casos reales)\n📊 Kaggle (datasets infinitos)\n📺 Guy in a Cube (YouTube gold)\n\n💪 30 min diarios = maestría en 90 días!',
+                    
+                    'community': '👥 Tu Tribu de Datos:\n\n💬 Power BI Community Forum\n🔴 Reddit r/PowerBI\n💼 LinkedIn Power BI Groups\n🐦 Twitter #PowerBI #DAX\n\n🤝 La comunidad siempre ayuda!'
+                };
+                alert(resources[type] || 'Recurso no disponible');
+            }
+
+            showHelp() {
+                alert('⌨️ CONTROLES DE LA PRESENTACIÓN:\n\n🖱️ Navegación:\n• Flechas ← → : Cambiar diapositiva\n• Swipe en móvil\n• Botones en pantalla\n\n⏱️ Temporizador:\n• Barra espaciadora: Play/Pausa\n• Botones de control\n\n🎯 Interactividad:\n• Clic en elementos destacados\n• Elementos con cursor pointer\n\n🔧 Extras:\n• F: Pantalla completa\n• Código Konami: Sorpresa 😉\n• Clic derecho: Esta ayuda\n\n💡 ¡Explora todos los elementos interactivos!');
             }
         }
 
-        // CORRECCIÓN #20: Funciones globales con error handling
+        // CORRECCIÓN #21: Funciones globales que apuntan a métodos estáticos
         function navigateSlide(direction) {
-            try {
-                if (window.presentationController) {
-                    window.presentationController.navigateSlide(direction);
-                }
-            } catch (error) {
-                console.error('Error en navigateSlide global:', error);
+            if (window.presentationController) {
+                window.presentationController.navigateSlide(direction);
             }
         }
 
         function controlTimer(action) {
-            try {
-                if (window.presentationController) {
-                    window.presentationController.controlTimer(action);
-                }
-            } catch (error) {
-                console.error('Error en controlTimer global:', error);
+            if (window.presentationController) {
+                window.presentationController.controlTimer(action);
             }
         }
 
-        // CORRECCIÓN #21: Inicialización mejorada con cleanup
-        let presentationInstance = null;
-
-        function initializePresentation() {
-            try {
-                // Cleanup existing instance
-                if (presentationInstance) {
-                    presentationInstance.destroy();
-                }
-                
-                // Create new instance
-                presentationInstance = new PresentationController();
-                window.presentationController = presentationInstance;
-                window.PresentationController = PresentationController;
-            } catch (error) {
-                console.error('Error en initializePresentation:', error);
-            }
-        }
-
-        // CORRECCIÓN #22: Cleanup en beforeunload
-        window.addEventListener('beforeunload', () => {
-            if (presentationInstance) {
-                presentationInstance.destroy();
-            }
-        });
-
-        // Inicializar
-        initializePresentation();
+        // CORRECCIÓN #22: Inicializar controlador global
+        window.presentationController = new PresentationController();
+        
+        // CORRECCIÓN #23: Exponer métodos estáticos globalmente para onclick
+        window.PresentationController = PresentationController;
     </script>
 </body>
 </html>
