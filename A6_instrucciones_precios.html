@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 6 - Ejercicio de Valores | Análisis de Precios E-commerce | Presentación por Slides</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 60px;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .header-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .university-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3498db, #f39c12);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .course-info h1 {
+            font-size: 1.1rem;
+            color: #ffd700;
+            margin-bottom: 2px;
+        }
+
+        .course-info p {
+            font-size: 0.65rem;
+            opacity: 0.8;
+            line-height: 1.2;
+        }
+
+        .nav-btn-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .nav-btn-header:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn-header:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .navigation-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slide-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow: visible;
+            position: relative;
+        }
+
+        .slide {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: none;
+            min-height: 60vh;
+            overflow-y: auto;
+            margin: 10px;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .slide h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #ffd700;
+        }
+
+        .slide h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #ffd700;
+        }
+
+        .slide h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #e8f4fd;
+        }
+
+        .slide p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .slide ul {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .slide li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            margin-left: 20px;
+        }
+
+        .objective-card {
+            background: rgba(46, 213, 115, 0.2);
+            border: 2px solid rgba(46, 213, 115, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .warning-card {
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid rgba(255, 193, 7, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .info-card {
+            background: rgba(52, 152, 219, 0.2);
+            border: 2px solid rgba(52, 152, 219, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .platform-card {
+            background: rgba(155, 89, 182, 0.2);
+            border: 2px solid rgba(155, 89, 182, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .waste-value-block {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .waste-value-block::before {
+            content: "💰";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #ffd700;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffd700;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #ffd700;
+            color: #333;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .step-card h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* ===== ESTILOS MEJORADOS PARA BLOQUES DE CÓDIGO ===== */
+        .code-block-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: linear-gradient(135deg, #1e1e1e, #2d2d2d);
+            border: 2px solid rgba(100, 200, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 0;
+            font-family: 'Fira Code', 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            color: #e8e8e8;
+            
+            /* Asegurar que el texto sea seleccionable */
+            user-select: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            
+            /* Para elementos pre - preservar espacios en blanco y saltos de línea */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            
+            /* Mejorar el scrolling horizontal */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 200, 255, 0.6) rgba(255, 255, 255, 0.1);
+        }
+
+        .code-block::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background: rgba(100, 200, 255, 0.6);
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 200, 255, 0.8);
+        }
+
+        /* Botón de copiar */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(100, 200, 255, 0.8);
+            color: #1e1e1e;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: rgba(100, 200, 255, 1);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: rgba(46, 213, 115, 0.8);
+            color: white;
+        }
+
+        /* Etiqueta de lenguaje */
+        .language-label {
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: rgba(255, 215, 0, 0.9);
+            color: #1e1e1e;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Syntax Highlighting */
+        .comment { color: #6A9955; font-style: italic; }
+        .keyword { color: #569CD6; font-weight: bold; }
+        .string { color: #CE9178; }
+        .number { color: #B5CEA8; }
+        .function { color: #DCDCAA; }
+        .variable { color: #9CDCFE; }
+        .operator { color: #D4D4D4; }
+        .import { color: #C586C0; }
+        .dataframe { color: #4EC9B0; }
+        .method { color: #DCDCAA; }
+        .parameter { color: #9CDCFE; }
+        .output { color: #CE9178; }
+
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #ffd700;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+
+        .rubric-table th,
+        .rubric-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .rubric-table th {
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .excellent { background: rgba(46, 213, 115, 0.2); }
+        .good { background: rgba(52, 152, 219, 0.2); }
+        .needs-improvement { background: rgba(255, 193, 7, 0.2); }
+        .insufficient { background: rgba(231, 76, 60, 0.2); }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            transition: width 0.3s ease;
+            max-width: 100%;
+        }
+
+        .framework-box {
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+                padding: 6px 10px;
+                min-height: auto;
+            }
+
+            .slide {
+                padding: 20px 10px;
+                min-height: 50vh;
+                margin: 5px;
+            }
+
+            .slide h1 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .slide h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            .nav-btn-header {
+                padding: 8px 12px;
+                font-size: 0.7rem;
+            }
+
+            .rubric-table {
+                font-size: 0.75rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
+
+            .copy-btn {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="header">
+            <div class="header-group">
+                <div class="university-logo" aria-label="Universidad del SABES">🎓</div>
+                <div class="course-info">
+                    <h1>ACTIVIDAD 6: EJERCICIO DE VALORES - ANÁLISIS DE PRECIOS E-COMMERCE</h1>
+                    <p>Universidad del SABES | Analítica de Datos | Sesión 7</p>
+                    <p>Prof. Fausto Noé Jiménez | Reutilización de Datos y Valor Digital</p>
+                </div>
+            </div>
+            <div class="header-group">
+                <div class="navigation-controls">
+                    <button class="nav-btn-header" id="prevBtn" onclick="navigateSlide(-1)">⬅️ Anterior</button>
+                    <div class="slide-counter">
+                        <span id="currentSlide">1</span>/<span id="totalSlides">6</span>
+                    </div>
+                    <button class="nav-btn-header" id="nextBtn" onclick="navigateSlide(1)">Siguiente ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-container">
+            <!-- Slide 1: Descripción y Objetivos -->
+            <div class="slide active">
+                <h1>💰 ACTIVIDAD 6: EJERCICIO DE VALORES</h1>
+                <h2>Análisis de Precios E-commerce y Extracción de Valor Digital</h2>
+
+                <div class="objective-card">
+                    <h3>🎯 Objetivo General</h3>
+                    <p>Aplicar el <strong>framework de reutilización de datos</strong> y <strong>extracción de valor de deshechos digitales</strong> usando el metodología VDRER en un caso real de análisis de precios e-commerce, transformando datos "inútiles" en insights valiosos para estrategias de pricing y marketing digital.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔧 Framework VDRER</h3>
+                    <ul>
+                        <li><strong>V</strong>alidar - Audit inicial de calidad y completitud de datos de productos</li>
+                        <li><strong>D</strong>escubrir - Identificar "deshechos" y anomalías en metadatos de e-commerce</li>
+                        <li><strong>R</strong>eutilizar - Extraer valor de variables aparentemente irrelevantes</li>
+                        <li><strong>E</strong>ngineer - Crear features derivadas con valor comercial</li>
+                        <li><strong>R</strong>eportar - Documentar insights y pipeline para marketing digital</li>
+                    </ul>
+                </div>
+
+                <div class="warning-card">
+                    <h3>📋 Entregables Obligatorios</h3>
+                    <ul>
+                        <li><strong>Dashboard Power BI (.pbix):</strong> 4 páginas con análisis completo</li>
+                        <li><strong>Documento VDRER:</strong> Metodología aplicada paso a paso</li>
+                        <li><strong>Pipeline de reutilización:</strong> Proceso documentado y replicable</li>
+                        <li><strong>Insights de "deshechos":</strong> Valor encontrado en datos "inútiles"</li>
+                    </ul>
+                </div>
+
+                <div class="waste-value-block">
+                    <h3>💎 Misión: De Desperdicio a Oro Comercial</h3>
+                    <p>"En el e-commerce, los datos de productos son el nuevo petróleo, pero los metadatos y deshechos digitales son el nuevo oro"</p>
+                    <p><strong>Tu desafío:</strong> Encontrar 3+ insights valiosos en variables que parecen "irrelevantes" del dataset de análisis de precios</p>
+                </div>
+
+                <div class="platform-card">
+                    <h3>🎯 Preparación para Sesión 8</h3>
+                    <p>Los datos y features que crees serán la base directa para <strong>KPIs, Indicadores y Jerarquías</strong> de la próxima semana</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Verificación de Base de Datos Limpia -->
+            <div class="slide">
+                <h2>✅ VERIFICACIÓN DE BASE DE DATOS LIMPIA</h2>
+                
+                <div class="warning-card">
+                    <h3>⚠️ CRÍTICO: Datos de Actividad 5 Requeridos</h3>
+                    <p>Esta actividad requiere que uses la <strong>base de datos limpia de la Actividad 5</strong>. Si no estás seguro de la calidad, usa el dataset procesado en Google Colab de la actividad anterior.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔍 Checklist de Validación Pre-Actividad 6</h3>
+                    <ul>
+                        <li>☐ <strong>Dataset Análisis de Precios limpio:</strong> Sin duplicados ni valores faltantes críticos</li>
+                        <li>☐ <strong>Tipos de datos correctos:</strong> Numéricos para precios, categóricos para marcas</li>
+                        <li>☐ <strong>Outliers tratados:</strong> Precios extremos identificados y manejados</li>
+                        <li>☐ <strong>Variables estándar:</strong> Nombres consistentes y legibles</li>
+                        <li>☐ <strong>Encoding UTF-8:</strong> Caracteres especiales correctos</li>
+                    </ul>
+                </div>
+
+                <div class="platform-card">
+                    <h3>📂 Fuente de Datos Recomendada</h3>
+                    <div class="tab-container">
+                        <button class="tab-button active" onclick="showTab('colab-clean')">Dataset de Colab</button>
+                        <button class="tab-button" onclick="showTab('powerbi-clean')">Dataset de Power BI</button>
+                    </div>
+                    
+                    <div id="colab-clean" class="tab-content active">
+                        <h4>🐍 Dataset Limpio de Google Colab (Recomendado)</h4>
+                        <ul>
+                            <li><strong>Archivo:</strong> analiz_precios_cleaned_python.csv (de Actividad 5)</li>
+                            <li><strong>Ventajas:</strong> Outliers tratados con IQR, missing values imputados</li>
+                            <li><strong>Features extra:</strong> Discount_Percentage, Price_Category, Brand_Premium ya creadas</li>
+                            <li><strong>Validación:</strong> Análisis exploratorio completo documentado</li>
+                        </ul>
+                        <div class="code-block-container">
+                            <div class="language-label">Python</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===== OPCIÓN A: CONTINUAR EN EL MISMO NOTEBOOK DE ACTIVIDAD 5 (RECOMENDADO) =====
+# ✅ Usa directamente df_clean que ya tienes en memoria
+
+# Verificar que el dataset esté limpio y listo
+print("📊 VERIFICACIÓN DATASET LIMPIO PARA ACTIVIDAD 6")
+print("=" * 50)
+print(f"Shape: {df_clean.shape}")
+print(f"Missing values: {df_clean.isnull().sum().sum()}")
+print(f"Duplicates: {df_clean.duplicated().sum()}")
+
+# Verificar tipos de datos
+print(f"\n🔧 Tipos de datos ({len(df_clean.dtypes)} columnas):")
+print(df_clean.dtypes.value_counts())
+
+# Asignar a df para continuar con el código de Actividad 6
+df = df_clean.copy()
+print(f"\n✅ Dataset listo para Actividad 6: {df.shape}")
+
+# ===== OPCIÓN B: SI CARGAS DESDE ARCHIVO GUARDADO =====
+# import pandas as pd
+# df = pd.read_csv('analiz_precios_cleaned_python.csv')</pre>
+                        </div>
+                    </div>
+                    
+                    <div id="powerbi-clean" class="tab-content">
+                        <h4>⚡ Dataset Limpio de Power BI</h4>
+                        <ul>
+                            <li><strong>Fuente:</strong> Modelo de datos de tu archivo .pbix</li>
+                            <li><strong>Export:</strong> Usar "Export data" desde Power BI Desktop</li>
+                            <li><strong>Verificar:</strong> Applied Steps completados sin errores</li>
+                            <li><strong>Formato:</strong> Exportar como CSV con encoding UTF-8</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="objective-card">
+                    <h3>🔑 Variables Clave del Dataset Análisis de Precios</h3>
+                    <p><strong>Total:</strong> 15,003 productos, 15 variables</p>
+                    <p><strong>Variable objetivo:</strong> Price (precio de venta)</p>
+                    <p><strong>Variables "sospechosas":</strong> Site Name, Stock Availability, Combo Offers (aparentemente constantes o con muchos null)</p>
+                    <p><strong>Tu misión:</strong> Encuentra valor oculto en estas variables "inútiles"</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Pasos Python para Pattern Mining -->
+            <div class="slide">
+                <h2>🐍 PASOS PYTHON: PATTERN MINING</h2>
+                
+                <div class="platform-card">
+                    <h3>🔬 Python para Análisis Profundo de Patterns Comerciales</h3>
+                    <p>Usa Google Colab para detectar patrones ocultos y correlaciones inesperadas en pricing</p>
+                    <p><strong>⚠️ EJECUTAR PRIMERO:</strong> Este análisis crea el dataset enriquecido que necesita Power BI</p>
+                </div>
+
+                <div class="tab-container">
+                    <button class="tab-button active" onclick="showTab('python-generic-valor')">Pasos Genéricos</button>
+                    <button class="tab-button" onclick="showTab('python-pricing-valor')">Específicos Pricing</button>
+                </div>
+                
+                <div id="python-generic-valor" class="tab-content active">
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h4>🔧 SETUP ANÁLISIS</h4>
+                            <ul>
+                                <li>Continuar en notebook de Actividad 5</li>
+                                <li>Usar dataset limpio df_clean</li>
+                                <li>Configurar análisis de patterns comerciales</li>
+                                <li>Inicializar Framework VDRER</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h4>🔍 VALIDAR DATASET</h4>
+                            <ul>
+                                <li>Verificar calidad de datos de productos</li>
+                                <li>Confirmar ausencia de missing values</li>
+                                <li>Revisar tipos de datos y rangos de precios</li>
+                                <li>Preparar para análisis comercial</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h4>🔍 DESCUBRIR VARIABLES</h4>
+                            <ul>
+                                <li>Identificar variables aparentemente constantes</li>
+                                <li>Analizar Site Name patterns</li>
+                                <li>Buscar patterns en Stock Availability</li>
+                                <li>Documentar variables "sospechosas"</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <h4>♻️ REUTILIZAR VALOR</h4>
+                            <ul>
+                                <li>Extraer insights de Uniq ID temporal</li>
+                                <li>Analizar Combo Offers como estrategia</li>
+                                <li>Interpretar Stock como política de inventario</li>
+                                <li>Documentar value discovery comercial</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">5</div>
+                            <h4>⚙️ FEATURE ENGINEERING</h4>
+                            <ul>
+                                <li>Crear Price Elasticity Index</li>
+                                <li>Calcular Brand Premium Score</li>
+                                <li>Generar Category Competition Level</li>
+                                <li>Medir Discount Strategy Score</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">6</div>
+                            <h4>📋 REPORTAR & EXPORT</h4>
+                            <ul>
+                                <li>Documentar insights comerciales</li>
+                                <li>Calcular correlaciones de pricing</li>
+                                <li>Exportar dataset enriquecido</li>
+                                <li>Preparar para Power BI comercial</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="python-pricing-valor" class="tab-content">
+                    <div class="info-card">
+                        <h3>🛒 Código Python por Fases - Framework VDRER para Análisis de Precios</h3>
+                        
+                        <div class="warning-card">
+                            <h3>📚 Metodología de Aprendizaje</h3>
+                            <p>Ejecuta <strong>cada fase por separado</strong> para entender el proceso paso a paso. No copies todo de una vez - el aprendizaje está en la comprensión gradual del framework VDRER aplicado a datos comerciales.</p>
+                        </div>
+
+                        <h4>🔧 FASE 1: VALIDAR - Verificación Inicial</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 1</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# 🔍 FASE 1: VALIDAR - Verificación de Dataset de Análisis de Precios
+# ===================================================================
+
+print("\n" + "="*70)
+print("💰 INICIANDO ACTIVIDAD 6: EXTRACCIÓN DE VALOR DE DESHECHOS DIGITALES")
+print("🛒 CONTEXTO: ANÁLISIS DE PRECIOS E-COMMERCE")
+print("="*70)
+
+# Usar el dataset ya limpio de Actividad 5
+df = df_clean.copy()
+print(f"✅ Dataset base: {df.shape[0]:,} productos × {df.shape[1]} variables")
+
+# Verificación de calidad específica para datos de e-commerce
+print("\n🔍 FASE 1: VALIDAR - Verificando calidad del dataset comercial")
+print(f"Missing values: {df.isnull().sum().sum()}")
+print(f"Duplicates: {df.duplicated().sum()}")
+print(f"Tipos de datos: {len(df.dtypes)} variables")
+
+# Ver primeras filas para orientarnos con datos de productos
+print("\n👀 Preview del dataset de precios:")
+print(df.head(3))
+
+# Verificar rangos de variables críticas de pricing
+print("\n💰 RANGOS DE VARIABLES DE PRICING:")
+pricing_vars = ['mrp', 'price']
+
+for var in pricing_vars:
+    if var in df.columns:
+        print(f"  {var}: min=${df[var].min():.2f}, max=${df[var].max():.2f}")
+
+# Calcular descuento promedio para contexto
+if 'mrp' in df.columns and 'price' in df.columns:
+    discount_pct = ((df['mrp'] - df['price']) / df['mrp'] * 100).mean()
+    print(f"  descuento_promedio: {discount_pct:.1f}%")
+
+print("\n✅ FASE 1 COMPLETADA - Dataset comercial validado y listo")
+print("📋 Ahora ejecuta la Fase 2 para descubrir variables 'inútiles'")</pre>
+                        </div>
+
+                        <h4>🔍 FASE 2: DESCUBRIR - Identificar "Deshechos" Digitales Comerciales</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 2</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# 🔍 FASE 2: DESCUBRIR - Identificar Variables Aparentemente "Inútiles"
+# ===================================================================
+
+print("\n🔍 FASE 2: DESCUBRIR - Buscando variables aparentemente 'inútiles' en datos comerciales")
+
+# Identificar variables constantes o casi constantes
+print("\n📊 ANÁLISIS DE VARIABLES 'SOSPECHOSAS' COMERCIALES:")
+constant_vars = []
+almost_constant_vars = []
+
+for col in df.columns:
+    unique_count = df[col].nunique()
+    total_count = len(df)
+    
+    if unique_count == 1:
+        print(f"🔴 {col}: CONSTANTE - 1 valor único = {df[col].iloc[0]}")
+        constant_vars.append(col)
+    elif unique_count <= 5 and col not in ['price', 'mrp']:  # Excluir variables objetivo
+        print(f"🟡 {col}: CASI CONSTANTE - {unique_count} valores únicos")
+        print(f"   Valores: {df[col].value_counts().to_dict()}")
+        almost_constant_vars.append(col)
+
+# Análisis específico de variables comerciales "sospechosas"
+print(f"\n🛒 ANÁLISIS ESPECÍFICO DE VARIABLES COMERCIALES:")
+
+# Site Name Analysis - ¿Solo Flipkart?
+if 'site_name' in df.columns:
+    print(f"🔍 Site Name Analysis:")
+    site_dist = df['site_name'].value_counts()
+    print(f"   Distribución: {site_dist.to_dict()}")
+    
+# Stock Availability Analysis - ¿Mayoría disponible?
+if 'stock_availibility' in df.columns:
+    print(f"🔍 Stock Availability Analysis:")
+    stock_dist = df['stock_availibility'].value_counts()
+    print(f"   Distribución: {stock_dist.to_dict()}")
+
+# Combo Offers Analysis - ¿Muchos null?
+if 'combo_offers' in df.columns:
+    null_combo = df['combo_offers'].isnull().sum()
+    total = len(df)
+    print(f"🔍 Combo Offers Analysis:")
+    print(f"   Null values: {null_combo} de {total} ({null_combo/total*100:.1f}%)")
+
+# Product Description Analysis - ¿Muchos null?
+if 'product_description' in df.columns:
+    null_desc = df['product_description'].isnull().sum()
+    print(f"🔍 Product Description Analysis:")
+    print(f"   Null values: {null_desc} de {total} ({null_desc/total*100:.1f}%)")
+
+print(f"\n💡 RESUMEN DESCUBRIMIENTO COMERCIAL:")
+print(f"   🔴 Variables constantes: {len(constant_vars)}")
+print(f"   🟡 Variables casi constantes: {len(almost_constant_vars)}")
+print(f"   🎯 Total 'sospechosas': {len(constant_vars) + len(almost_constant_vars)}")
+
+# Guardar lista de variables sospechosas para siguiente fase
+suspicious_vars = constant_vars + almost_constant_vars
+print(f"\n📝 Variables para analizar en Fase 3: {suspicious_vars}")
+
+print("\n✅ FASE 2 COMPLETADA - Variables 'inútiles' comerciales identificadas")
+print("📋 Ahora ejecuta la Fase 3 para extraer valor de estas variables")</pre>
+                        </div>
+
+                        <h4>♻️ FASE 3: REUTILIZAR - Extraer Valor Oculto Comercial</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 3</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# ♻️ FASE 3: REUTILIZAR - Extraer Valor de Variables "Inútiles" Comerciales
+# ===================================================================
+
+print("\n⚙️ FASE 3: REUTILIZAR - Extrayendo valor de variables 'inútiles' comerciales")
+
+insights_found = []
+
+# 💎 INSIGHT 1: Site Name como indicador de estrategia de canal único
+print("\n💎 INSIGHT 1: Site Name revela Estrategia de Canal Único")
+try:
+    # Analizar distribución de site name
+    if 'site_name' in df.columns:
+        site_analysis = df['site_name'].value_counts()
+        dominant_site = site_analysis.index[0]
+        dominant_pct = (site_analysis.iloc[0] / len(df)) * 100
+        
+        print(f"🛒 Análisis de canales de venta:")
+        print(f"   • Canal dominante: {dominant_site} ({dominant_pct:.1f}%)")
+        print(f"   • Insight: Estrategia de canal único - todos los datos de una plataforma")
+        print(f"   • Valor: Permite análisis profundo de estrategia específica de Flipkart")
+        
+        insights_found.append("Site Name constante revela estrategia de canal único para análisis especializado")
+except Exception as e:
+    print(f"⚠️ Error en análisis de Site Name: {e}")
+
+# 💎 INSIGHT 2: Stock Availability como indicador de gestión de inventario
+print("\n💎 INSIGHT 2: Stock Availability revela Estrategia de Inventario")
+try:
+    if 'stock_availibility' in df.columns:
+        stock_analysis = df.groupby('stock_availibility').agg({
+            'price': 'mean',
+            'mrp': 'mean'
+        })
+        
+        available_count = (df['stock_availibility'] == True).sum()
+        total_products = len(df)
+        availability_rate = (available_count / total_products) * 100
+        
+        print(f"📦 Análisis de disponibilidad de stock:")
+        print(f"   • Tasa de disponibilidad: {availability_rate:.1f}%")
+        print(f"   • Productos disponibles: {available_count:,} de {total_products:,}")
+        print(f"   • Insight: Estrategia de alta disponibilidad")
+        
+        insights_found.append("Stock Availability alta revela estrategia de gestión de inventario eficiente")
+except Exception as e:
+    print(f"⚠️ Error en análisis de Stock: {e}")
+
+# 💎 INSIGHT 3: Combo Offers null como estrategia de pricing individual
+print("\n💎 INSIGHT 3: Combo Offers NULL revela Estrategia de Pricing")
+try:
+    if 'combo_offers' in df.columns:
+        has_combo = df['combo_offers'].notna()
+        no_combo = df['combo_offers'].isna()
+        
+        combo_analysis = df.groupby(has_combo).agg({
+            'price': 'mean',
+            'mrp': 'mean'
+        })
+        
+        combo_count = has_combo.sum()
+        no_combo_count = no_combo.sum()
+        
+        print(f"🎁 Análisis de ofertas combo:")
+        print(f"   • Productos CON combo: {combo_count:,}")
+        print(f"   • Productos SIN combo: {no_combo_count:,}")
+        print(f"   • Insight: Mayoría sin combo = estrategia de pricing individual")
+        
+        insights_found.append("Combo Offers mayormente null revela estrategia de pricing individual vs bundling")
+except Exception as e:
+    print(f"⚠️ Error en análisis de Combo Offers: {e}")
+
+print(f"\n✅ FASE 3 COMPLETADA - {len(insights_found)} insights comerciales extraídos")
+print(f"📊 Insights encontrados: {insights_found}")
+print("📋 Ahora ejecuta la Fase 4 para crear nuevas features comerciales")</pre>
+                        </div>
+
+                        <h4>⚙️ FASE 4: ENGINEER - Crear Features Derivadas Comerciales</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 4</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# ⚙️ FASE 4: ENGINEER - Crear Features Derivadas con Valor Comercial
+# ===================================================================
+
+print("\n🔧 FASE 4: ENGINEER - Creando features derivadas comerciales valiosas")
+
+new_features_created = []
+
+# Feature 1: Discount Percentage (porcentaje de descuento)
+try:
+    df['discount_percentage'] = ((df['mrp'] - df['price']) / df['mrp'] * 100).clip(0, 100)
+    print("✅ discount_percentage: Porcentaje de descuento aplicado")
+    print(f"   Media: {df['discount_percentage'].mean():.1f}%")
+    print(f"   Interpretación: Más alto = mayor descuento aplicado")
+    new_features_created.append('discount_percentage')
+except Exception as e:
+    print(f"⚠️ Error creando discount_percentage: {e}")
+
+# Feature 2: Price Premium Index (índice de premium vs categoría)
+try:
+    category_avg_price = df.groupby('bb_category')['price'].mean()
+    df['price_premium_index'] = df.apply(
+        lambda row: row['price'] / category_avg_price[row['bb_category']], axis=1
+    )
+    print("\n✅ price_premium_index: Índice de premium vs categoría")
+    print(f"   Media: {df['price_premium_index'].mean():.3f}")
+    print(f"   Interpretación: >1 = precio premium, <1 = precio económico")
+    new_features_created.append('price_premium_index')
+except Exception as e:
+    print(f"⚠️ Error creando price_premium_index: {e}")
+
+# Feature 3: Brand Market Position (posición de marca en el mercado)
+try:
+    brand_avg_price = df.groupby('brand')['price'].mean()
+    overall_avg_price = df['price'].mean()
+    
+    brand_position_map = {}
+    for brand, avg_price in brand_avg_price.items():
+        if avg_price > overall_avg_price * 1.5:
+            brand_position_map[brand] = 'Premium'
+        elif avg_price > overall_avg_price * 0.8:
+            brand_position_map[brand] = 'Mid-Market'
+        else:
+            brand_position_map[brand] = 'Economy'
+    
+    df['brand_market_position'] = df['brand'].map(brand_position_map)
+    print("\n✅ brand_market_position: Posición de marca en mercado")
+    position_dist = df['brand_market_position'].value_counts()
+    print(f"   Distribución: {position_dist.to_dict()}")
+    new_features_created.append('brand_market_position')
+except Exception as e:
+    print(f"⚠️ Error creando brand_market_position: {e}")
+
+# Feature 4: Product Value Score (score de valor del producto)
+try:
+    # Normalizar variables para crear score compuesto
+    discount_norm = df['discount_percentage'] / 100  # 0-1
+    price_affordability = 1 - (df['price'] / df['price'].max())  # 0-1, más alto = más accesible
+    
+    df['product_value_score'] = (discount_norm * 0.6 + price_affordability * 0.4)
+    print("\n✅ product_value_score: Score de valor del producto")
+    print(f"   Media: {df['product_value_score'].mean():.3f}")
+    print(f"   Interpretación: Más alto = mejor valor (descuento + accesibilidad)")
+    new_features_created.append('product_value_score')
+except Exception as e:
+    print(f"⚠️ Error creando product_value_score: {e}")
+
+# Feature 5: Category Competition Level (nivel de competencia por categoría)
+try:
+    category_brand_count = df.groupby('bb_category')['brand'].nunique()
+    category_product_count = df.groupby('bb_category').size()
+    
+    df['category_competition_level'] = df['bb_category'].map(category_brand_count)
+    print("\n✅ category_competition_level: Nivel de competencia por categoría")
+    print(f"   Media: {df['category_competition_level'].mean():.1f} marcas por categoría")
+    print(f"   Interpretación: Más alto = mayor competencia en la categoría")
+    new_features_created.append('category_competition_level')
+except Exception as e:
+    print(f"⚠️ Error creando category_competition_level: {e}")
+
+print(f"\n✅ FASE 4 COMPLETADA - {len(new_features_created)} nuevas features comerciales creadas")
+print(f"📊 Features: {new_features_created}")
+print("📋 Ahora ejecuta la Fase 5 para reportar y exportar resultados comerciales")</pre>
+                        </div>
+
+                        <h4>📋 FASE 5: REPORTAR - Documentar y Exportar</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 5</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# 📋 FASE 5: REPORTAR - Documentar Insights Comerciales y Exportar Dataset
+# ===================================================================
+
+print("\n📋 FASE 5: REPORTAR - Documentando valor extraído comercial")
+
+# Resumen completo del análisis comercial
+print(f"\n📊 REPORTE FINAL - FRAMEWORK VDRER APLICADO A ANÁLISIS DE PRECIOS:")
+print(f"   🔍 Variables 'inútiles' analizadas: {len(suspicious_vars) if 'suspicious_vars' in locals() else 'N/A'}")
+print(f"   💎 Insights comerciales encontrados: {len(insights_found) if 'insights_found' in locals() else 'N/A'}")
+print(f"   ⚙️ Features derivadas creadas: {len(new_features_created) if 'new_features_created' in locals() else 'N/A'}")
+print(f"   📈 Dimensiones finales: {df.shape}")
+
+# Análisis de correlación con price de nuevas features
+print(f"\n📈 CORRELACIÓN CON PRICE (nuevas features comerciales):")
+if 'new_features_created' in locals():
+    for feature in new_features_created:
+        if feature in df.columns and df[feature].dtype in ['float64', 'int64']:
+            try:
+                corr = df[feature].corr(df['price'])
+                print(f"   • {feature}: {corr:.3f}")
+            except:
+                print(f"   • {feature}: No se pudo calcular correlación")
+
+# ROI del análisis comercial (simulado)
+print(f"\n💰 ESTIMACIÓN DE VALOR COMERCIAL GENERADO:")
+print(f"   💡 Insights de estrategia de pricing: 3")
+print(f"   📊 Features predictivas comerciales: {len(new_features_created) if 'new_features_created' in locals() else 0}")
+print(f"   🎯 Preparación para KPIs Comerciales Sesión 8: Completa")
+print(f"   💎 Transformación: 'Desperdicio Digital' → Valor Comercial")
+
+# Calcular impacto potencial en estrategia de precios
+avg_discount = df['discount_percentage'].mean()
+print(f"\n🛒 IMPACTO POTENCIAL EN ESTRATEGIA DE PRECIOS:")
+print(f"   📊 Descuento promedio actual: {avg_discount:.1f}%")
+print(f"   ⚙️ Features para optimización de pricing: {len(new_features_created)}")
+print(f"   💰 Potencial optimización: Mejora en margin y competitividad")
+
+# Guardar dataset enriquecido para análisis de precios
+print(f"\n💾 EXPORTANDO DATASET ENRIQUECIDO COMERCIAL...")
+try:
+    filename_enriched = 'analiz_precios_value_extracted_python.csv'
+    df.to_csv(filename_enriched, index=False, encoding='utf-8')
+    print(f"✅ Guardado como: {filename_enriched}")
+    
+    # Descargar automáticamente
+    from google.colab import files
+    files.download(filename_enriched)
+    print(f"📥 ¡Archivo descargado automáticamente!")
+    
+except Exception as e:
+    print(f"⚠️ Error en exportación: {e}")
+
+print("\n" + "="*70)
+print("🎉 ACTIVIDAD 6 COMPLETADA - FRAMEWORK VDRER APLICADO A ANÁLISIS DE PRECIOS")
+print("🚀 ¡Dataset comercial listo para crear dashboard en Power BI!")
+print("="*70)
+
+# Mensaje de aprendizaje comercial
+print(f"\n📚 REFLEXIÓN DE APRENDIZAJE COMERCIAL:")
+print(f"Has aplicado exitosamente el Framework VDRER a datos de e-commerce:")
+print(f"✅ Validaste la calidad de datos de productos comerciales")
+print(f"✅ Descubriste variables aparentemente 'inútiles' en metadatos")
+print(f"✅ Reutilizaste esas variables para extraer insights valiosos de estrategia")
+print(f"✅ Engineaste nuevas features derivadas con valor comercial")
+print(f"✅ Reportaste y documentaste todo el proceso comercial")
+print(f"\n💡 ¡Has transformado 'basura digital comercial' en oro para estrategia de precios!")</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Pasos Power BI para Extracción de Valor -->
+            <div class="slide">
+                <h2>⚡ PASOS POWER BI: VISUALIZACIÓN DE VALOR COMERCIAL</h2>
+                
+                <div class="platform-card">
+                    <h3>🔧 Power BI para Dashboard de Insights Comerciales</h3>
+                    <p>Usa Power BI para crear el dashboard final que muestre el valor extraído en análisis de precios</p>
+                    <p><strong>📋 REQUISITO:</strong> Primero ejecuta Python para obtener el dataset enriquecido comercial</p>
+                </div>
+
+                <div class="tab-container">
+                    <button class="tab-button active" onclick="showTab('powerbi-generic-valor')">Pasos Genéricos</button>
+                    <button class="tab-button" onclick="showTab('powerbi-pricing-valor')">Específicos Pricing</button>
+                </div>
+                
+                <div id="powerbi-generic-valor" class="tab-content active">
+                    <div class="info-card">
+                        <h3>🔧 Framework Genérico para Dashboard de Extracción de Valor</h3>
+                        <p>Metodología aplicable a <strong>cualquier dataset comercial</strong> donde hayas aplicado el Framework VDRER</p>
+                    </div>
+
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h4>📥 IMPORTAR DATASET ENRIQUECIDO</h4>
+                            <ul>
+                                <li><strong>Fuente:</strong> CSV resultante del análisis Python</li>
+                                <li><strong>Verificar:</strong> Nuevas columnas derivadas comerciales presentes</li>
+                                <li><strong>Tipos de datos:</strong> Confirmar categóricas y numéricas de precios</li>
+                                <li><strong>Calidad:</strong> Sin errores en Applied Steps</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h4>📊 CREAR MEDIDAS BASE COMERCIALES</h4>
+                            <ul>
+                                <li><strong>Conteos básicos:</strong> Total productos, marcas, categorías</li>
+                                <li><strong>Ratios principales:</strong> Margin promedio, descuento promedio</li>
+                                <li><strong>Promedios clave:</strong> Precios por categoría y marca</li>
+                                <li><strong>Medidas derivadas:</strong> KPIs específicos de pricing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h4>🏠 PÁGINA 1: OVERVIEW COMERCIAL</h4>
+                            <ul>
+                                <li><strong>KPIs principales:</strong> Métricas de precios y descuentos</li>
+                                <li><strong>Distribuciones generales:</strong> Precios por categoría</li>
+                                <li><strong>Segmentación básica:</strong> Por marcas y posición de mercado</li>
+                                <li><strong>Tendencias comerciales:</strong> Patrones de pricing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <h4>⚠️ PÁGINA 2: ANÁLISIS DE ESTRATEGIA DE PRECIOS</h4>
+                            <ul>
+                                <li><strong>Variables derivadas:</strong> Features engineered de pricing</li>
+                                <li><strong>Correlaciones comerciales:</strong> Precio, descuento, value score</li>
+                                <li><strong>Distribuciones de competencia:</strong> Competition level por categoría</li>
+                                <li><strong>Patrones de premium:</strong> Brand market position analysis</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">5</div>
+                            <h4>🛒 PÁGINA 3: SEGMENTACIÓN COMERCIAL</h4>
+                            <ul>
+                                <li><strong>Clusters de productos:</strong> Por categoría y posición de precio</li>
+                                <li><strong>Perfiles comerciales:</strong> Características por segmento</li>
+                                <li><strong>Comparaciones de competitividad:</strong> Entre marcas y categorías</li>
+                                <li><strong>Drill-down comercial:</strong> Navegación a detalle de productos</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">6</div>
+                            <h4>💎 PÁGINA 4: VALOR EXTRAÍDO COMERCIAL</h4>
+                            <ul>
+                                <li><strong>Narrative del Framework:</strong> VDRER aplicado a pricing</li>
+                                <li><strong>Insights documentados:</strong> Variables "inútiles" → Valor comercial</li>
+                                <li><strong>ROI de pricing:</strong> Impacto en estrategia de precios</li>
+                                <li><strong>Recomendaciones comerciales:</strong> Acciones de optimización</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="framework-box">
+                        <h3>🎯 Principios de Diseño Comercial</h3>
+                        <ul>
+                            <li><strong>Claridad comercial:</strong> Cada página debe informar decisiones de pricing</li>
+                            <li><strong>Navegación estratégica:</strong> Flujo lógico para gerentes comerciales</li>
+                            <li><strong>Interactividad comercial:</strong> Filtros que permitan análisis de competencia</li>
+                            <li><strong>Consistencia comercial:</strong> Colores y formatos para sistemas de pricing</li>
+                            <li><strong>Escalabilidad comercial:</strong> Funciona con diferentes categorías de productos</li>
+                        </ul>
+                    </div>
+
+                    <div class="objective-card">
+                        <h3>📋 Metodología de Construcción Comercial</h3>
+                        <h4>🔄 Proceso Iterativo para Pricing:</h4>
+                        <ol>
+                            <li><strong>Prototipo comercial:</strong> Crear estructura básica de 4 páginas</li>
+                            <li><strong>Poblar con datos de precios:</strong> Agregar visualizaciones de pricing</li>
+                            <li><strong>Refinar narrativa comercial:</strong> Ajustar story-telling de estrategia</li>
+                            <li><strong>Optimizar UX comercial:</strong> Mejorar interactividad para analistas</li>
+                            <li><strong>Validar insights:</strong> Confirmar que comunica valor de pricing</li>
+                        </ol>
+                    </div>
+
+                    <div class="warning-card">
+                        <h3>⚠️ Consideraciones Técnicas Comerciales</h3>
+                        <ul>
+                            <li><strong>Performance con catálogos:</strong> Optimizar para datasets de productos grandes</li>
+                            <li><strong>Tiempo real:</strong> Preparar para integración con sistemas de pricing</li>
+                            <li><strong>Alertas comerciales:</strong> Facilitar identificación de oportunidades</li>
+                            <li><strong>Escalabilidad comercial:</strong> Estructura que permita múltiples categorías</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div id="powerbi-pricing-valor" class="tab-content">
+                    <div class="warning-card">
+                        <h3>📋 REQUISITO PREVIO ESPECÍFICO</h3>
+                        <p><strong>Antes de empezar:</strong> Debes haber ejecutado Python y descargado el archivo <code>analiz_precios_value_extracted_python.csv</code></p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>📥 PASO 1: IMPORTACIÓN ESPECÍFICA ANÁLISIS DE PRECIOS</h3>
+                        <h4>🔧 Proceso detallado:</h4>
+                        <ol>
+                            <li><strong>Obtener datos:</strong> Archivo de texto/CSV</li>
+                            <li><strong>Seleccionar archivo:</strong> analiz_precios_value_extracted_python.csv</li>
+                            <li><strong>Verificar preview:</strong> Confirmar columnas nuevas:
+                                <ul>
+                                    <li>discount_percentage</li>
+                                    <li>price_premium_index</li>
+                                    <li>brand_market_position</li>
+                                    <li>product_value_score</li>
+                                    <li>category_competition_level</li>
+                                </ul>
+                            </li>
+                            <li><strong>Transformar datos:</strong> Verificar tipos de datos correctos</li>
+                            <li><strong>Cerrar y aplicar</strong></li>
+                        </ol>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>📊 PASO 2: MEDIDAS DAX ESPECÍFICAS ANÁLISIS DE PRECIOS</h3>
+                        
+                        <h4>🔧 Medidas Básicas (copiar en Power BI):</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">DAX - Medidas Básicas</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block">// Medidas básicas de Análisis de Precios
+Total_Products = COUNTROWS('analiz_precios_value_extracted_python')
+
+Total_Brands = DISTINCTCOUNT('analiz_precios_value_extracted_python'[brand])
+
+Total_Categories = DISTINCTCOUNT('analiz_precios_value_extracted_python'[bb_category])
+
+Avg_Price = AVERAGE('analiz_precios_value_extracted_python'[price])
+
+Avg_MRP = AVERAGE('analiz_precios_value_extracted_python'[mrp])
+
+Avg_Discount = AVERAGE('analiz_precios_value_extracted_python'[discount_percentage])
+
+Avg_Value_Score = AVERAGE('analiz_precios_value_extracted_python'[product_value_score])</pre>
+                        </div>
+
+                        <h4>🎯 Medidas Avanzadas para Variables "Inútiles" Comerciales:</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">DAX - Medidas Avanzadas</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block">// Análisis de Site Name patterns - Descubrir estrategia de canal
+Channel_Strategy_Analysis = 
+IF(
+    DISTINCTCOUNT('analiz_precios_value_extracted_python'[site_name]) = 1,
+    "Single Channel Strategy - " & FIRST('analiz_precios_value_extracted_python'[site_name]),
+    "Multi Channel Strategy"
+)
+
+// Score de Competitividad Comercial Compuesto
+Commercial_Competitiveness_Score = 
+VAR DiscountWeight = IF([discount_percentage] > 15, 0.3, 0)
+VAR PremiumWeight = IF([price_premium_index] < 0.8, 0.3, 0)
+VAR ValueWeight = IF([product_value_score] > 0.7, 0.2, 0)
+VAR CompetitionWeight = IF([category_competition_level] > 10, 0.2, 0)
+RETURN DiscountWeight + PremiumWeight + ValueWeight + CompetitionWeight
+
+// Anomalías en Estrategia de Precios - Detectar patrones comerciales inusuales
+Pricing_Strategy_Anomaly = 
+SWITCH(
+    TRUE(),
+    [discount_percentage] > 50, "Deep Discount Strategy",
+    [price_premium_index] > 2, "Premium Positioning",
+    [discount_percentage] < 5 && [price_premium_index] > 1.2, "Premium No-Discount",
+    "Standard Pricing Strategy"
+)
+
+// Patrón de Posicionamiento de Marca
+Brand_Positioning_Pattern = 
+VAR IsPremium = [brand_market_position] = "Premium"
+VAR HighValue = [product_value_score] > 0.6
+VAR LowDiscount = [discount_percentage] < 10
+RETURN 
+SWITCH(
+    TRUE(),
+    IsPremium && LowDiscount, "Premium Brand - Premium Pricing",
+    NOT IsPremium && [discount_percentage] > 25, "Economy Brand - Aggressive Pricing",
+    "Mixed Positioning - REQUIRES REVIEW"
+)
+
+// Alerta de Oportunidad de Pricing
+Pricing_Opportunity_Alert = 
+VAR CompetitiveScore = [Commercial_Competitiveness_Score]
+RETURN 
+SWITCH(
+    TRUE(),
+    CompetitiveScore >= 0.8, "HIGH OPPORTUNITY - Optimize Pricing",
+    CompetitiveScore >= 0.6, "MEDIUM OPPORTUNITY - Review Strategy",
+    CompetitiveScore >= 0.4, "LOW OPPORTUNITY - Monitor",
+    "OPTIMAL - Current Strategy Working"
+)
+
+// Índice de Saturación de Categoría
+Category_Saturation_Index = 
+DIVIDE(
+    [category_competition_level],
+    CALCULATE(MAX('analiz_precios_value_extracted_python'[category_competition_level])),
+    0
+) * 100</pre>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>📊 PASO 3-6: PÁGINAS ESPECÍFICAS ANÁLISIS DE PRECIOS</h3>
+                        
+                        <h4>🛒 Página 1: Overview Comercial - Configuración exacta</h4>
+                        <ul>
+                            <li><strong>Tarjeta KPI 1:</strong> Total Products ([Total_Products]) - Formato: N0</li>
+                            <li><strong>Tarjeta KPI 2:</strong> Avg Discount ([Avg_Discount]) - Formato: %, Color verde si <20%</li>
+                            <li><strong>Tarjeta KPI 3:</strong> Total Brands ([Total_Brands]) - Formato: N0</li>
+                            <li><strong>Tarjeta KPI 4:</strong> Avg Price ([Avg_Price]) - Formato: Currency</li>
+                            <li><strong>Gráfico barras:</strong> 
+                                <ul>
+                                    <li>Eje X: brand_market_position</li>
+                                    <li>Eje Y: [Avg_Price]</li>
+                                    <li>Color: Por posición de mercado</li>
+                                </ul>
+                            </li>
+                            <li><strong>Gráfico treemap:</strong> bb_category con [Total_Products] y color por [Avg_Discount]</li>
+                            <li><strong>Tabla resumen:</strong> bb_category, [Total_Products], [Avg_Price], [Avg_Discount]</li>
+                        </ul>
+
+                        <h4>⚠️ Página 2: Estrategia de Precios - Visualizaciones específicas</h4>
+                        <ul>
+                            <li><strong>Scatter plot 1:</strong>
+                                <ul>
+                                    <li>X: price_premium_index</li>
+                                    <li>Y: discount_percentage</li>
+                                    <li>Color: brand_market_position</li>
+                                    <li>Tamaño: product_value_score</li>
+                                </ul>
+                            </li>
+                            <li><strong>Histograma:</strong> discount_percentage (bins automáticos)</li>
+                            <li><strong>Barras horizontales:</strong> category_competition_level por bb_category (ordenar descendente)</li>
+                            <li><strong>Matrix/Heatmap:</strong> [Commercial_Competitiveness_Score] vs brand</li>
+                            <li><strong>Filtros laterales:</strong> brand_market_position, bb_category, stock_availibility</li>
+                        </ul>
+
+                        <h4>🛒 Página 3: Segmentación Comercial - Detalles específicos</h4>
+                        <ul>
+                            <li><strong>Barras apiladas:</strong>
+                                <ul>
+                                    <li>Eje X: bb_category</li>
+                                    <li>Leyenda: brand_market_position</li>
+                                    <li>Valores: Count of products</li>
+                                </ul>
+                            </li>
+                            <li><strong>Scatter plot avanzado:</strong>
+                                <ul>
+                                    <li>X: price</li>
+                                    <li>Y: mrp</li>
+                                    <li>Tamaño: discount_percentage</li>
+                                    <li>Color: brand_market_position</li>
+                                </ul>
+                            </li>
+                            <li><strong>Waterfall chart:</strong>
+                                <ul>
+                                    <li>Categoría: bb_category</li>
+                                    <li>Valores: Diferencia entre MRP y Price</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tabla Top 10 Oportunidades:</strong>
+                                <ul>
+                                    <li>Columnas: product_title, brand, price, [Commercial_Competitiveness_Score], [Pricing_Opportunity_Alert]</li>
+                                    <li>Filtro: Top 10 by [Commercial_Competitiveness_Score]</li>
+                                    <li>Formato condicional: Barras de datos</li>
+                                </ul>
+                            </li>
+                            <li><strong>Slicers:</strong> brand_market_position, bb_category, site_name</li>
+                        </ul>
+
+                        <h4>💎 Página 4: Insights Comerciales "Deshechos" - Storytelling específico</h4>
+                        <ul>
+                            <li><strong>Cuadro de texto 1:</strong> "Framework VDRER Aplicado a Análisis de Precios E-commerce"</li>
+                            <li><strong>Gráfico columnas agrupadas:</strong>
+                                <ul>
+                                    <li>X: "Variables Analizadas" (Site_Name, Stock_Availability, Combo_Offers)</li>
+                                    <li>Y1: "Antes" (0 insights)</li>
+                                    <li>Y2: "Después" (3 insights comerciales)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tabla de insights comerciales:</strong>
+                                <ul>
+                                    <li>Variable "Inútil" | Insight Extraído | Valor Comercial</li>
+                                    <li>Site_Name | Estrategia canal único | Análisis especializado de plataforma específica</li>
+                                    <li>Stock_Availability | Alta disponibilidad | Estrategia de gestión de inventario eficiente</li>
+                                    <li>Combo_Offers | Mayoría null | Estrategia de pricing individual vs bundling</li>
+                                </ul>
+                            </li>
+                            <li><strong>KPI ROI:</strong> "3 Insights Valiosos de Variables 'Inútiles' Comerciales"</li>
+                            <li><strong>Cuadro de texto final:</strong> "Transformación: Desperdicio Digital → Oro de Estrategia de Precios"</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-card">
+                        <h3>🎨 CONFIGURACIÓN VISUAL ESPECÍFICA COMERCIAL</h3>
+                        <ul>
+                            <li><strong>Tema:</strong> Corporate (claro) o personalizado comercial</li>
+                            <li><strong>Colores principales:</strong>
+                                <ul>
+                                    <li>Verde (#2ca02c): Premium / Alta rentabilidad</li>
+                                    <li>Azul (#1f77b4): Mid-market / Estándar</li>
+                                    <li>Naranja (#ff7f0e): Economy / Oportunidad</li>
+                                    <li>Rojo (#d62728): Alerta / Requiere atención</li>
+                                </ul>
+                            </li>
+                            <li><strong>Títulos de páginas:</strong>
+                                <ul>
+                                    <li>Página 1: "Análisis de Precios E-commerce - Overview Comercial"</li>
+                                    <li>Página 2: "Estrategia de Precios y Competitividad"</li>
+                                    <li>Página 3: "Segmentación y Oportunidades Comerciales"</li>
+                                    <li>Página 4: "Valor Extraído: De Deshechos a Insights Comerciales"</li>
+                                </ul>
+                            </li>
+                            <li><strong>Navegación:</strong> Botones en cada página para ir a las otras 3</li>
+                            <li><strong>Filtros globales:</strong> brand_market_position, bb_category (aplicar a páginas 1-3)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Pasos R para Análisis Estadístico Avanzado -->
+            <div class="slide">
+                <h2>📊 PASOS R: ANÁLISIS ESTADÍSTICO COMERCIAL AVANZADO</h2>
+                
+                <div class="platform-card">
+                    <h3>📈 R para Validación Estadística de Insights Comerciales</h3>
+                    <p>Usa Posit Cloud para validar estadísticamente los patrones encontrados en datos de pricing</p>
+                </div>
+
+                <div class="tab-container">
+                    <button class="tab-button active" onclick="showTab('r-generic-valor')">Pasos Genéricos</button>
+                    <button class="tab-button" onclick="showTab('r-pricing-valor')">Específicos Pricing</button>
+                </div>
+                
+                <div id="r-generic-valor" class="tab-content active">
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h4>📦 SETUP ESTADÍSTICO COMERCIAL</h4>
+                            <ul>
+                                <li>Cargar dataset enriquecido de Python</li>
+                                <li>library(tidyverse, corrplot, FactoMineR)</li>
+                                <li>Configurar environment estadístico comercial</li>
+                                <li>Definir funciones de validación para pricing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h4>📊 STATISTICAL VALIDATION COMERCIAL</h4>
+                            <ul>
+                                <li>Chi-square tests para marcas y categorías</li>
+                                <li>T-tests para diferencias en precios</li>
+                                <li>ANOVA para múltiples estrategias de pricing</li>
+                                <li>Correlation significance tests para variables comerciales</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h4>🔍 DIMENSIONALITY ANALYSIS COMERCIAL</h4>
+                            <ul>
+                                <li>PCA para reduction de variables de pricing</li>
+                                <li>Factor analysis de estrategias comerciales</li>
+                                <li>Cluster analysis de perfiles de productos</li>
+                                <li>MCA para variables categóricas comerciales</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <h4>📈 ADVANCED MODELING COMERCIAL</h4>
+                            <ul>
+                                <li>Regression analysis para predicción de precios</li>
+                                <li>Random forest importance para features comerciales</li>
+                                <li>Price elasticity analysis</li>
+                                <li>Model validation para estrategias de pricing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">5</div>
+                            <h4>📊 PUBLICATION-READY VIZ COMERCIAL</h4>
+                            <ul>
+                                <li>ggplot2 advanced graphics para análisis comercial</li>
+                                <li>Statistical annotations comerciales</li>
+                                <li>Multi-panel insights de pricing</li>
+                                <li>Export high-res graphics para presentaciones</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">6</div>
+                            <h4>📋 STATISTICAL REPORT COMERCIAL</h4>
+                            <ul>
+                                <li>R Markdown report comercial</li>
+                                <li>Statistical significance summary</li>
+                                <li>Effect sizes y confidence intervals</li>
+                                <li>Documentation comercial para estrategia</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="r-pricing-valor" class="tab-content">
+                    <div class="info-card">
+                        <h3>🛒 Código R Específico para Validación Estadística de Análisis de Precios</h3>
+                        
+                        <div class="code-block-container">
+                            <div class="language-label">R</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===== SETUP ESPECÍFICO PARA VALIDACIÓN ESTADÍSTICA ANÁLISIS DE PRECIOS =====
+library(tidyverse)    # Manipulación de datos y visualización
+library(corrplot)     # Matriz de correlación visualizada
+library(FactoMineR)   # PCA y análisis factorial
+library(factoextra)   # Visualización PCA
+library(randomForest) # Feature importance
+library(car)          # ANOVA avanzado
+library(broom)        # Tidy statistical output
+
+# Cargar dataset enriquecido de Python
+pricing_enriched <- read_csv("analiz_precios_value_extracted_python.csv")
+
+cat("🛒 Dataset comercial cargado:", nrow(pricing_enriched), "productos x", ncol(pricing_enriched), "variables\n")
+
+# ===== 1. VALIDACIÓN ESTADÍSTICA DE INSIGHTS COMERCIALES =====
+
+# Test chi-cuadrado para Brand_Market_Position vs Category
+brand_category_table <- table(pricing_enriched$brand_market_position, pricing_enriched$bb_category)
+brand_test <- chisq.test(brand_category_table)
+
+cat("\n=== 🔬 CHI-SQUARE TEST: Posición de Marca vs Categoría ===\n")
+print(brand_test)
+
+# Effect size (Cramér's V) - Mide la fuerza de la asociación comercial
+n <- sum(brand_category_table)
+chi_sq <- brand_test$statistic
+min_dim <- min(dim(brand_category_table)) - 1
+cramers_v <- sqrt(chi_sq / (n * min_dim))
+
+cat("📈 Cramér's V (effect size comercial):", round(cramers_v, 3), "\n")
+cat("💡 Interpretación comercial:", 
+    ifelse(cramers_v < 0.1, "Independencia entre marca y categoría",
+           ifelse(cramers_v < 0.3, "Asociación moderada marca-categoría", 
+                  "Fuerte asociación estratégica marca-categoría")), "\n")
+
+# ===== 2. ANÁLISIS FACTORIAL DE VARIABLES DE PRICING =====
+pricing_vars <- pricing_enriched %>% 
+  select(price, mrp, discount_percentage, 
+         price_premium_index, product_value_score) %>%
+  na.omit()
+
+# PCA de variables de pricing para encontrar dimensiones latentes
+pca_pricing <- PCA(pricing_vars, graph = FALSE)
+
+cat("\n=== 📊 PCA VARIABLES DE PRICING: Varianza Explicada ===\n")
+print(round(pca_pricing$eig, 2))
+
+# Visualización PCA con colores por contribución comercial
+pca_plot <- fviz_pca_var(pca_pricing, 
+                             col.var = "contrib",
+                             gradient.cols = c("#228B22", "#FFD700", "#FF6347"),
+                             repel = TRUE,
+                             title = "💡 PCA: Dimensiones de Estrategia de Precios")
+print(pca_plot)
+
+# ===== 3. ANÁLISIS DE VARIANZA (ANOVA) PARA ESTRATEGIAS DE PRICING =====
+# ANOVA para precio por posición de marca
+anova_brand_price <- aov(price ~ brand_market_position, data = pricing_enriched)
+
+cat("\n=== 📊 ANOVA: Precio por Posición de Marca ===\n")
+print(summary(anova_brand_price))
+
+# Post-hoc tests para identificar diferencias específicas
+tukey_brand <- TukeyHSD(anova_brand_price)
+print(tukey_brand)
+
+# ===== 4. RANDOM FOREST PARA FEATURE IMPORTANCE COMERCIAL =====
+# Preparar datos para modelo (predecir categoría de precio)
+pricing_model_data <- pricing_enriched %>%
+  mutate(
+    price_category = case_when(
+      price <= quantile(price, 0.33, na.rm = TRUE) ~ "Low",
+      price <= quantile(price, 0.67, na.rm = TRUE) ~ "Medium",
+      TRUE ~ "High"
+    )
+  ) %>%
+  select(discount_percentage, price_premium_index, product_value_score,
+         category_competition_level, price_category) %>%
+  na.omit() %>%
+  mutate(price_category = as.factor(price_category))
+
+# Ejecutar Random Forest para análisis comercial
+set.seed(42)  # Para reproducibilidad
+rf_pricing_model <- randomForest(price_category ~ ., 
+                                   data = pricing_model_data, 
+                                   importance = TRUE,
+                                   ntree = 500)
+
+# Extraer importancia de variables comerciales
+importance_pricing_df <- data.frame(
+  Variable = rownames(rf_pricing_model$importance),
+  Importance = rf_pricing_model$importance[, "MeanDecreaseGini"]
+) %>%
+  arrange(desc(Importance))
+
+cat("\n=== 🏆 IMPORTANCIA DE VARIABLES PARA CATEGORIZACIÓN DE PRECIOS ===\n")
+print(importance_pricing_df)
+
+# ===== 5. VISUALIZACIONES AVANZADAS COMERCIALES CON GGPLOT2 =====
+
+# Gráfico de insights contraintuitivos comerciales
+pricing_insights_plot <- pricing_enriched %>%
+  mutate(
+    pricing_strategy = case_when(
+      discount_percentage > 30 & price_premium_index < 0.8 ~ "Aggressive Economy",
+      discount_percentage < 10 & price_premium_index > 1.5 ~ "Premium No-Discount",
+      TRUE ~ "Standard Strategy"
+    )
+  ) %>%
+  count(pricing_strategy, brand_market_position) %>%
+  group_by(pricing_strategy) %>%
+  mutate(prop = n / sum(n)) %>%
+  ggplot(aes(x = reorder(pricing_strategy, prop), 
+             y = prop, 
+             fill = brand_market_position)) +
+  geom_col(position = "dodge", alpha = 0.8) +
+  geom_text(aes(label = paste0(round(prop * 100, 1), "%")), 
+            position = position_dodge(width = 0.9),
+            vjust = -0.5, size = 3) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "🤔 INSIGHT COMERCIAL: Distribución de Estrategias por Posición de Marca",
+    subtitle = "¿Cómo se alinean las estrategias de pricing con el posicionamiento?",
+    x = "Estrategia de Pricing",
+    y = "Proporción",
+    fill = "Posición de Marca",
+    caption = "Fuente: Análisis de Precios Dataset - Framework VDRER"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(pricing_insights_plot)
+
+# Análisis de correlación entre features comerciales
+correlation_pricing <- pricing_enriched %>%
+  select(price, mrp, discount_percentage, price_premium_index,
+         product_value_score, category_competition_level) %>%
+  cor(use = "complete.obs")
+
+# Visualizar matriz de correlación comercial
+corrplot(correlation_pricing, 
+         method = "color",
+         type = "upper",
+         order = "hclust",
+         tl.cex = 0.8,
+         tl.col = "black",
+         title = "Matriz de Correlación: Variables de Pricing y Features Derivadas",
+         mar = c(0,0,1,0))
+
+# ===== 6. EXPORT FINAL PARA POWER BI =====
+write_csv(pricing_enriched, "pricing_final_statistical_validated.csv")
+cat("\n✅ Dataset final con validación estadística comercial exportado\n")
+cat("🎯 Listo para crear dashboard final de análisis de precios en Power BI!\n")
+
+# Resumen estadístico final comercial
+cat("\n📊 RESUMEN ESTADÍSTICO COMERCIAL:\n")
+cat("   🔬 Tests realizados: Chi-square, PCA, ANOVA, Random Forest\n")
+cat("   📈 Features comerciales más importantes identificadas\n")
+cat("   💡 Insights de pricing contraintuitivos documentados\n")
+cat("   🛒 Validación estadística completa para estrategia de precios\n")</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Rúbrica -->
+            <div class="slide">
+                <h2>📋 RÚBRICA DE EVALUACIÓN</h2>
+                
+                <div class="warning-card">
+                    <h3>⚖️ Sistema de Evaluación Específico para Actividad 6 - Análisis de Precios</h3>
+                    <p>Evaluación enfocada en <strong>extracción de valor de deshechos digitales comerciales</strong> y aplicación del framework VDRER en contexto de análisis de precios e-commerce</p>
+                </div>
+
+                <table class="rubric-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio de Evaluación</th>
+                            <th style="width: 15%;">Insuficiente (0 pts)</th>
+                            <th style="width: 20%;">Suficiente (1-2 pts)</th>
+                            <th style="width: 20%;">Excelente (2-4 pts)</th>
+                            <th style="width: 25%;">Puntuación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PRESENTACIÓN</strong><br>Formato, organización visual y errores ortográficos</td>
+                            <td class="insufficient">El formato no ayuda a organizar visualmente el material comercial. Además presenta más de siete errores ortográficos y gramaticales.</td>
+                            <td class="needs-improvement">La organización de las pantallas comerciales es un poco confusa y presenta de tres a cinco errores ortográficos y gramaticales.</td>
+                            <td class="excellent">Usa títulos y subtítulos para organizar visualmente el contenido comercial. Presenta menos de tres errores ortográficos o de puntuación y gramaticales.</td>
+                            <td><strong>2 puntos</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>DISEÑO Y REPRESENTACIÓN GRÁFICA</strong><br>Elementos visuales comerciales y claridad gráfica</td>
+                            <td class="insufficient">El diseño confunde y dificulta la relación entre conceptos comerciales. No utiliza elementos gráficos suficientes para representar claridad en datos de precios.</td>
+                            <td class="needs-improvement">El diseño es un poco confuso sin embargo logra entenderse la relación entre variables de pricing. No hace uso de todos los elementos gráficos pero se presenta clara.</td>
+                            <td class="excellent">El diseño de las pantallas es agradable y favorece el entendimiento de conceptos de análisis de precios. Utiliza elementos gráficos claros para datos comerciales.</td>
+                            <td><strong>4 puntos</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>ORGANIZACIÓN DE LOS CONCEPTOS</strong><br>Orden lógico y secuencial comercial</td>
+                            <td class="insufficient">El organizador carece de todo orden comercial. La falta de relación entre variables de pricing impide que se identifiquen los conceptos. Los datos son imprecisos.</td>
+                            <td class="needs-improvement">El organizador tiene cierto orden pero le falta seguir una secuencia lógica comercial. La relación entre variables de precios no es muy clara. Los datos están organizados pero difícil lectura.</td>
+                            <td class="excellent">El organizador se encuentra presentado de manera original, clara y ordenada. Se usa adecuadamente palabras clave comerciales. Datos precisos de pricing.</td>
+                            <td><strong>4 puntos</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CALIDAD DE LA INFORMACIÓN</strong><br>Relevancia, actualidad y relación con fuentes de referencia</td>
+                            <td class="insufficient">En la información mostrada en el esquema o diagrama no se observa la relevancia y actualidad del tema comercial. La información no está relacionada con fuentes de referencia.</td>
+                            <td class="needs-improvement">En la información se observan: Relevancia y actualidad comercial, aunque no muestra mucha claridad y definición en el desarrollo del tema. Poca relación con fuentes consultadas.</td>
+                            <td class="excellent">En la información se observan: Claridad y definición, relevancia y actualidad del tema de análisis de precios. Total relación con fuentes comerciales.</td>
+                            <td><strong>4 puntos</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="objective-card">
+                    <h3>🎯 Criterios Específicos para Actividad 6 - Análisis de Precios</h3>
+                    
+                    <h4>💎 Identificación de Valor en "Deshechos" Comerciales (25% de la calificación):</h4>
+                    <ul>
+                        <li>✅ <strong>3+ insights valiosos</strong> en variables aparentemente irrelevantes de e-commerce</li>
+                        <li>✅ <strong>Justificación sólida</strong> de por qué son valiosos para estrategia de precios</li>
+                        <li>✅ <strong>Conexión con estrategia comercial</strong> real</li>
+                        <li>✅ <strong>ROI cuantificado</strong> en términos de optimización de precios</li>
+                    </ul>
+
+                    <h4>⚙️ Framework VDRER Aplicado a Comercio (25% de la calificación):</h4>
+                    <ul>
+                        <li>✅ <strong>5 fases documentadas:</strong> Validar, Descubrir, Reutilizar, Engineer, Reportar</li>
+                        <li>✅ <strong>Metodología clara</strong> adaptada a datos de productos</li>
+                        <li>✅ <strong>Evidencias concretas</strong> de aplicación comercial</li>
+                        <li>✅ <strong>Transferibilidad</strong> a otros catálogos/plataformas</li>
+                    </ul>
+
+                    <h4>📊 Dashboard Power BI Comercial (25% de la calificación):</h4>
+                    <ul>
+                        <li>✅ <strong>4 páginas estructuradas:</strong> Overview Comercial, Pricing Strategy, Commercial Segments, Commercial Insights</li>
+                        <li>✅ <strong>Narrativa comercial clara</strong> de descubrimientos</li>
+                        <li>✅ <strong>Interactividad funcional</strong> con filtros para analistas comerciales</li>
+                        <li>✅ <strong>Visualizaciones comerciales</strong> que comunican valor de pricing</li>
+                    </ul>
+
+                    <h4>🔬 Rigor Analítico Comercial (25% de la calificación):</h4>
+                    <ul>
+                        <li>✅ <strong>Feature engineering</strong> relevante para análisis de precios</li>
+                        <li>✅ <strong>Pattern mining</strong> sistemático en datos comerciales</li>
+                        <li>✅ <strong>Validación estadística</strong> de patrones de pricing (si se usa R/Python)</li>
+                        <li>✅ <strong>Reproducibilidad</strong> del proceso de análisis comercial</li>
+                    </ul>
+                </div>
+
+                <div class="warning-card">
+                    <h3>🚨 Elementos que Garantizan Máxima Calificación Comercial</h3>
+                    <ul>
+                        <li><strong>Insight "Wow" Comercial:</strong> Descubrir algo genuinamente sorprendente en datos "inútiles" de e-commerce</li>
+                        <li><strong>Business Impact:</strong> Conectar hallazgos con ROI real en estrategia de precios</li>
+                        <li><strong>Metodología transferible:</strong> Framework que otros analistas comerciales puedan replicar</li>
+                        <li><strong>Professional presentation:</strong> Dashboard listo para gerentes comerciales</li>
+                        <li><strong>Preparación Sesión 8:</strong> Base sólida para KPIs comerciales avanzados</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>📊 Distribución de Puntos: Total 14 Puntos</h3>
+                    <ul>
+                        <li><strong>Presentación:</strong> 2 puntos (14%)</li>
+                        <li><strong>Diseño y Representación:</strong> 4 puntos (29%)</li>
+                        <li><strong>Organización de Conceptos:</strong> 4 puntos (29%)</li>
+                        <li><strong>Calidad de Información:</strong> 4 puntos (29%)</li>
+                    </ul>
+                    
+                    <p><strong>Nota:</strong> Aunque la rúbrica es genérica, la evaluación se enfocará en la calidad de los insights de valor extraídos y la aplicación efectiva del framework VDRER en contexto comercial.</p>
+                </div>
+
+                <div class="platform-card">
+                    <h3>📋 Checklist Final Actividad 6 - Análisis de Precios</h3>
+                    <ul>
+                        <li>☐ <strong>Dashboard .pbix funcional</strong> con 4 páginas narrativas comerciales</li>
+                        <li>☐ <strong>3+ insights de "deshechos"</strong> documentados y justificados comercialmente</li>
+                        <li>☐ <strong>Framework VDRER aplicado</strong> paso a paso a datos de productos</li>
+                        <li>☐ <strong>Pipeline de reutilización</strong> documentado y replicable comercialmente</li>
+                        <li>☐ <strong>Business case comercial:</strong> para cada insight encontrado</li>
+                        <li>☐ <strong>Preparación para Sesión 8</strong> con métricas base de pricing definidas</li>
+                        <li>☐ <strong>Formato profesional</strong> listo para presentar a analistas comerciales</li>
+                        <li>☐ <strong>Naming correcto:</strong> Actividad6_Pricing_TuNombre_TuApellido</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-indicator">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== FUNCIONES MEJORADAS PARA COPY-PASTE DE CÓDIGO =====
+        
+        // Función para copiar código al clipboard
+        function copyCode(button) {
+            try {
+                const codeBlock = button.nextElementSibling;
+                const codeText = codeBlock.innerText || codeBlock.textContent;
+                
+                // Usar la Clipboard API moderna si está disponible
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(codeText).then(() => {
+                        showCopySuccess(button);
+                    }).catch(err => {
+                        fallbackCopyTextToClipboard(codeText, button);
+                    });
+                } else {
+                    // Fallback para navegadores más antiguos
+                    fallbackCopyTextToClipboard(codeText, button);
+                }
+            } catch (error) {
+                console.error('Error copying code:', error);
+                showCopyError(button);
+            }
+        }
+
+        // Fallback para copiar texto (navegadores antiguos)
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess(button);
+                } else {
+                    showCopyError(button);
+                }
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                showCopyError(button);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Mostrar mensaje de éxito al copiar
+        function showCopySuccess(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '✅ ¡Copiado!';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        // Mostrar mensaje de error al copiar
+        function showCopyError(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '❌ Error';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Variables globales para navegación
+        let currentSlideIndex = 0;
+        const totalSlides = 6;
+
+        // Función de navegación mejorada
+        function navigateSlide(direction) {
+            try {
+                const slides = document.querySelectorAll('.slide');
+                if (slides.length === 0) return;
+
+                // Calcular nuevo índice
+                const newIndex = Math.max(0, Math.min(slides.length - 1, currentSlideIndex + direction));
+                
+                if (newIndex !== currentSlideIndex) {
+                    // Ocultar slide actual con transición
+                    slides[currentSlideIndex].classList.remove('active');
+                    slides[currentSlideIndex].style.display = 'none';
+
+                    // Mostrar nuevo slide con transición
+                    slides[newIndex].style.display = 'block';
+                    // Pequeño delay para permitir el display
+                    setTimeout(() => {
+                        slides[newIndex].classList.add('active');
+                    }, 10);
+
+                    // Actualizar índice
+                    currentSlideIndex = newIndex;
+
+                    // Actualizar contador
+                    updateSlideCounter();
+                    
+                    // Actualizar progress bar
+                    updateProgressBar();
+
+                    // Actualizar botones de navegación
+                    updateNavigationButtons();
+
+                    // Reiniciar tabs al cambiar slide
+                    resetTabsToDefault();
+
+                    // Scroll al top del slide
+                    const slideContainer = document.querySelector('.slide-container');
+                    if (slideContainer) {
+                        slideContainer.scrollTop = 0;
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Error in navigateSlide:', error);
+            }
+        }
+
+        // Actualizar contador de slides
+        function updateSlideCounter() {
+            const currentSlideSpan = document.getElementById('currentSlide');
+            if (currentSlideSpan) {
+                currentSlideSpan.textContent = currentSlideIndex + 1;
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                const slides = document.querySelectorAll('.slide');
+                const progress = ((currentSlideIndex + 1) / slides.length) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        // Actualizar botones de navegación
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slides = document.querySelectorAll('.slide');
+            
+            if (prevBtn) prevBtn.disabled = (currentSlideIndex === 0);
+            if (nextBtn) nextBtn.disabled = (currentSlideIndex === slides.length - 1);
+        }
+
+        // Función mejorada para manejar tabs
+        function showTab(tabId) {
+            try {
+                // Obtener el elemento que fue clickeado
+                const clickedButton = event.target;
+                const tabContainer = clickedButton.closest('.slide');
+                
+                if (!tabContainer) return;
+
+                // Ocultar todos los contenidos de tab en este slide
+                const tabContents = tabContainer.querySelectorAll('.tab-content');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Remover clase active de todos los botones en este slide
+                const tabButtons = tabContainer.querySelectorAll('.tab-button');
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+                
+                // Mostrar el contenido del tab seleccionado
+                const selectedTab = document.getElementById(tabId);
+                if (selectedTab) {
+                    selectedTab.classList.add('active');
+                }
+                
+                // Agregar clase active al botón clickeado
+                clickedButton.classList.add('active');
+                
+                // Scroll suave al contenido del tab
+                setTimeout(() => {
+                    if (selectedTab) {
+                        selectedTab.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'nearest' 
+                        });
+                    }
+                }, 100);
+                
+            } catch (error) {
+                console.error('Error in showTab:', error);
+            }
+        }
+
+        // Función para reiniciar tabs a valores por defecto
+        function resetTabsToDefault() {
+            try {
+                // Mapeo de slides y sus tabs por defecto
+                const defaultTabs = {
+                    1: [], // Slide 1 no tiene tabs
+                    2: ['colab-clean'], // Slide 2: Dataset de Colab por defecto
+                    3: ['python-generic-valor'], // Slide 3: Pasos genéricos Python
+                    4: ['powerbi-generic-valor'], // Slide 4: Pasos genéricos Power BI
+                    5: ['r-generic-valor'], // Slide 5: Pasos genéricos R
+                    6: [] // Slide 6 no tiene tabs
+                };
+
+                const currentSlideNum = currentSlideIndex + 1;
+                const defaultTabsForSlide = defaultTabs[currentSlideNum];
+
+                if (defaultTabsForSlide && defaultTabsForSlide.length > 0) {
+                    const currentSlide = document.querySelectorAll('.slide')[currentSlideIndex];
+                    
+                    // Reset all tabs in current slide
+                    const allTabContents = currentSlide.querySelectorAll('.tab-content');
+                    const allTabButtons = currentSlide.querySelectorAll('.tab-button');
+                    
+                    allTabContents.forEach(content => content.classList.remove('active'));
+                    allTabButtons.forEach(button => button.classList.remove('active'));
+
+                    // Activate default tabs
+                    defaultTabsForSlide.forEach(tabId => {
+                        const tab = document.getElementById(tabId);
+                        if (tab) {
+                            tab.classList.add('active');
+                            // Find and activate corresponding button
+                            const button = currentSlide.querySelector(`[onclick*="${tabId}"]`);
+                            if (button) {
+                                button.classList.add('active');
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error in resetTabsToDefault:', error);
+            }
+        }
+
+        // Event listeners para teclado (navegación con flechas)
+        document.addEventListener('keydown', function(e) {
+            try {
+                // Verificar que no estemos en un input o textarea
+                const activeElement = document.activeElement;
+                const isInputActive = activeElement && (
+                    activeElement.tagName === 'INPUT' || 
+                    activeElement.tagName === 'TEXTAREA' ||
+                    activeElement.contentEditable === 'true'
+                );
+
+                if (!isInputActive) {
+                    switch(e.key) {
+                        case 'ArrowLeft':
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            navigateSlide(-1);
+                            break;
+                        case 'ArrowRight':
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            navigateSlide(1);
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            // Ir al primer slide
+                            while (currentSlideIndex > 0) {
+                                navigateSlide(-1);
+                            }
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            // Ir al último slide
+                            const slides = document.querySelectorAll('.slide');
+                            while (currentSlideIndex < slides.length - 1) {
+                                navigateSlide(1);
+                            }
+                            break;
+                    }
+                }
+            } catch (error) {
+                console.error('Error in keyboard handler:', error);
+            }
+        });
+
+        // Swipe gestures para dispositivos móviles
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimum distance for swipe
+            const diffX = touchStartX - touchEndX;
+
+            if (Math.abs(diffX) > swipeThreshold) {
+                if (diffX > 0) {
+                    // Swipe left - next slide
+                    navigateSlide(1);
+                } else {
+                    // Swipe right - previous slide
+                    navigateSlide(-1);
+                }
+            }
+        }
+
+        // Inicialización cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                console.log('🚀 Inicializando presentación Actividad 6 - Análisis de Precios...');
+
+                // Configurar slides iniciales
+                const slides = document.querySelectorAll('.slide');
+                if (slides.length > 0) {
+                    slides.forEach((slide, index) => {
+                        if (index === 0) {
+                            slide.classList.add('active');
+                            slide.style.display = 'block';
+                        } else {
+                            slide.classList.remove('active');
+                            slide.style.display = 'none';
+                        }
+                    });
+
+                    // Actualizar contador total
+                    const totalSlidesSpan = document.getElementById('totalSlides');
+                    if (totalSlidesSpan) {
+                        totalSlidesSpan.textContent = slides.length;
+                    }
+
+                    // Inicializar componentes
+                    updateSlideCounter();
+                    updateProgressBar();
+                    updateNavigationButtons();
+                    resetTabsToDefault();
+
+                    console.log(`✅ Presentación inicializada: ${slides.length} slides`);
+                } else {
+                    console.error('❌ No se encontraron slides');
+                }
+
+                // Configurar botones de copia para todos los bloques de código
+                const copyButtons = document.querySelectorAll('.copy-btn');
+                console.log(`🔧 Configurando ${copyButtons.length} botones de copia`);
+
+                copyButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        copyCode(this);
+                    });
+                });
+
+                console.log('✅ Presentación Actividad 6 - Análisis de Precios lista para usar');
+                
+                // Mostrar ayuda de teclado en consola
+                console.log('⌨️ Controles de teclado:');
+                console.log('  ← → : Navegar slides');
+                console.log('  Home/End : Primer/Último slide');
+                console.log('📱 Gestos táctiles habilitados para móviles');
+                console.log('');
+                console.log('📋 Orden correcto de ejecución:');
+                console.log('  1. Slide 1: Objetivos y Framework VDRER');
+                console.log('  2. Slide 2: Verificar datos limpios');
+                console.log('  3. Slide 3: Python (EJECUTAR PRIMERO) - Pattern Mining');
+                console.log('  4. Slide 4: Power BI (EJECUTAR SEGUNDO) - Dashboard');
+                console.log('  5. Slide 5: R (Opcional) - Validación estadística');
+                console.log('  6. Slide 6: Rúbrica - Verificar completitud');
+                
+            } catch (error) {
+                console.error('❌ Error initializing presentation:', error);
+            }
+        });
+
+        // Exponer funciones globalmente para uso en HTML
+        window.navigateSlide = navigateSlide;
+        window.showTab = showTab;
+        window.copyCode = copyCode;
+
+        // Función para debugging (opcional)
+        window.debugPresentation = function() {
+            console.log('🔍 Debug Info:');
+            console.log('Current slide:', currentSlideIndex + 1);
+            console.log('Total slides:', document.querySelectorAll('.slide').length);
+            console.log('Active tabs:', document.querySelectorAll('.tab-content.active').length);
+            console.log('Copy buttons:', document.querySelectorAll('.copy-btn').length);
+        };
+
+    </script>
+</body>
+</html>
