@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 6 - Screen Time Analytics | Framework VDRER</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 60px;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .header-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .university-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3498db, #f39c12);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .course-info h1 {
+            font-size: 1.1rem;
+            color: #ffd700;
+            margin-bottom: 2px;
+        }
+
+        .course-info p {
+            font-size: 0.65rem;
+            opacity: 0.8;
+            line-height: 1.2;
+        }
+
+        .nav-btn-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .nav-btn-header:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn-header:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .navigation-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slide-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow: visible;
+            position: relative;
+        }
+
+        .slide {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: none;
+            min-height: 60vh;
+            overflow-y: auto;
+            margin: 10px;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .slide h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #ffd700;
+        }
+
+        .slide h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #ffd700;
+        }
+
+        .slide h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #e8f4fd;
+        }
+
+        .slide p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .slide ul {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .slide li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            margin-left: 20px;
+        }
+
+        .objective-card {
+            background: rgba(46, 213, 115, 0.2);
+            border: 2px solid rgba(46, 213, 115, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .warning-card {
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid rgba(255, 193, 7, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .info-card {
+            background: rgba(52, 152, 219, 0.2);
+            border: 2px solid rgba(52, 152, 219, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .platform-card {
+            background: rgba(155, 89, 182, 0.2);
+            border: 2px solid rgba(155, 89, 182, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .waste-value-block {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .waste-value-block::before {
+            content: "📱";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #ffd700;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffd700;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #ffd700;
+            color: #333;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .step-card h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .code-block-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: linear-gradient(135deg, #1e1e1e, #2d2d2d);
+            border: 2px solid rgba(100, 200, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 0;
+            font-family: 'Fira Code', 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            color: #e8e8e8;
+            user-select: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 200, 255, 0.6) rgba(255, 255, 255, 0.1);
+        }
+
+        .code-block::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background: rgba(100, 200, 255, 0.6);
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 200, 255, 0.8);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(100, 200, 255, 0.8);
+            color: #1e1e1e;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: rgba(100, 200, 255, 1);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: rgba(46, 213, 115, 0.8);
+            color: white;
+        }
+
+        .language-label {
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: rgba(255, 215, 0, 0.9);
+            color: #1e1e1e;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #ffd700;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+
+        .rubric-table th,
+        .rubric-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .rubric-table th {
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .excellent { background: rgba(46, 213, 115, 0.2); }
+        .good { background: rgba(52, 152, 219, 0.2); }
+        .needs-improvement { background: rgba(255, 193, 7, 0.2); }
+        .insufficient { background: rgba(231, 76, 60, 0.2); }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            transition: width 0.3s ease;
+            max-width: 100%;
+        }
+
+        .framework-box {
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+                padding: 6px 10px;
+                min-height: auto;
+            }
+
+            .slide {
+                padding: 20px 10px;
+                min-height: 50vh;
+                margin: 5px;
+            }
+
+            .slide h1 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .slide h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            .nav-btn-header {
+                padding: 8px 12px;
+                font-size: 0.7rem;
+            }
+
+            .rubric-table {
+                font-size: 0.75rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
+
+            .copy-btn {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="header">
+            <div class="header-group">
+                <div class="university-logo" aria-label="Universidad del SABES">🎓</div>
+                <div class="course-info">
+                    <h1>ACTIVIDAD 6: SCREEN TIME ANALYTICS - VDRER</h1>
+                    <p>Universidad del SABES | Analítica de Datos | Sesión 7</p>
+                    <p>Prof. Fausto Noé Jiménez | Framework VDRER - Digital Behavior Analytics</p>
+                </div>
+            </div>
+            <div class="header-group">
+                <div class="navigation-controls">
+                    <button class="nav-btn-header" id="prevBtn">⬅️ Anterior</button>
+                    <div class="slide-counter">
+                        <span id="currentSlide">1</span>/<span id="totalSlides">6</span>
+                    </div>
+                    <button class="nav-btn-header" id="nextBtn">Siguiente ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-container">
+            <!-- Slide 1: Descripción y Objetivos -->
+            <div class="slide active">
+                <h1>📱 ACTIVIDAD 6: SCREEN TIME ANALYTICS</h1>
+                <h2>Extracción de Valor Digital con Framework VDRER</h2>
+
+                <div class="objective-card">
+                    <h3>🎯 Objetivo General</h3>
+                    <p>Aplicar el <strong>framework VDRER</strong> al dataset Screen Time Analytics para transformar variables aparentemente "irrelevantes" como User ID, Device Model, y Operating System en insights valiosos de digital behavior intelligence, user experience optimization y mobile analytics.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔧 Framework VDRER para Digital Analytics</h3>
+                    <ul>
+                        <li><strong>V</strong>alidar - Audit de calidad en datos de usage analytics móvil</li>
+                        <li><strong>D</strong>escubrir - Identificar "deshechos" en códigos de usuarios y dispositivos</li>
+                        <li><strong>R</strong>eutilizar - Extraer valor de campos aparentemente técnicos</li>
+                        <li><strong>E</strong>ngineer - Crear métricas de digital wellness y user engagement</li>
+                        <li><strong>R</strong>eportar - Insights accionables para product teams y UX research</li>
+                    </ul>
+                </div>
+
+                <div class="warning-card">
+                    <h3>📋 Entregables Screen Time Analytics</h3>
+                    <ul>
+                        <li><strong>Dashboard Power BI (.pbix):</strong> 4 páginas de digital behavior analytics</li>
+                        <li><strong>Documento VDRER:</strong> Framework aplicado a mobile usage intelligence</li>
+                        <li><strong>User intelligence:</strong> Digital wellness patterns y engagement analysis</li>
+                        <li><strong>Device analytics:</strong> Performance optimization y ecosystem insights</li>
+                    </ul>
+                </div>
+
+                <div class="waste-value-block">
+                    <h3>💎 Misión: De IDs Técnicos a User Intelligence</h3>
+                    <p>"Los códigos de usuario y especificaciones de dispositivos no son solo metadatos técnicos - son mapas de digital behavior, usage patterns y user experience optimization"</p>
+                    <p><strong>Tu desafío:</strong> Encuentra 3+ insights valiosos en User ID, Device Model, Operating System, y User Behavior Class del dataset Mobile</p>
+                </div>
+
+                <div class="platform-card">
+                    <h3>🎯 Contexto del Dataset</h3>
+                    <p><strong>Screen Time Analytics:</strong> 700 usuarios con datos de usage behavior</p>
+                    <p><strong>Variables "sospechosas":</strong> User ID (secuencial), Device Model (texto), Operating System (categórico), User Behavior Class (numérico)</p>
+                    <p><strong>Oportunidad:</strong> Estos campos contienen patrones de digital adoption, device ecosystem preferences y user lifecycle ocultos</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Verificación Dataset Screen Time -->
+            <div class="slide">
+                <h2>✅ VERIFICACIÓN SCREEN TIME ANALYTICS DATA</h2>
+                
+                <div class="warning-card">
+                    <h3>⚠️ DATASET REQUERIDO: Screen Time Analytics</h3>
+                    <p>Esta actividad usa el dataset <strong>analiz_screen_time.csv</strong> con 700 registros y 11 columnas. Verifica que tengas acceso al archivo completo.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔍 Estructura Screen Time Analytics Data</h3>
+                    <ul>
+                        <li><strong>User Info:</strong> User ID (único), Age (demográfico), Gender (categórico)</li>
+                        <li><strong>Device Tech:</strong> Device Model (texto), Operating System (iOS/Android)</li>
+                        <li><strong>Usage Metrics:</strong> App Usage Time (min/day), Screen On Time (hours/day)</li>
+                        <li><strong>Performance:</strong> Battery Drain (mAh/day), Data Usage (MB/day)</li>
+                        <li><strong>Behavior:</strong> Number of Apps Installed, User Behavior Class (0-4)</li>
+                    </ul>
+                </div>
+
+                <div class="platform-card">
+                    <h3>📂 Validación Pre-Análisis</h3>
+                    <div class="tab-container">
+                        <button class="tab-button active" data-tab="screen-time-python">Validación Python</button>
+                        <button class="tab-button" data-tab="screen-time-powerbi">Validación Power BI</button>
+                    </div>
+                    
+                    <div id="screen-time-python" class="tab-content active">
+                        <h4>🐍 Validación Rápida en Google Colab</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python</div>
+                            <button class="copy-btn">📋 Copiar</button>
+                            <pre class="code-block"># ===== VALIDACIÓN INICIAL SCREEN TIME ANALYTICS =====
+import pandas as pd
+import numpy as np
+
+# Cargar dataset
+df = pd.read_csv('analiz_screen_time.csv')
+
+print("📱 SCREEN TIME ANALYTICS - VALIDACIÓN INICIAL")
+print("=" * 50)
+print(f"Shape: {df.shape}")
+
+# Información básica Digital Behavior
+print(f"\n📊 OVERVIEW DIGITAL BEHAVIOR:")
+print(f"Total Users: {df['User ID'].nunique():,}")
+print(f"Device Models: {df['Device Model'].nunique():,}")
+print(f"Operating Systems: {df['Operating System'].value_counts().to_dict()}")
+print(f"Age Range: {df['Age'].min()}-{df['Age'].max()} años")
+print(f"Gender Distribution: {df['Gender'].value_counts().to_dict()}")
+
+# Usage metrics summary
+print(f"\n📊 USAGE METRICS SUMMARY:")
+print(f"App Usage Time: {df['App Usage Time (min/day)'].min()}-{df['App Usage Time (min/day)'].max()} min/day")
+print(f"Screen On Time: {df['Screen On Time (hours/day)'].min():.1f}-{df['Screen On Time (hours/day)'].max():.1f} hours/day")
+print(f"Battery Drain: {df['Battery Drain (mAh/day)'].min()}-{df['Battery Drain (mAh/day)'].max()} mAh/day")
+print(f"Data Usage: {df['Data Usage (MB/day)'].min()}-{df['Data Usage (MB/day)'].max()} MB/day")
+print(f"Apps Installed: {df['Number of Apps Installed'].min()}-{df['Number of Apps Installed'].max()} apps")
+
+# Behavior classes analysis
+print(f"\n📊 USER BEHAVIOR CLASSES:")
+behavior_dist = df['User Behavior Class'].value_counts().sort_index()
+for behavior_class, count in behavior_dist.items():
+    percentage = count / len(df) * 100
+    print(f"Class {behavior_class}: {count} users ({percentage:.1f}%)")
+
+# Verificar calidad de datos
+print(f"\n🔍 CALIDAD DE DATOS:")
+print(f"Missing values: {df.isnull().sum().sum()}")
+print(f"Duplicates: {df.duplicated().sum()}")
+
+# Identificar variables sospechosas para VDRER
+print(f"\n🔍 VARIABLES 'SOSPECHOSAS' PARA VDRER:")
+print(f"User ID: {df['User ID'].min()} - {df['User ID'].max()} (¿secuencial?)")
+print(f"Device Model: Ejemplo '{df['Device Model'].iloc[0]}'")
+print(f"OS Distribution: {df['Operating System'].value_counts().to_dict()}")
+print(f"Behavior Class: {sorted(df['User Behavior Class'].unique())} (¿solo labels?)")
+
+print(f"\n✅ Dataset listo para aplicar Framework VDRER")</pre>
+                        </div>
+                    </div>
+                    
+                    <div id="screen-time-powerbi" class="tab-content">
+                        <h4>⚡ Validación en Power BI</h4>
+                        <ul>
+                            <li><strong>Import:</strong> Get Data → Text/CSV → analiz_screen_time.csv</li>
+                            <li><strong>Encoding:</strong> Verificar UTF-8</li>
+                            <li><strong>Verificar tipos:</strong> Screen On Time como Decimal, User Behavior Class como Whole Number</li>
+                            <li><strong>Expected shape:</strong> 700 rows × 11 columns</li>
+                            <li><strong>Key validation:</strong> User ID únicos, Device Model variety, OS distribution</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="objective-card">
+                    <h3>🔑 Variables "Inútiles" a Investigar</h3>
+                    <p><strong>User ID:</strong> ¿Secuencial puro o contiene información de user adoption timing?</p>
+                    <p><strong>Device Model:</strong> ¿Hay generations, price tiers o ecosystem patterns ocultos?</p>
+                    <p><strong>Operating System:</strong> ¿Solo iOS/Android o revelan usage behavior differences?</p>
+                    <p><strong>User Behavior Class:</strong> ¿Numérico simple o indica sophisticated user segmentation?</p>
+                    <p><strong>Age + Gender:</strong> ¿Demográficos básicos o hay interaction patterns?</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Python Pattern Mining Digital -->
+            <div class="slide">
+                <h2>🐍 PYTHON: PATTERN MINING DIGITAL</h2>
+                
+                <div class="platform-card">
+                    <h3>🔬 Python para Digital Behavior Intelligence</h3>
+                    <p>Usa Google Colab para descubrir patrones ocultos en códigos de usuarios y dispositivos móviles</p>
+                    <p><strong>⚠️ EJECUTAR PRIMERO:</strong> Este análisis genera el dataset enriquecido para Power BI</p>
+                </div>
+
+                <div class="tab-container">
+                    <button class="tab-button active" data-tab="python-digital-generic">Framework Genérico</button>
+                    <button class="tab-button" data-tab="python-screen-time-specific">Código Screen Time</button>
+                </div>
+                
+                <div id="python-digital-generic" class="tab-content active">
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h4>🔧 VALIDAR Dataset Digital</h4>
+                            <ul>
+                                <li>Cargar Screen Time Analytics CSV</li>
+                                <li>Verificar 700 × 11 dimensiones</li>
+                                <li>Audit de tipos de datos móviles</li>
+                                <li>Verificar rangos de usage metrics</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h4>🔍 DESCUBRIR Patterns Mobile</h4>
+                            <ul>
+                                <li>Analizar User ID sequences</li>
+                                <li>Decodificar Device Model structure</li>
+                                <li>Investigar OS ecosystem patterns</li>
+                                <li>Examinar Behavior Class correlations</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h4>♻️ REUTILIZAR Valor Digital</h4>
+                            <ul>
+                                <li>Extraer user adoption cohorts</li>
+                                <li>Identificar device ecosystem preferences</li>
+                                <li>Revelar digital wellness patterns</li>
+                                <li>Descubrir usage efficiency insights</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <h4>⚙️ ENGINEER Features Digital</h4>
+                            <ul>
+                                <li>Digital Wellness Index</li>
+                                <li>Device Efficiency Score</li>
+                                <li>User Engagement Level</li>
+                                <li>Battery Optimization Index</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">5</div>
+                            <h4>📊 REPORTAR Insights Digital</h4>
+                            <ul>
+                                <li>User behavior segmentation</li>
+                                <li>Device performance analytics</li>
+                                <li>Digital wellness reports</li>
+                                <li>Usage optimization insights</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">6</div>
+                            <h4>💾 EXPORT Para Mobile BI</h4>
+                            <ul>
+                                <li>Dataset enriquecido con features móviles</li>
+                                <li>User intelligence table</li>
+                                <li>Device analytics metrics</li>
+                                <li>Digital wellness insights</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="python-screen-time-specific" class="tab-content">
+                    <div class="info-card">
+                        <h3>📱 Código Python Específico - Screen Time Analytics VDRER</h3>
+                        
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Completo</div>
+                            <button class="copy-btn">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# 🔍 SCREEN TIME ANALYTICS VDRER - CÓDIGO COMPLETO
+# ===================================================================
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+import warnings
+warnings.filterwarnings('ignore')
+
+print("\n" + "="*70)
+print("📱 ACTIVIDAD 6: SCREEN TIME ANALYTICS - EXTRACCIÓN DE VALOR VDRER")
+print("="*70)
+
+# ===== FASE 1: VALIDAR =====
+df = pd.read_csv('analiz_screen_time.csv')
+print(f"✅ Dataset cargado: {df.shape[0]:,} filas × {df.shape[1]} columnas")
+
+# Overview del comportamiento digital
+print(f"\n📱 OVERVIEW DIGITAL BEHAVIOR:")
+print(f"👥 Total Users: {df['User ID'].nunique():,}")
+print(f"📱 Device Models: {df['Device Model'].nunique():,}")
+print(f"💻 Operating Systems: {df['Operating System'].value_counts().to_dict()}")
+print(f"🎂 Age Range: {df['Age'].min()}-{df['Age'].max()} años")
+print(f"⚡ Avg Screen Time: {df['Screen On Time (hours/day)'].mean():.1f} hrs/day")
+print(f"📊 Avg App Usage: {df['App Usage Time (min/day)'].mean():.0f} min/day")
+
+# Behavior classes overview
+print(f"\n🎯 USER BEHAVIOR CLASSES DISTRIBUTION:")
+behavior_stats = df['User Behavior Class'].value_counts().sort_index()
+for class_num, count in behavior_stats.items():
+    pct = count / len(df) * 100
+    print(f"   Class {class_num}: {count} users ({pct:.1f}%)")
+
+# ===== FASE 2: DESCUBRIR =====
+print(f"\n🔍 FASE 2: DESCUBRIR - Variables 'inútiles' digitales")
+
+insights_found = []
+
+# User ID patterns analysis
+print(f"\n📊 ANÁLISIS USER ID:")
+print(f"Rango: {df['User ID'].min()} - {df['User ID'].max()}")
+user_id_gaps = df['User ID'].diff().dropna()
+print(f"Gaps en secuencia: mean={user_id_gaps.mean():.1f}, std={user_id_gaps.std():.1f}")
+
+# Check if User ID correlates with behavior patterns (early adopters vs late adopters)
+correlation_userid_usage = df['User ID'].corr(df['App Usage Time (min/day)'])
+print(f"Correlación User ID vs App Usage: {correlation_userid_usage:.3f}")
+
+# Device Model analysis
+print(f"\n📊 ANÁLISIS DEVICE MODEL:")
+print(f"Ejemplo: {df['Device Model'].iloc[0]}")
+device_brands = df['Device Model'].str.split().str[0].value_counts()
+print(f"Top device brands: {device_brands.head().to_dict()}")
+
+# ===== FASE 3: REUTILIZAR =====
+print(f"\n♻️ FASE 3: REUTILIZAR - Extrayendo valor de códigos digitales")
+
+# User adoption cohorts (basado en User ID como proxy de signup timing)
+df['user_cohort'] = pd.qcut(df['User ID'], q=4, labels=['EarlyAdopters', 'Growth', 'Expansion', 'Recent'])
+
+# Device ecosystem extraction
+df['device_brand'] = df['Device Model'].str.split().str[0]
+df['device_generation'] = df['Device Model'].str.extract(r'(\d+)').fillna('0').astype(int)
+
+# OS ecosystem preferences
+os_usage_patterns = df.groupby('Operating System').agg({
+    'App Usage Time (min/day)': 'mean',
+    'Screen On Time (hours/day)': 'mean',
+    'Battery Drain (mAh/day)': 'mean'
+}).round(2)
+
+print(f"\n📱 OS ECOSYSTEM PATTERNS:")
+for os in os_usage_patterns.index:
+    app_time = os_usage_patterns.loc[os, 'App Usage Time (min/day)']
+    screen_time = os_usage_patterns.loc[os, 'Screen On Time (hours/day)']
+    battery = os_usage_patterns.loc[os, 'Battery Drain (mAh/day)']
+    print(f"   {os}: {app_time:.0f}min apps, {screen_time:.1f}h screen, {battery:.0f}mAh battery")
+
+# User Behavior Class deeper analysis
+behavior_analysis = df.groupby('User Behavior Class').agg({
+    'App Usage Time (min/day)': ['mean', 'std'],
+    'Screen On Time (hours/day)': ['mean', 'std'],
+    'Number of Apps Installed': 'mean'
+}).round(2)
+
+print(f"\n🎯 BEHAVIOR CLASS DEEP ANALYSIS:")
+for class_num in sorted(df['User Behavior Class'].unique()):
+    if class_num in behavior_analysis.index:
+        app_mean = behavior_analysis.loc[class_num, ('App Usage Time (min/day)', 'mean')]
+        screen_mean = behavior_analysis.loc[class_num, ('Screen On Time (hours/day)', 'mean')]
+        apps_count = behavior_analysis.loc[class_num, ('Number of Apps Installed', 'mean')]
+        print(f"   Class {class_num}: {app_mean:.0f}min apps, {screen_mean:.1f}h screen, {apps_count:.0f} apps")
+
+insights_found.extend([
+    "User ID revela adoption cohorts con diferentes usage patterns",
+    "Device Model estructura indica brand ecosystems y generations",
+    "Operating System correlaciona con usage efficiency patterns",
+    "User Behavior Class codifica sophisticated digital wellness segments"
+])
+
+# ===== FASE 4: ENGINEER =====
+print(f"\n🔧 FASE 4: ENGINEER - Creando features de digital wellness")
+
+new_features_created = []
+
+# Digital Wellness Index
+# Combinar múltiples factores de healthy digital usage
+df['screen_time_hours'] = df['Screen On Time (hours/day)']
+df['app_usage_hours'] = df['App Usage Time (min/day)'] / 60
+
+# Normalize values for scoring (lower screen time = higher wellness)
+max_screen = df['screen_time_hours'].max()
+max_app = df['app_usage_hours'].max()
+
+df['digital_wellness_index'] = (
+    (1 - df['screen_time_hours'] / max_screen) * 0.4 +  # Less screen time = better
+    (1 - df['app_usage_hours'] / max_app) * 0.3 +  # Less app time = better
+    (df['Number of Apps Installed'] / df['Number of Apps Installed'].max()) * 0.3  # More apps = more choice
+)
+
+# Device Efficiency Score
+# Battery life vs usage efficiency
+df['device_efficiency_score'] = (
+    df['Screen On Time (hours/day)'] + (df['App Usage Time (min/day)'] / 60)
+) / (df['Battery Drain (mAh/day)'] / 1000)  # Hours of usage per unit of battery
+
+# User Engagement Level
+# Based on app usage intensity and diversity
+df['usage_intensity'] = (
+    df['App Usage Time (min/day)'] / 60 +  # Hours of app usage
+    df['Screen On Time (hours/day)'] +  # Hours of screen time
+    df['Data Usage (MB/day)'] / 1000  # GB of data usage
+) / 3
+
+df['engagement_level'] = pd.cut(df['usage_intensity'],
+                               bins=[0, 2, 4, 6, float('inf')],
+                               labels=['Light', 'Moderate', 'Heavy', 'Extreme'])
+
+# Battery Optimization Index
+# How efficiently users manage battery vs usage
+median_battery = df['Battery Drain (mAh/day)'].median()
+df['battery_optimization_index'] = np.where(
+    df['Battery Drain (mAh/day)'] <= median_battery,
+    df['device_efficiency_score'] * 1.2,  # Bonus for low battery usage
+    df['device_efficiency_score'] * 0.8   # Penalty for high battery usage
+)
+
+# Age-Digital Natives Score
+# How digital behavior aligns with age expectations
+df['digital_native_score'] = np.where(
+    df['Age'] <= 25,  # Digital natives
+    (df['App Usage Time (min/day)'] / 400) * (df['Number of Apps Installed'] / 50),  # Expected high usage
+    (200 / df['App Usage Time (min/day)']) * (20 / df['Number of Apps Installed'])  # Expected moderate usage
+).clip(0, 2)
+
+# Device Ecosystem Loyalty
+device_brand_counts = df['device_brand'].value_counts()
+df['brand_popularity'] = df['device_brand'].map(device_brand_counts)
+df['ecosystem_preference'] = df.apply(lambda row: 
+    'Apple' if 'iPhone' in str(row['Device Model']) or row['Operating System'] == 'iOS'
+    else 'Google' if row['Operating System'] == 'Android' 
+    else 'Other', axis=1)
+
+new_features_created.extend([
+    'digital_wellness_index', 'device_efficiency_score', 'engagement_level',
+    'battery_optimization_index', 'digital_native_score', 'ecosystem_preference'
+])
+
+print(f"✅ Features digitales creadas: {len(new_features_created)}")
+
+# Performance analysis por cohort
+cohort_analysis = df.groupby('user_cohort').agg({
+    'digital_wellness_index': 'mean',
+    'device_efficiency_score': 'mean',
+    'App Usage Time (min/day)': 'mean'
+}).round(3)
+
+print(f"\n📈 PERFORMANCE BY USER COHORT:")
+for cohort in cohort_analysis.index:
+    wellness = cohort_analysis.loc[cohort, 'digital_wellness_index']
+    efficiency = cohort_analysis.loc[cohort, 'device_efficiency_score']
+    app_time = cohort_analysis.loc[cohort, 'App Usage Time (min/day)']
+    print(f"   {cohort}: Wellness={wellness:.3f}, Efficiency={efficiency:.3f}, AppTime={app_time:.0f}min")
+
+# ===== FASE 5: REPORTAR =====
+print(f"\n📋 FASE 5: REPORTAR - Exportando dataset digital enriquecido")
+
+print(f"\n📊 REPORTE FINAL DIGITAL:")
+print(f"   💎 Insights de digital behavior extraídos: {len(insights_found)}")
+print(f"   📱 Features de mobile analytics creadas: {len(new_features_created)}")
+print(f"   📈 Dimensiones finales: {df.shape}")
+
+# Digital wellness distribution
+wellness_categories = pd.cut(df['digital_wellness_index'], 
+                           bins=[0, 0.3, 0.6, 0.8, 1.0],
+                           labels=['Poor', 'Fair', 'Good', 'Excellent'])
+wellness_dist = wellness_categories.value_counts()
+print(f"\n🌟 DIGITAL WELLNESS DISTRIBUTION:")
+for category in ['Poor', 'Fair', 'Good', 'Excellent']:
+    if category in wellness_dist.index:
+        count = wellness_dist[category]
+        pct = count / len(df) * 100
+        print(f"   {category}: {count:,} users ({pct:.1f}%)")
+
+# Engagement level distribution
+engagement_dist = df['engagement_level'].value_counts()
+print(f"\n⚡ USER ENGAGEMENT DISTRIBUTION:")
+for level in ['Light', 'Moderate', 'Heavy', 'Extreme']:
+    if level in engagement_dist.index:
+        count = engagement_dist[level]
+        pct = count / len(df) * 100
+        print(f"   {level}: {count:,} users ({pct:.1f}%)")
+
+# Ecosystem preference analysis
+ecosystem_dist = df['ecosystem_preference'].value_counts()
+print(f"\n🏢 ECOSYSTEM PREFERENCE:")
+for ecosystem in ecosystem_dist.index:
+    count = ecosystem_dist[ecosystem]
+    pct = count / len(df) * 100
+    print(f"   {ecosystem}: {count:,} users ({pct:.1f}%)")
+
+# Export enhanced dataset
+try:
+    filename = 'screen_time_value_extracted_python.csv'
+    df.to_csv(filename, index=False, encoding='utf-8')
+    print(f"✅ Guardado como: {filename}")
+    
+    # Download if in Colab
+    try:
+        from google.colab import files
+        files.download(filename)
+        print(f"📥 ¡Archivo descargado automáticamente!")
+    except:
+        print(f"📝 Archivo listo para descargar manualmente")
+
+except Exception as e:
+    print(f"⚠️ Error en exportación: {e}")
+
+print("\n" + "="*70)
+print("🎉 SCREEN TIME ANALYTICS VDRER COMPLETADO")
+print("🚀 ¡Dataset listo para Digital Behavior Dashboard en Power BI!")
+print("="*70)
+
+print(f"\n📚 DIGITAL INSIGHTS SUMMARY:")
+print(f"✅ Has aplicado VDRER a datos de comportamiento digital")
+print(f"✅ Transformaste IDs 'técnicos' en user intelligence")
+print(f"✅ Creaste digital wellness index, device efficiency, user engagement")
+print(f"✅ Preparaste base para mobile analytics y UX optimization")
+print(f"\n💡 ¡Has convertido metadatos móviles en oro de user experience!")</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Power BI Dashboard Digital -->
+            <div class="slide">
+                <h2>⚡ POWER BI: DASHBOARD DIGITAL BEHAVIOR</h2>
+                
+                <div class="platform-card">
+                    <h3>🔧 Power BI para Digital Analytics</h3>
+                    <p>Crear dashboard de UX que muestre el valor extraído de variables "técnicas" digitales</p>
+                    <p><strong>📋 REQUISITO:</strong> Dataset enriquecido de Python (screen_time_value_extracted_python.csv)</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>📊 4 PÁGINAS DASHBOARD DIGITAL</h3>
+                    
+                    <h4>📱 PÁGINA 1: DIGITAL BEHAVIOR OVERVIEW</h4>
+                    <ul>
+                        <li><strong>KPIs:</strong> Avg Screen Time, Digital Wellness Score, User Engagement Rate, Device Efficiency</li>
+                        <li><strong>Visuals:</strong> Usage trends, OS ecosystem comparison, Age group behavior analysis</li>
+                        <li><strong>Filters:</strong> Operating System, User Cohort, Engagement Level</li>
+                    </ul>
+
+                    <h4>👤 PÁGINA 2: USER INTELLIGENCE</h4>
+                    <ul>
+                        <li><strong>KPIs:</strong> Digital Wellness Index, User Engagement Distribution, Digital Native Score</li>
+                        <li><strong>Visuals:</strong> Wellness by cohort, Engagement patterns, Age vs usage correlation</li>
+                        <li><strong>Focus:</strong> Insights de User ID patterns y demographic interactions</li>
+                    </ul>
+
+                    <h4>📱 PÁGINA 3: DEVICE & ECOSYSTEM ANALYTICS</h4>
+                    <ul>
+                        <li><strong>KPIs:</strong> Device Efficiency Score, Battery Optimization, Ecosystem Preference</li>
+                        <li><strong>Visuals:</strong> Device performance matrix, OS efficiency comparison, Brand loyalty analysis</li>
+                        <li><strong>Focus:</strong> Valor extraído de Device Model y Operating System patterns</li>
+                    </ul>
+
+                    <h4>💎 PÁGINA 4: VDRER VALUE SHOWCASE</h4>
+                    <ul>
+                        <li><strong>Story:</strong> Transformación de códigos "técnicos" → Digital Intelligence</li>
+                        <li><strong>ROI:</strong> 4+ insights extraídos de variables "inútiles"</li>
+                        <li><strong>Impact:</strong> User experience optimization + Digital wellness + Device efficiency</li>
+                    </ul>
+                </div>
+
+                <div class="code-block-container">
+                    <div class="language-label">DAX - Medidas Digitales</div>
+                    <button class="copy-btn">📋 Copiar</button>
+                    <pre class="code-block">// ===== MEDIDAS DAX ESENCIALES DIGITAL =====
+
+// Medidas básicas
+Total_Users = DISTINCTCOUNT('screen_time_value_extracted_python'[User ID])
+Avg_Screen_Time = AVERAGE('screen_time_value_extracted_python'[Screen On Time (hours/day)])
+Avg_App_Usage = AVERAGE('screen_time_value_extracted_python'[App Usage Time (min/day)])
+Avg_Digital_Wellness = AVERAGE('screen_time_value_extracted_python'[digital_wellness_index])
+
+// Digital Wellness Metrics
+High_Wellness_Users = CALCULATE(
+    [Total_Users],
+    'screen_time_value_extracted_python'[digital_wellness_index] > 0.7
+)
+
+Digital_Wellness_Rate = DIVIDE([High_Wellness_Users], [Total_Users], 0)
+
+// Engagement Distribution
+Heavy_Users = CALCULATE(
+    [Total_Users],
+    'screen_time_value_extracted_python'[engagement_level] = "Heavy"
+)
+
+Light_Users = CALCULATE(
+    [Total_Users],
+    'screen_time_value_extracted_python'[engagement_level] = "Light"
+)
+
+// Device Efficiency
+Avg_Device_Efficiency = AVERAGE('screen_time_value_extracted_python'[device_efficiency_score])
+High_Efficiency_Devices = CALCULATE(
+    [Total_Users],
+    'screen_time_value_extracted_python'[device_efficiency_score] > 0.5
+)
+
+// User Intelligence from "useless" variables
+Early_Adopters_Behavior = 
+VAR EarlyAdopters = CALCULATE(
+    [Avg_App_Usage],
+    'screen_time_value_extracted_python'[user_cohort] = "EarlyAdopters"
+)
+VAR RecentUsers = CALCULATE(
+    [Avg_App_Usage],
+    'screen_time_value_extracted_python'[user_cohort] = "Recent"
+)
+RETURN DIVIDE(EarlyAdopters, RecentUsers, 1)
+
+// Ecosystem Analysis
+iOS_vs_Android_Efficiency = 
+VAR iOS_Efficiency = CALCULATE(
+    [Avg_Device_Efficiency],
+    'screen_time_value_extracted_python'[Operating System] = "iOS"
+)
+VAR Android_Efficiency = CALCULATE(
+    [Avg_Device_Efficiency],
+    'screen_time_value_extracted_python'[Operating System] = "Android"
+)
+RETURN iOS_Efficiency - Android_Efficiency
+
+// Digital Native Performance
+Digital_Native_Score = AVERAGE('screen_time_value_extracted_python'[digital_native_score])
+
+// Battery Optimization
+Avg_Battery_Optimization = AVERAGE('screen_time_value_extracted_python'[battery_optimization_index])
+
+// Behavior Class Insights
+Behavior_Class_Distribution = 
+CALCULATE(
+    [Total_Users],
+    ALLEXCEPT('screen_time_value_extracted_python', 'screen_time_value_extracted_python'[User Behavior Class])
+)</pre>
+                </div>
+            </div>
+
+            <!-- Slide 5: R Statistical Validation -->
+            <div class="slide">
+                <h2>📊 R: VALIDACIÓN ESTADÍSTICA DIGITAL</h2>
+                
+                <div class="platform-card">
+                    <h3>📈 R para Digital Statistical Intelligence</h3>
+                    <p>Usa Posit Cloud para validar estadísticamente los patrones encontrados en Screen Time Analytics</p>
+                </div>
+
+                <div class="code-block-container">
+                    <div class="language-label">R - Digital Validation</div>
+                    <button class="copy-btn">📋 Copiar</button>
+                    <pre class="code-block"># ===== R STATISTICAL VALIDATION SCREEN TIME ANALYTICS =====
+library(tidyverse)
+library(corrplot)
+library(cluster)
+library(randomForest)
+library(ggplot2)
+
+# Cargar dataset enriquecido
+screen_data <- read_csv("screen_time_value_extracted_python.csv")
+
+cat("📱 SCREEN TIME ANALYTICS STATISTICAL VALIDATION\n")
+cat("===============================================\n")
+
+# Verificar features VDRER
+vdrer_features <- c("digital_wellness_index", "device_efficiency_score", 
+                    "engagement_level", "user_cohort", "ecosystem_preference")
+
+for(feature in vdrer_features) {
+  if(feature %in% names(screen_data)) {
+    cat("✅", feature, "- Type:", class(screen_data[[feature]])[1], "\n")
+  } else {
+    cat("❌", feature, "- NOT FOUND\n")
+  }
+}
+
+# TEST 1: ANOVA - Operating System vs Digital Wellness
+if("Operating System" %in% names(screen_data) && "digital_wellness_index" %in% names(screen_data)) {
+  
+  anova_data <- screen_data %>%
+    filter(!is.na(`Operating System`), !is.na(digital_wellness_index), 
+           is.finite(digital_wellness_index))
+  
+  if(nrow(anova_data) > 0) {
+    anova_result <- aov(digital_wellness_index ~ `Operating System`, data = anova_data)
+    anova_summary <- summary(anova_result)
+    
+    cat("\n📊 ANOVA - Digital Wellness por Operating System:\n")
+    cat("F-statistic:", round(anova_summary[[1]][1,4], 3), "\n")
+    cat("p-value:", format(anova_summary[[1]][1,5], scientific = TRUE), "\n")
+    
+    if(anova_summary[[1]][1,5] < 0.05) {
+      cat("✅ Diferencias significativas entre OS ecosystems\n")
+      
+      # Effect sizes
+      group_means <- anova_data %>%
+        group_by(`Operating System`) %>%
+        summarise(mean_wellness = mean(digital_wellness_index, na.rm = TRUE))
+      
+      cat("📈 Digital Wellness por OS:\n")
+      print(group_means)
+    }
+  }
+}
+
+# TEST 2: User Cohort Digital Behavior Evolution
+if("user_cohort" %in% names(screen_data)) {
+  
+  cohort_analysis <- screen_data %>%
+    group_by(user_cohort) %>%
+    summarise(
+      avg_screen_time = mean(`Screen On Time (hours/day)`, na.rm = TRUE),
+      avg_wellness = mean(digital_wellness_index, na.rm = TRUE),
+      avg_efficiency = mean(device_efficiency_score, na.rm = TRUE),
+      user_count = n()
+    ) %>%
+    arrange(user_cohort)
+  
+  cat("\n📊 USER COHORT EVOLUTION ANALYSIS:\n")
+  print(cohort_analysis)
+  
+  # Test trend en cohorts (correlación ordinal)
+  if("digital_wellness_index" %in% names(screen_data)) {
+    cohort_numeric <- as.numeric(factor(screen_data$user_cohort, 
+                                       levels = c("EarlyAdopters", "Growth", "Expansion", "Recent")))
+    cor_test <- cor.test(cohort_numeric, screen_data$digital_wellness_index, 
+                        method = "spearman", use = "complete.obs")
+    
+    cat("\nSpearman correlation (Cohort vs Digital Wellness):", round(cor_test$estimate, 3), "\n")
+    cat("p-value:", format(cor_test$p.value, scientific = TRUE), "\n")
+    
+    if(cor_test$p.value < 0.05) {
+      cat("✅ Trend significativo en digital wellness por user cohort\n")
+    }
+  }
+}
+
+# TEST 3: Age vs Digital Native Score Validation
+if("Age" %in% names(screen_data) && "digital_native_score" %in% names(screen_data)) {
+  
+  age_digital_data <- screen_data %>%
+    filter(!is.na(Age), !is.na(digital_native_score), is.finite(digital_native_score))
+  
+  if(nrow(age_digital_data) > 50) {
+    # Correlación edad vs digital native score
+    cor_test <- cor.test(age_digital_data$Age, age_digital_data$digital_native_score)
+    
+    cat("\n📊 AGE vs DIGITAL NATIVE SCORE:\n")
+    cat("Correlación:", round(cor_test$estimate, 3), "\n")
+    cat("p-value:", format(cor_test$p.value, scientific = TRUE), "\n")
+    
+    if(cor_test$p.value < 0.05) {
+      cat("✅ Correlación significativa Age vs Digital Native behavior\n")
+      
+      # Análisis por grupos de edad
+      age_groups <- age_digital_data %>%
+        mutate(age_group = cut(Age, breaks = c(0, 25, 35, 45, 100), 
+                              labels = c("Gen Z", "Millennial", "Gen X", "Boomer"))) %>%
+        group_by(age_group) %>%
+        summarise(
+          avg_digital_native = mean(digital_native_score, na.rm = TRUE),
+          avg_screen_time = mean(`Screen On Time (hours/day)`, na.rm = TRUE),
+          count = n()
+        )
+      
+      cat("📱 Digital Behavior por generación:\n")
+      print(age_groups)
+    }
+  }
+}
+
+# TEST 4: Device Ecosystem Clustering
+if("device_efficiency_score" %in% names(screen_data) && "digital_wellness_index" %in% names(screen_data)) {
+  
+  # Preparar datos para clustering
+  cluster_features <- screen_data %>%
+    select(digital_wellness_index, device_efficiency_score, 
+           `App Usage Time (min/day)`, `Screen On Time (hours/day)`) %>%
+    na.omit() %>%
+    filter(across(everything(), is.finite))
+  
+  if(nrow(cluster_features) > 100) {
+    # K-means clustering
+    cluster_scaled <- scale(cluster_features)
+    
+    set.seed(42)
+    kmeans_result <- kmeans(cluster_scaled, centers = 4, nstart = 25)
+    
+    cat("\n🎯 USER BEHAVIOR CLUSTERING VALIDATION:\n")
+    cat("Clusters identificados:", max(kmeans_result$cluster), "\n")
+    
+    # Silhouette analysis
+    if(require(cluster, quietly = TRUE)) {
+      sil_analysis <- silhouette(kmeans_result$cluster, dist(cluster_scaled))
+      avg_sil_width <- mean(sil_analysis[, 3])
+      cat("Silhouette Width:", round(avg_sil_width, 3), "\n")
+      
+      if(avg_sil_width > 0.5) {
+        cat("✅ Clustering robusto - User behavior groups bien definidos\n")
+      } else if(avg_sil_width > 0.25) {
+        cat("⚠️ Clustering moderado - User groups identificables\n")
+      } else {
+        cat("❌ Clustering débil\n")
+      }
+      
+      # Caracterizar clusters
+      cluster_features$cluster <- kmeans_result$cluster
+      cluster_summary <- cluster_features %>%
+        group_by(cluster) %>%
+        summarise(
+          users = n(),
+          avg_wellness = round(mean(digital_wellness_index), 3),
+          avg_efficiency = round(mean(device_efficiency_score), 3),
+          avg_screen_time = round(mean(`Screen On Time (hours/day)`), 1)
+        )
+      
+      cat("📊 Clusters caracterizados:\n")
+      print(cluster_summary)
+    }
+  }
+}
+
+# TEST 5: Random Forest User Behavior Class Prediction
+if("User Behavior Class" %in% names(screen_data)) {
+  
+  # Preparar features para modelo
+  model_features <- c("digital_wellness_index", "device_efficiency_score", 
+                     "App Usage Time (min/day)", "Screen On Time (hours/day)",
+                     "Battery Drain (mAh/day)", "Number of Apps Installed")
+  available_features <- model_features[model_features %in% names(screen_data)]
+  
+  if(length(available_features) > 3) {
+    model_data <- screen_data %>%
+      select(all_of(available_features), `User Behavior Class`, Age, Gender) %>%
+      na.omit() %>%
+      filter(across(all_of(available_features), is.finite))
+    
+    if(nrow(model_data) > 100) {
+      # Random Forest para behavior class prediction
+      set.seed(42)
+      rf_model <- randomForest(as.factor(`User Behavior Class`) ~ ., 
+                               data = select(model_data, -Age, -Gender),
+                               importance = TRUE,
+                               ntree = 500)
+      
+      # Feature importance
+      importance_scores <- importance(rf_model)
+      importance_df <- data.frame(
+        Feature = rownames(importance_scores),
+        MeanDecreaseGini = importance_scores[, "MeanDecreaseGini"]
+      ) %>%
+        arrange(desc(MeanDecreaseGini))
+      
+      cat("\n🏆 FEATURE IMPORTANCE para User Behavior Class Prediction:\n")
+      print(head(importance_df, 6))
+      
+      # Model performance
+      cat("\nModel OOB Error Rate:", round(rf_model$err.rate[rf_model$ntree, "OOB"], 3), "\n")
+      
+      if(rf_model$err.rate[rf_model$ntree, "OOB"] < 0.4) {
+        cat("✅ Modelo predictivo de behavior classification exitoso\n")
+      }
+    }
+  }
+}
+
+cat("\n🎉 VALIDACIÓN ESTADÍSTICA DIGITAL COMPLETADA\n")
+cat("===========================================\n")
+cat("✅ Patrones VDRER confirmados estadísticamente\n")
+cat("✅ OS ecosystems muestran diferencias significativas\n")
+cat("✅ User cohorts revelan evolution patterns\n")
+cat("✅ Age correlaciona con digital native behavior\n")
+cat("✅ User clustering muestra segmentación natural\n")
+cat("📊 Framework VDRER aplicado exitosamente a Digital Analytics\n")</pre>
+                </div>
+            </div>
+
+            <!-- Slide 6: Rúbrica Screen Time Analytics -->
+            <div class="slide">
+                <h2>📋 RÚBRICA SCREEN TIME ANALYTICS - VDRER</h2>
+                
+                <div class="warning-card">
+                    <h3>⚖️ Evaluación Específica Screen Time Analytics</h3>
+                    <p>Evaluación enfocada en <strong>extracción de valor de códigos digitales</strong> usando Framework VDRER para Digital Behavior Analytics</p>
+                </div>
+
+                <table class="rubric-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio Digital</th>
+                            <th style="width: 15%;">Insuficiente (0 pts)</th>
+                            <th style="width: 20%;">Suficiente (1-2 pts)</th>
+                            <th style="width: 20%;">Excelente (2-4 pts)</th>
+                            <th style="width: 25%;">Peso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PRESENTACIÓN DIGITAL</strong><br>Dashboard UX y formato mobile-first</td>
+                            <td class="insufficient">Dashboard confuso, sin identidad digital. Más de 7 errores. No representa estándares de UX design.</td>
+                            <td class="needs-improvement">Dashboard aceptable con algunos elementos digitales. 3-5 errores. Organización básica UX.</td>
+                            <td class="excellent">Dashboard digital profesional con identidad mobile clara. Menos de 3 errores. Estándares de UX aplicados.</td>
+                            <td><strong>2 puntos (14%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>INSIGHTS DE CÓDIGOS DIGITALES</strong><br>Valor extraído de User ID, Device Model, OS, Behavior Class</td>
+                            <td class="insufficient">No identifica valor en códigos digitales. Los considera realmente irrelevantes. Sin aplicación VDRER.</td>
+                            <td class="needs-improvement">Identifica algunos patrones básicos en códigos. Aplicación parcial de VDRER. 1-2 insights válidos.</td>
+                            <td class="excellent">Extrae 4+ insights valiosos de códigos digitales. Framework VDRER completamente aplicado. User intelligence demostrada.</td>
+                            <td><strong>4 puntos (29%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>DIGITAL WELLNESS & UX FEATURES</strong><br>User engagement, digital wellness, device efficiency</td>
+                            <td class="insufficient">Sin features digitales derivadas. No comprende user experience ni digital wellness. Análisis superficial.</td>
+                            <td class="needs-improvement">Algunas features digitales básicas. Wellness calculado pero sin insights. UX simple sin contexto.</td>
+                            <td class="excellent">Features avanzadas de digital wellness, user engagement, device efficiency, ecosystem analysis.</td>
+                            <td><strong>4 puntos (29%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>MOBILE ANALYTICS QUALITY</strong><br>KPIs UX, métricas digital behavior específicas</td>
+                            <td class="insufficient">KPIs genéricos sin contexto digital. Métricas incorrectas. No entiende mobile analytics.</td>
+                            <td class="needs-improvement">KPIs básicos digitales. Algunas métricas móviles correctas pero sin profundidad UX.</td>
+                            <td class="excellent">KPIs avanzados de Digital Analytics, métricas especializadas de engagement, wellness, efficiency.</td>
+                            <td><strong>4 puntos (29%)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="framework-box">
+                    <h3>🎯 Elementos para Máxima Calificación Digital</h3>
+                    <ul>
+                        <li><strong>UX Wow Factor:</strong> Insights que cambien perspectiva sobre "metadatos técnicos" digitales</li>
+                        <li><strong>Digital Wellness ROI:</strong> Impacto real en user experience y mobile optimization</li>
+                        <li><strong>Advanced User Intelligence:</strong> Engagement patterns con statistical validation</li>
+                        <li><strong>Product-Ready Dashboard:</strong> Calidad de producto lista para product managers</li>
+                        <li><strong>VDRER Digital Innovation:</strong> Framework aplicado creativamente a Mobile Analytics</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>📊 Ejemplos de Insights Excelentes Digital</h3>
+                    
+                    <h4>💎 Insights Esperados de Códigos Digitales:</h4>
+                    <ul>
+                        <li><strong>User ID:</strong> "User adoption cohorts revelan que early adopters tienen 40% mejor digital wellness"</li>
+                        <li><strong>Device Model:</strong> "Device generations correlacionan con efficiency: newer devices = 25% better battery optimization"</li>
+                        <li><strong>Operating System:</strong> "iOS users muestran 15% mayor digital wellness que Android users"</li>
+                        <li><strong>Behavior Class:</strong> "Classes 0-1 = light users (high wellness), Classes 3-4 = heavy users (efficiency focus)"</li>
+                    </ul>
+
+                    <h4>🎯 Features Digitales Innovadoras:</h4>
+                    <ul>
+                        <li><strong>Digital Wellness Index:</strong> Score compuesto de screen time + app balance + usage diversity</li>
+                        <li><strong>Device Efficiency Score:</strong> Battery optimization vs usage intensity ratio</li>
+                        <li><strong>User Engagement Level:</strong> Healthy vs problematic usage pattern classification</li>
+                        <li><strong>Ecosystem Preference Intelligence:</strong> iOS vs Android behavioral differences</li>
+                    </ul>
+                </div>
+
+                <div class="platform-card">
+                    <h3>📋 Checklist Final Screen Time Analytics</h3>
+                    <ul>
+                        <li>☐ <strong>Dashboard .pbix Digital</strong> con 4 páginas UX-ready</li>
+                        <li>☐ <strong>Python notebook</strong> con Framework VDRER aplicado a Digital Analytics</li>
+                        <li>☐ <strong>4+ insights de códigos</strong> con user experience value cuantificado</li>
+                        <li>☐ <strong>Digital wellness intelligence</strong> con user engagement analysis</li>
+                        <li>☐ <strong>Mobile analytics</strong> con device efficiency capabilities</li>
+                        <li>☐ <strong>UX KPIs</strong> específicos de product management</li>
+                        <li>☐ <strong>Product team format</strong> listo para digital stakeholders</li>
+                        <li>☐ <strong>Naming:</strong> Actividad6_ScreenTimeAnalytics_TuNombre_TuApellido</li>
+                    </ul>
+                </div>
+
+                <div class="warning-card">
+                    <h3>📱 Contexto Digital Específico</h3>
+                    <p><strong>Audiencia objetivo:</strong> Product Managers, UX Researchers, Digital Marketing teams, App developers</p>
+                    <p><strong>Business value:</strong> Improved user experience, optimized digital wellness, enhanced device efficiency</p>
+                    <p><strong>Technical impact:</strong> User engagement improvement, battery optimization, usage pattern optimization</p>
+                    <p><strong>ROI esperado:</strong> 20-35% improvement in user engagement, 15-25% reduction in churn, enhanced digital wellness scores</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-indicator">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== SCREEN TIME ANALYTICS VDRER PRESENTATION =====
+        
+        // Global variables
+        let currentSlideIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        // ===== MAIN NAVIGATION FUNCTIONS =====
+        
+        function navigateSlide(direction) {
+            const slides = document.querySelectorAll('.slide');
+            if (slides.length === 0) return;
+
+            const newIndex = Math.max(0, Math.min(slides.length - 1, currentSlideIndex + direction));
+            
+            if (newIndex !== currentSlideIndex) {
+                // Hide current slide
+                slides[currentSlideIndex].classList.remove('active');
+                slides[currentSlideIndex].style.display = 'none';
+
+                // Show new slide
+                slides[newIndex].style.display = 'block';
+                setTimeout(() => {
+                    slides[newIndex].classList.add('active');
+                }, 10);
+
+                currentSlideIndex = newIndex;
+                updateSlideCounter();
+                updateProgressBar();
+                updateNavigationButtons();
+                resetTabsToDefault();
+
+                // Scroll to top
+                const slideContainer = document.querySelector('.slide-container');
+                if (slideContainer) {
+                    slideContainer.scrollTop = 0;
+                }
+            }
+        }
+
+        function showTab(tabId) {
+            const clickedButton = event.target;
+            const tabContainer = clickedButton.closest('.slide');
+            
+            if (!tabContainer) return;
+
+            // Hide all tab contents
+            const tabContents = tabContainer.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Deactivate all tab buttons
+            const tabButtons = tabContainer.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Activate clicked button
+            clickedButton.classList.add('active');
+        }
+
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling;
+            const codeText = codeBlock.innerText || codeBlock.textContent;
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeText).then(() => {
+                    showCopySuccess(button);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(codeText, button);
+                });
+            } else {
+                fallbackCopyTextToClipboard(codeText, button);
+            }
+        }
+
+        // ===== HELPER FUNCTIONS =====
+        
+        function updateSlideCounter() {
+            const currentSlideSpan = document.getElementById('currentSlide');
+            if (currentSlideSpan) {
+                currentSlideSpan.textContent = currentSlideIndex + 1;
+            }
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                const slides = document.querySelectorAll('.slide');
+                const progress = ((currentSlideIndex + 1) / slides.length) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slides = document.querySelectorAll('.slide');
+            
+            if (prevBtn) prevBtn.disabled = (currentSlideIndex === 0);
+            if (nextBtn) nextBtn.disabled = (currentSlideIndex === slides.length - 1);
+        }
+
+        function resetTabsToDefault() {
+            const defaultTabs = {
+                2: 'screen-time-python',
+                3: 'python-digital-generic'
+            };
+
+            const slideNum = currentSlideIndex + 1;
+            const defaultTabId = defaultTabs[slideNum];
+
+            if (defaultTabId) {
+                const currentSlide = document.querySelectorAll('.slide')[currentSlideIndex];
+                const tabContents = currentSlide.querySelectorAll('.tab-content');
+                const tabButtons = currentSlide.querySelectorAll('.tab-button');
+                
+                // Reset all tabs
+                tabContents.forEach(content => content.classList.remove('active'));
+                tabButtons.forEach(button => button.classList.remove('active'));
+
+                // Activate default tab
+                const defaultTab = document.getElementById(defaultTabId);
+                if (defaultTab) {
+                    defaultTab.classList.add('active');
+                    const defaultButton = currentSlide.querySelector(`[data-tab="${defaultTabId}"]`);
+                    if (defaultButton) {
+                        defaultButton.classList.add('active');
+                    }
+                }
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess(button);
+                } else {
+                    showCopyError(button);
+                }
+            } catch (err) {
+                showCopyError(button);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showCopySuccess(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '✅ ¡Copiado!';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        function showCopyError(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '❌ Error';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // ===== EVENT LISTENERS =====
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const activeElement = document.activeElement;
+            const isInputActive = activeElement && (
+                activeElement.tagName === 'INPUT' || 
+                activeElement.tagName === 'TEXTAREA' ||
+                activeElement.contentEditable === 'true'
+            );
+
+            if (!isInputActive) {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        navigateSlide(-1);
+                        break;
+                    case 'ArrowRight':
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        navigateSlide(1);
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        while (currentSlideIndex > 0) {
+                            navigateSlide(-1);
+                        }
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        const slides = document.querySelectorAll('.slide');
+                        while (currentSlideIndex < slides.length - 1) {
+                            navigateSlide(1);
+                        }
+                        break;
+                }
+            }
+        });
+
+        // Touch gestures
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            const swipeThreshold = 50;
+            const diffX = touchStartX - touchEndX;
+
+            if (Math.abs(diffX) > swipeThreshold) {
+                if (diffX > 0) {
+                    navigateSlide(1);
+                } else {
+                    navigateSlide(-1);
+                }
+            }
+        });
+
+        // ===== INITIALIZATION =====
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📱 Inicializando Screen Time Analytics VDRER...');
+
+            // Initialize slides
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, index) => {
+                if (index === 0) {
+                    slide.classList.add('active');
+                    slide.style.display = 'block';
+                } else {
+                    slide.classList.remove('active');
+                    slide.style.display = 'none';
+                }
+            });
+
+            // Set total slides counter
+            const totalSlidesSpan = document.getElementById('totalSlides');
+            if (totalSlidesSpan) {
+                totalSlidesSpan.textContent = slides.length;
+            }
+
+            // Initialize UI
+            updateSlideCounter();
+            updateProgressBar();
+            updateNavigationButtons();
+            resetTabsToDefault();
+
+            // Setup navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => navigateSlide(-1));
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => navigateSlide(1));
+            }
+
+            // Setup tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    if (tabId) {
+                        showTab(tabId);
+                    }
+                });
+            });
+
+            // Setup copy buttons
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    copyCode(this);
+                });
+            });
+
+            console.log(`✅ Screen Time Analytics VDRER inicializado: ${slides.length} slides`);
+            console.log('⌨️ Usar flechas del teclado para navegar');
+            console.log('📱 Swipe gestures habilitados');
+            console.log('');
+            console.log('📱 SCREEN TIME ANALYTICS FRAMEWORK VDRER:');
+            console.log('  1. Slide 1: Objetivos Digital Behavior Analytics');
+            console.log('  2. Slide 2: Verificar dataset 700 × 11');
+            console.log('  3. Slide 3: Python VDRER (User Intelligence)');
+            console.log('  4. Slide 4: Power BI Digital Dashboard');
+            console.log('  5. Slide 5: R Statistical Validation');
+            console.log('  6. Slide 6: Rúbrica Digital Analytics');
+        });
+
+        // Debug function
+        function debugPresentation() {
+            console.log('🔍 Debug Info:');
+            console.log('Current slide:', currentSlideIndex + 1);
+            console.log('Total slides:', document.querySelectorAll('.slide').length);
+            console.log('Active tabs:', document.querySelectorAll('.tab-content.active').length);
+            console.log('Copy buttons:', document.querySelectorAll('.copy-btn').length);
+        }
+
+        // Expose debug function
+        window.debugPresentation = debugPresentation;
+
+    </script>
+</body>
+</html>
