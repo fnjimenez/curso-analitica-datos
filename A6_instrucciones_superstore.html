@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 6 - SuperStore Sales | Framework VDRER</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 60px;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .header-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .university-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3498db, #f39c12);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .course-info h1 {
+            font-size: 1.1rem;
+            color: #FFD700;
+            margin-bottom: 2px;
+        }
+
+        .course-info p {
+            font-size: 0.65rem;
+            opacity: 0.8;
+            line-height: 1.2;
+        }
+
+        .nav-btn-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .nav-btn-header:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn-header:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .navigation-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slide-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow: visible;
+            position: relative;
+        }
+
+        .slide {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: none;
+            min-height: 60vh;
+            overflow-y: auto;
+            margin: 10px;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .slide h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #ffd700;
+        }
+
+        .slide h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #FFD700;
+        }
+
+        .slide h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #e8f4fd;
+        }
+
+        .slide p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .slide ul {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .slide li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            margin-left: 20px;
+        }
+
+        .objective-card {
+            background: rgba(46, 213, 115, 0.2);
+            border: 2px solid rgba(46, 213, 115, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .warning-card {
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid rgba(255, 193, 7, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .info-card {
+            background: rgba(52, 152, 219, 0.2);
+            border: 2px solid rgba(52, 152, 219, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .platform-card {
+            background: rgba(155, 89, 182, 0.2);
+            border: 2px solid rgba(155, 89, 182, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .waste-value-block {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .waste-value-block::before {
+            content: "🛒";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #FFD700;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFD700;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #FFD700;
+            color: #333;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .step-card h4 {
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .code-block-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: linear-gradient(135deg, #1e1e1e, #2d2d2d);
+            border: 2px solid rgba(100, 200, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 0;
+            font-family: 'Fira Code', 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            color: #e8e8e8;
+            user-select: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 200, 255, 0.6) rgba(255, 255, 255, 0.1);
+        }
+
+        .code-block::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background: rgba(100, 200, 255, 0.6);
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 200, 255, 0.8);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(100, 200, 255, 0.8);
+            color: #1e1e1e;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: rgba(100, 200, 255, 1);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: rgba(46, 213, 115, 0.8);
+            color: white;
+        }
+
+        .language-label {
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: rgba(255, 215, 0, 0.9);
+            color: #1e1e1e;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .comment { color: #6A9955; font-style: italic; }
+        .keyword { color: #569CD6; font-weight: bold; }
+        .string { color: #CE9178; }
+        .number { color: #B5CEA8; }
+        .function { color: #DCDCAA; }
+        .variable { color: #9CDCFE; }
+        .operator { color: #D4D4D4; }
+        .import { color: #C586C0; }
+        .dataframe { color: #4EC9B0; }
+        .method { color: #DCDCAA; }
+        .parameter { color: #9CDCFE; }
+        .output { color: #CE9178; }
+
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #FFD700;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+
+        .rubric-table th,
+        .rubric-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .rubric-table th {
+            background: rgba(255, 215, 0, 0.3);
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .excellent { background: rgba(46, 213, 115, 0.2); }
+        .good { background: rgba(52, 152, 219, 0.2); }
+        .needs-improvement { background: rgba(255, 193, 7, 0.2); }
+        .insufficient { background: rgba(231, 76, 60, 0.2); }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b);
+            transition: width 0.3s ease;
+            max-width: 100%;
+        }
+
+        .framework-box {
+            border: 3px solid #FFD700;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+                padding: 6px 10px;
+                min-height: auto;
+            }
+
+            .slide {
+                padding: 20px 10px;
+                min-height: 50vh;
+                margin: 5px;
+            }
+
+            .slide h1 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            .slide h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            .nav-btn-header {
+                padding: 8px 12px;
+                font-size: 0.7rem;
+            }
+
+            .rubric-table {
+                font-size: 0.75rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
+
+            .copy-btn {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="header">
+            <div class="header-group">
+                <div class="university-logo" aria-label="Universidad del SABES">🎓</div>
+                <div class="course-info">
+                    <h1>ACTIVIDAD 6: SUPERSTORE SALES - EXTRACCIÓN DE VALOR</h1>
+                    <p>Universidad del SABES | Analítica de Datos | Sesión 7</p>
+                    <p>Prof. Fausto Noé Jiménez | Framework VDRER - Retail Analytics</p>
+                </div>
+            </div>
+            <div class="header-group">
+                <div class="navigation-controls">
+                    <button class="nav-btn-header" id="prevBtn" onclick="navigateSlide(-1)">⬅️ Anterior</button>
+                    <div class="slide-counter">
+                        <span id="currentSlide">1</span>/<span id="totalSlides">6</span>
+                    </div>
+                    <button class="nav-btn-header" id="nextBtn" onclick="navigateSlide(1)">Siguiente ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-container">
+            <!-- Slide 1: Descripción y Objetivos -->
+            <div class="slide active">
+                <h1>🛒 ACTIVIDAD 6: SUPERSTORE SALES</h1>
+                <h2>Extracción de Valor de Datos Retail con Framework VDRER</h2>
+
+                <div class="objective-card">
+                    <h3>🎯 Objetivo General</h3>
+                    <p>Aplicar el <strong>framework VDRER</strong> al dataset SuperStore Sales para transformar datos aparentemente "irrelevantes" en insights valiosos de retail, descubriendo patrones ocultos en IDs, códigos y metadatos del e-commerce.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔧 Framework VDRER para Retail</h3>
+                    <ul>
+                        <li><strong>V</strong>alidar - Audit de calidad en datos de ventas</li>
+                        <li><strong>D</strong>escubrir - Identificar "deshechos" en IDs y códigos</li>
+                        <li><strong>R</strong>eutilizar - Extraer valor de campos aparentemente inútiles</li>
+                        <li><strong>E</strong>ngineer - Crear métricas de customer lifetime value</li>
+                        <li><strong>R</strong>eportar - Insights accionables para retail</li>
+                    </ul>
+                </div>
+
+                <div class="warning-card">
+                    <h3>📋 Entregables SuperStore</h3>
+                    <ul>
+                        <li><strong>Dashboard Power BI (.pbix):</strong> 4 páginas de retail analytics</li>
+                        <li><strong>Documento VDRER:</strong> Framework aplicado a e-commerce</li>
+                        <li><strong>Customer insights:</strong> Segmentación y patrones de compra</li>
+                        <li><strong>Product intelligence:</strong> Análisis de performance por categorías</li>
+                    </ul>
+                </div>
+
+                <div class="waste-value-block">
+                    <h3>💎 Misión: De IDs Inútiles a Oro Retail</h3>
+                    <p>"Los códigos de producto y IDs de orden no son solo identificadores - son mapas de comportamiento del cliente y estrategias de negocio"</p>
+                    <p><strong>Tu desafío:</strong> Encuentra 3+ insights valiosos en Row ID, Order ID, Customer ID y Product ID del SuperStore</p>
+                </div>
+
+                <div class="platform-card">
+                    <h3>🎯 Contexto del Dataset</h3>
+                    <p><strong>SuperStore Sales:</strong> 9,800 órdenes de e-commerce</p>
+                    <p><strong>Variables "sospechosas":</strong> Row ID (secuencial), Order ID (alfanumérico), Customer ID (codificado)</p>
+                    <p><strong>Oportunidad:</strong> Estos IDs contienen patrones temporales, geográficos y de comportamiento ocultos</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Verificación de Dataset SuperStore -->
+            <div class="slide">
+                <h2>✅ VERIFICACIÓN DATASET SUPERSTORE</h2>
+                
+                <div class="warning-card">
+                    <h3>⚠️ DATASET REQUERIDO: SuperStore Sales</h3>
+                    <p>Esta actividad usa el dataset <strong>super_store_sales.csv</strong> con 9,800 registros y 18 columnas. Verifica que tengas acceso al archivo completo.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔍 Estructura del Dataset SuperStore</h3>
+                    <ul>
+                        <li><strong>Row ID:</strong> Identificador secuencial (1-9800)</li>
+                        <li><strong>Order ID:</strong> Código alfanumérico de orden</li>
+                        <li><strong>Order Date / Ship Date:</strong> Fechas de proceso</li>
+                        <li><strong>Customer ID / Name:</strong> Información de cliente</li>
+                        <li><strong>Geographic:</strong> Country, City, State, Postal Code, Region</li>
+                        <li><strong>Product:</strong> Product ID, Category, Sub-Category, Name</li>
+                        <li><strong>Business:</strong> Segment, Ship Mode, Sales (target)</li>
+                    </ul>
+                </div>
+
+                <div class="platform-card">
+                    <h3>📂 Validación Pre-Análisis</h3>
+                    <div class="tab-container">
+                        <button class="tab-button active" onclick="showTab('superstore-python')">Validación Python</button>
+                        <button class="tab-button" onclick="showTab('superstore-powerbi')">Validación Power BI</button>
+                    </div>
+                    
+                    <div id="superstore-python" class="tab-content active">
+                        <h4>🐍 Validación Rápida en Google Colab</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===== VALIDACIÓN INICIAL SUPERSTORE SALES =====
+import pandas as pd
+import numpy as np
+
+# Cargar dataset
+df = pd.read_csv('super_store_sales.csv')
+
+print("🛒 SUPERSTORE SALES - VALIDACIÓN INICIAL")
+print("=" * 50)
+print(f"Shape: {df.shape}")
+print(f"Período: {df['Order Date'].min()} a {df['Order Date'].max()}")
+
+# Información básica
+print(f"\n📊 OVERVIEW:")
+print(f"Total Orders: {df['Order ID'].nunique():,}")
+print(f"Total Customers: {df['Customer ID'].nunique():,}")
+print(f"Total Products: {df['Product ID'].nunique():,}")
+print(f"Sales Range: ${df['Sales'].min():.2f} - ${df['Sales'].max():.2f}")
+
+# Verificar calidad de datos
+print(f"\n🔍 CALIDAD DE DATOS:")
+print(f"Missing values: {df.isnull().sum().sum()}")
+print(f"Duplicates: {df.duplicated().sum()}")
+
+# Identificar variables sospechosas
+print(f"\n🔍 VARIABLES 'SOSPECHOSAS' PARA VDRER:")
+print(f"Row ID: Secuencial 1-{df['Row ID'].max()}")
+print(f"Order ID: {df['Order ID'].nunique()} órdenes únicas")
+print(f"Customer ID: Patrón {df['Customer ID'].iloc[0]}")
+print(f"Product ID: Patrón {df['Product ID'].iloc[0]}")
+
+print(f"\n✅ Dataset listo para aplicar Framework VDRER")</pre>
+                        </div>
+                    </div>
+                    
+                    <div id="superstore-powerbi" class="tab-content">
+                        <h4>⚡ Validación en Power BI</h4>
+                        <ul>
+                            <li><strong>Import:</strong> Get Data → Text/CSV → super_store_sales.csv</li>
+                            <li><strong>Verificar tipos:</strong> Dates como Date, Sales como Currency</li>
+                            <li><strong>Data profiling:</strong> Column quality, distribution, profile</li>
+                            <li><strong>Expected shape:</strong> 9,800 rows × 18 columns</li>
+                            <li><strong>Key validation:</strong> Order ID únicos, Customer ID patterns</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="objective-card">
+                    <h3>🔑 Variables "Inútiles" a Investigar</h3>
+                    <p><strong>Row ID:</strong> ¿Solo secuencial o contiene información temporal?</p>
+                    <p><strong>Order ID:</strong> ¿Hay patrones en la codificación alfanumérica?</p>
+                    <p><strong>Customer ID:</strong> ¿La codificación revela segmentación oculta?</p>
+                    <p><strong>Product ID:</strong> ¿Los códigos contienen jerarquías de producto?</p>
+                    <p><strong>Postal Code:</strong> ¿Missing values tienen patrones geográficos?</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Python Pattern Mining SuperStore -->
+            <div class="slide">
+                <h2>🐍 PYTHON: PATTERN MINING SUPERSTORE</h2>
+                
+                <div class="platform-card">
+                    <h3>🔬 Python para Retail Intelligence</h3>
+                    <p>Usa Google Colab para descubrir patrones ocultos en códigos y IDs de e-commerce</p>
+                    <p><strong>⚠️ EJECUTAR PRIMERO:</strong> Este análisis genera el dataset enriquecido para Power BI</p>
+                </div>
+
+                <div class="tab-container">
+                    <button class="tab-button active" onclick="showTab('python-vdrer-generic')">Framework Genérico</button>
+                    <button class="tab-button" onclick="showTab('python-superstore-specific')">Código SuperStore</button>
+                </div>
+                
+                <div id="python-vdrer-generic" class="tab-content active">
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h4>🔧 VALIDAR Dataset</h4>
+                            <ul>
+                                <li>Cargar SuperStore Sales CSV</li>
+                                <li>Verificar 9,800 × 18 dimensiones</li>
+                                <li>Audit de tipos de datos</li>
+                                <li>Identificar missing values</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h4>🔍 DESCUBRIR Patterns</h4>
+                            <ul>
+                                <li>Analizar Row ID secuencial</li>
+                                <li>Decodificar Order ID patterns</li>
+                                <li>Investigar Customer ID structure</li>
+                                <li>Examinar Product ID encoding</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h4>♻️ REUTILIZAR Valor</h4>
+                            <ul>
+                                <li>Extraer temporal patterns de IDs</li>
+                                <li>Identificar customer cohorts</li>
+                                <li>Revelar product hierarchies</li>
+                                <li>Descubrir geographic clusters</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <h4>⚙️ ENGINEER Features</h4>
+                            <ul>
+                                <li>Customer Lifetime Value</li>
+                                <li>Product Performance Index</li>
+                                <li>Geographic Revenue Density</li>
+                                <li>Order Timing Patterns</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">5</div>
+                            <h4>📊 REPORTAR Insights</h4>
+                            <ul>
+                                <li>Customer segmentation maps</li>
+                                <li>Product intelligence dashboard</li>
+                                <li>Geographic performance heatmap</li>
+                                <li>Temporal sales patterns</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-card">
+                            <div class="step-number">6</div>
+                            <h4>💾 EXPORT Para BI</h4>
+                            <ul>
+                                <li>Dataset enriquecido con features</li>
+                                <li>Customer intelligence table</li>
+                                <li>Product performance metrics</li>
+                                <li>Geographic insights summary</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="python-superstore-specific" class="tab-content">
+                    <div class="info-card">
+                        <h3>🛒 Código Python Específico - SuperStore VDRER</h3>
+                        
+                        <h4>🔍 FASE 1: VALIDAR - Setup SuperStore</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 1</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# 🔍 FASE 1: VALIDAR - SuperStore Sales Dataset
+# ===================================================================
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime
+import warnings
+warnings.filterwarnings('ignore')
+
+print("\n" + "="*70)
+print("🛒 ACTIVIDAD 6: SUPERSTORE SALES - EXTRACCIÓN DE VALOR VDRER")
+print("="*70)
+
+# Cargar dataset SuperStore
+df = pd.read_csv('super_store_sales.csv')
+print(f"✅ Dataset cargado: {df.shape[0]:,} filas × {df.shape[1]} columnas")
+
+# Convertir fechas
+df['Order Date'] = pd.to_datetime(df['Order Date'])
+df['Ship Date'] = pd.to_datetime(df['Ship Date'])
+
+# Overview del negocio
+print(f"\n🏪 OVERVIEW SUPERSTORE:")
+print(f"📅 Período: {df['Order Date'].min().strftime('%Y-%m-%d')} a {df['Order Date'].max().strftime('%Y-%m-%d')}")
+print(f"🛍️ Órdenes únicas: {df['Order ID'].nunique():,}")
+print(f"👥 Clientes únicos: {df['Customer ID'].nunique():,}")
+print(f"📦 Productos únicos: {df['Product ID'].nunique():,}")
+print(f"💰 Ventas totales: ${df['Sales'].sum():,.2f}")
+print(f"📊 Venta promedio: ${df['Sales'].mean():.2f}")
+
+# Verificación de calidad
+print(f"\n🔍 CALIDAD DE DATOS:")
+print(f"Missing values por columna:")
+for col in df.columns:
+    missing = df[col].isnull().sum()
+    if missing > 0:
+        print(f"   {col}: {missing} ({missing/len(df)*100:.1f}%)")
+
+print(f"Duplicados: {df.duplicated().sum()}")
+
+print("\n✅ FASE 1 COMPLETADA - Dataset SuperStore validado")
+print("📋 Ejecuta Fase 2 para descubrir variables 'inútiles'")</pre>
+                        </div>
+
+                        <h4>🔍 FASE 2: DESCUBRIR - Identificar "Deshechos" en IDs</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 2</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# 🔍 FASE 2: DESCUBRIR - Variables "Inútiles" en SuperStore
+# ===================================================================
+
+print("\n🔍 FASE 2: DESCUBRIR - Analizando variables aparentemente 'inútiles'")
+
+# ANÁLISIS 1: Row ID - ¿Solo secuencial?
+print("\n📊 ANÁLISIS ROW ID:")
+print(f"Rango: {df['Row ID'].min()} - {df['Row ID'].max()}")
+print(f"¿Es secuencial? {(df['Row ID'] == range(1, len(df)+1)).all()}")
+
+# Verificar si Row ID correlaciona con fechas (orden cronológico)
+df_sorted_by_date = df.sort_values('Order Date')
+correlation_with_time = df_sorted_by_date['Row ID'].corr(df_sorted_by_date.index)
+print(f"Correlación Row ID con tiempo: {correlation_with_time:.3f}")
+
+if correlation_with_time > 0.8:
+    print("💡 INSIGHT: Row ID refleja orden cronológico de entrada al sistema")
+else:
+    print("💡 INSIGHT: Row ID es puramente secuencial, sin información temporal")
+
+# ANÁLISIS 2: Order ID patterns
+print("\n📊 ANÁLISIS ORDER ID:")
+print(f"Formato típico: {df['Order ID'].iloc[0]}")
+print(f"Longitud promedio: {df['Order ID'].str.len().mean():.1f} caracteres")
+
+# Extraer patrones de Order ID
+order_prefixes = df['Order ID'].str[:2].value_counts()
+print(f"Prefijos más comunes: {order_prefixes.head().to_dict()}")
+
+# ANÁLISIS 3: Customer ID structure
+print("\n📊 ANÁLISIS CUSTOMER ID:")
+print(f"Formato típico: {df['Customer ID'].iloc[0]}")
+print(f"Patrón: {df['Customer ID'].str.len().nunique()} longitudes diferentes")
+
+# Extraer prefijos de Customer ID
+customer_prefixes = df['Customer ID'].str[:2].value_counts()
+print(f"Prefijos más comunes: {customer_prefixes.head().to_dict()}")
+
+# ANÁLISIS 4: Product ID encoding
+print("\n📊 ANÁLISIS PRODUCT ID:")
+print(f"Formato típico: {df['Product ID'].iloc[0]}")
+product_prefixes = df['Product ID'].str[:3].value_counts()
+print(f"Prefijos de productos: {product_prefixes.head().to_dict()}")
+
+# Verificar si prefijos correlacionan con categorías
+sample_products = df[['Product ID', 'Category', 'Sub-Category']].drop_duplicates().head(10)
+print(f"\nMuestra Product ID vs Category:")
+print(sample_products)
+
+print("\n✅ FASE 2 COMPLETADA - Variables 'inútiles' analizadas")
+print("📋 Ejecuta Fase 3 para extraer valor de estos patrones")</pre>
+                        </div>
+
+                        <h4>♻️ FASE 3: REUTILIZAR - Extraer Valor de IDs</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 3</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# ♻️ FASE 3: REUTILIZAR - Extraer Valor de Variables "Inútiles"
+# ===================================================================
+
+print("\n⚙️ FASE 3: REUTILIZAR - Extrayendo valor de IDs y códigos")
+
+insights_found = []
+
+# 💎 INSIGHT 1: Row ID como proxy temporal (si existe correlación)
+print("\n💎 INSIGHT 1: Row ID y Timing de Negocios")
+try:
+    # Crear ventanas temporales basadas en Row ID
+    df['row_id_quintile'] = pd.qcut(df['Row ID'], q=5, labels=['Q1', 'Q2', 'Q3', 'Q4', 'Q5'])
+    
+    # Analizar ventas por quintil de entrada
+    sales_by_quintile = df.groupby('row_id_quintile')['Sales'].agg(['mean', 'count', 'sum'])
+    
+    print("📈 Ventas por quintil de Row ID (cronología de entrada):")
+    for quintile in sales_by_quintile.index:
+        avg_sales = sales_by_quintile.loc[quintile, 'mean']
+        total_sales = sales_by_quintile.loc[quintile, 'sum']
+        print(f"   {quintile}: Promedio ${avg_sales:.2f}, Total ${total_sales:,.2f}")
+    
+    insights_found.append("Row ID revela patterns de performance por período de entrada")
+except Exception as e:
+    print(f"⚠️ Error en análisis Row ID: {e}")
+
+# 💎 INSIGHT 2: Order ID prefix patterns
+print("\n💎 INSIGHT 2: Order ID - Patrones de Sistema/Región")
+try:
+    df['order_prefix'] = df['Order ID'].str[:2]
+    
+    # Analizar ventas por prefijo
+    prefix_analysis = df.groupby('order_prefix').agg({
+        'Sales': ['mean', 'sum', 'count'],
+        'Region': lambda x: x.mode().iloc[0] if len(x.mode()) > 0 else 'Unknown'
+    }).round(2)
+    
+    print("🎯 Top 5 prefijos de Order ID por ventas:")
+    top_prefixes = df.groupby('order_prefix')['Sales'].sum().sort_values(ascending=False).head()
+    for prefix, sales in top_prefixes.items():
+        region = df[df['order_prefix'] == prefix]['Region'].mode().iloc[0]
+        print(f"   Prefix '{prefix}': ${sales:,.2f} total, Región dominante: {region}")
+    
+    insights_found.append("Order ID prefixes correlacionan con regiones geográficas")
+except Exception as e:
+    print(f"⚠️ Error en análisis Order ID: {e}")
+
+# 💎 INSIGHT 3: Customer ID encoding de segmentos
+print("\n💎 INSIGHT 3: Customer ID - Segmentación Oculta")
+try:
+    df['customer_prefix'] = df['Customer ID'].str[:2]
+    
+    # Analizar segmentos por prefijo de Customer ID
+    customer_analysis = df.groupby(['customer_prefix', 'Segment']).size().unstack(fill_value=0)
+    
+    print("👥 Distribución de segmentos por prefijo de Customer ID:")
+    for prefix in customer_analysis.index[:5]:  # Top 5
+        total = customer_analysis.loc[prefix].sum()
+        if total > 0:
+            dominant_segment = customer_analysis.loc[prefix].idxmax()
+            percentage = customer_analysis.loc[prefix].max() / total * 100
+            print(f"   Prefix '{prefix}': {total} customers, {percentage:.1f}% {dominant_segment}")
+    
+    insights_found.append("Customer ID prefixes reflejan estrategias de segmentación")
+except Exception as e:
+    print(f"⚠️ Error en análisis Customer ID: {e}")
+
+# 💎 INSIGHT 4: Product ID hierarchy
+print("\n💎 INSIGHT 4: Product ID - Jerarquía de Categorías")
+try:
+    df['product_prefix'] = df['Product ID'].str[:3]
+    
+    # Verificar si prefijos correlacionan con categorías
+    product_category_map = df.groupby('product_prefix')['Category'].apply(
+        lambda x: x.mode().iloc[0] if len(x.mode()) > 0 else 'Mixed'
+    )
+    
+    print("📦 Product ID prefixes por categoría:")
+    for category in df['Category'].unique():
+        matching_prefixes = product_category_map[product_category_map == category]
+        if len(matching_prefixes) > 0:
+            print(f"   {category}: prefixes {list(matching_prefixes.index[:3])}")  # Top 3
+    
+    insights_found.append("Product ID structure codifica jerarquías de categorías")
+except Exception as e:
+    print(f"⚠️ Error en análisis Product ID: {e}")
+
+print(f"\n✅ FASE 3 COMPLETADA - {len(insights_found)} insights valiosos extraídos")
+print("📋 Ejecuta Fase 4 para crear features derivadas")</pre>
+                        </div>
+
+                        <h4>⚙️ FASE 4: ENGINEER - Features de Retail Intelligence</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 4</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# ⚙️ FASE 4: ENGINEER - Features de Retail Intelligence
+# ===================================================================
+
+print("\n🔧 FASE 4: ENGINEER - Creando features valiosas para retail")
+
+new_features_created = []
+
+# Feature 1: Customer Lifetime Value (CLV) simplificado
+try:
+    customer_metrics = df.groupby('Customer ID').agg({
+        'Sales': ['sum', 'count', 'mean'],
+        'Order Date': ['min', 'max']
+    }).round(2)
+    
+    customer_metrics.columns = ['total_sales', 'order_count', 'avg_order_value', 'first_order', 'last_order']
+    customer_metrics['customer_lifetime_days'] = (customer_metrics['last_order'] - customer_metrics['first_order']).dt.days + 1
+    customer_metrics['clv_simple'] = customer_metrics['total_sales'] / customer_metrics['customer_lifetime_days'] * 365
+    
+    # Merge back to main dataframe
+    df = df.merge(customer_metrics[['total_sales', 'order_count', 'clv_simple']], 
+                  left_on='Customer ID', right_index=True, suffixes=('', '_customer'))
+    
+    print("✅ customer_lifetime_value: CLV anualizado por cliente")
+    print(f"   Media CLV: ${df['clv_simple'].mean():.2f}")
+    print(f"   Top CLV: ${df['clv_simple'].max():.2f}")
+    new_features_created.append('clv_simple')
+except Exception as e:
+    print(f"⚠️ Error creando CLV: {e}")
+
+# Feature 2: Product Performance Index
+try:
+    product_metrics = df.groupby('Product ID').agg({
+        'Sales': ['sum', 'count', 'mean'],
+        'Order ID': 'nunique'
+    }).round(2)
+    
+    product_metrics.columns = ['product_total_sales', 'product_order_count', 'product_avg_sale', 'product_unique_orders']
+    
+    # Crear índice de performance (ventas * frecuencia)
+    product_metrics['product_performance_index'] = (
+        product_metrics['product_total_sales'] * 
+        product_metrics['product_order_count'] / 
+        product_metrics['product_total_sales'].max()
+    )
+    
+    df = df.merge(product_metrics[['product_performance_index']], 
+                  left_on='Product ID', right_index=True)
+    
+    print("✅ product_performance_index: Índice combinado ventas x frecuencia")
+    print(f"   Media: {df['product_performance_index'].mean():.3f}")
+    new_features_created.append('product_performance_index')
+except Exception as e:
+    print(f"⚠️ Error creando Product Performance Index: {e}")
+
+# Feature 3: Geographic Revenue Density
+try:
+    # Revenue density por estado/región
+    geo_metrics = df.groupby(['State', 'Region']).agg({
+        'Sales': 'sum',
+        'Customer ID': 'nunique'
+    }).round(2)
+    
+    geo_metrics['revenue_per_customer'] = geo_metrics['Sales'] / geo_metrics['Customer ID']
+    
+    # Merge back 
+    df = df.merge(geo_metrics[['revenue_per_customer']], 
+                  left_on=['State', 'Region'], right_index=True)
+    
+    print("✅ geographic_revenue_density: Revenue por customer por estado")
+    print(f"   Media: ${df['revenue_per_customer'].mean():.2f}")
+    new_features_created.append('revenue_per_customer')
+except Exception as e:
+    print(f"⚠️ Error creando Geographic Revenue Density: {e}")
+
+# Feature 4: Order Timing Intelligence
+try:
+    # Calcular días entre order y ship
+    df['order_to_ship_days'] = (df['Ship Date'] - df['Order Date']).dt.days
+    
+    # Día de la semana y mes del año
+    df['order_day_of_week'] = df['Order Date'].dt.day_name()
+    df['order_month'] = df['Order Date'].dt.month
+    df['order_quarter'] = df['Order Date'].dt.quarter
+    
+    # Scoring de eficiencia de shipping
+    df['shipping_efficiency'] = np.where(df['order_to_ship_days'] <= 2, 'Fast',
+                                np.where(df['order_to_ship_days'] <= 5, 'Normal', 'Slow'))
+    
+    print("✅ order_timing_features: Análisis temporal de órdenes")
+    print(f"   Promedio días order-to-ship: {df['order_to_ship_days'].mean():.1f}")
+    shipping_dist = df['shipping_efficiency'].value_counts()
+    print(f"   Distribución shipping: {shipping_dist.to_dict()}")
+    new_features_created.extend(['order_to_ship_days', 'shipping_efficiency'])
+except Exception as e:
+    print(f"⚠️ Error creando Order Timing features: {e}")
+
+# Feature 5: Customer Segmentation Score
+try:
+    # Combinar múltiples factores para scoring
+    df['customer_value_score'] = (
+        (df['clv_simple'] / df['clv_simple'].max()) * 0.4 +  # 40% CLV
+        (df['order_count'] / df['order_count'].max()) * 0.3 +  # 30% Frecuencia
+        (df['total_sales'] / df['total_sales'].max()) * 0.3    # 30% Volumen
+    )
+    
+    # Segmentación automática
+    df['customer_segment_vdrer'] = pd.cut(df['customer_value_score'], 
+                                         bins=[0, 0.3, 0.6, 1.0], 
+                                         labels=['Bronze', 'Silver', 'Gold'])
+    
+    print("✅ customer_segmentation: Segmentación automática basada en valor")
+    segment_dist = df['customer_segment_vdrer'].value_counts()
+    print(f"   Distribución: {segment_dist.to_dict()}")
+    new_features_created.extend(['customer_value_score', 'customer_segment_vdrer'])
+except Exception as e:
+    print(f"⚠️ Error creando Customer Segmentation: {e}")
+
+print(f"\n✅ FASE 4 COMPLETADA - {len(new_features_created)} features creadas")
+print(f"📊 Features: {new_features_created}")
+print("📋 Ejecuta Fase 5 para reportar y exportar")</pre>
+                        </div>
+
+                        <h4>📋 FASE 5: REPORTAR - Export Dataset Enriquecido</h4>
+                        <div class="code-block-container">
+                            <div class="language-label">Python - Fase 5</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===================================================================
+# 📋 FASE 5: REPORTAR - Documentar y Exportar SuperStore Enriquecido
+# ===================================================================
+
+print("\n📋 FASE 5: REPORTAR - Consolidando insights SuperStore")
+
+# Resumen ejecutivo del análisis
+print(f"\n📊 REPORTE FINAL - FRAMEWORK VDRER SUPERSTORE:")
+print(f"   🛒 Dataset original: {df.shape[0]:,} órdenes × {18} columnas")
+print(f"   💎 Insights de 'deshechos': {len(insights_found) if 'insights_found' in locals() else 'N/A'}")
+print(f"   ⚙️ Features creadas: {len(new_features_created) if 'new_features_created' in locals() else 'N/A'}")
+print(f"   📈 Dimensiones finales: {df.shape}")
+
+# Análisis de valor generado por features
+print(f"\n📈 VALOR GENERADO POR NUEVAS FEATURES:")
+if 'new_features_created' in locals():
+    for feature in new_features_created[:5]:  # Top 5
+        if feature in df.columns:
+            if df[feature].dtype in ['float64', 'int64']:
+                print(f"   • {feature}: min={df[feature].min():.2f}, max={df[feature].max():.2f}")
+            else:
+                print(f"   • {feature}: {df[feature].nunique()} categorías únicas")
+
+# Top insights por categoría
+print(f"\n🏆 TOP INSIGHTS POR CATEGORÍA DE ANÁLISIS:")
+print(f"   💳 Customer Intelligence:")
+print(f"     - CLV promedio: ${df['clv_simple'].mean():.2f}" if 'clv_simple' in df.columns else "     - CLV: No calculado")
+print(f"     - Segmentación: {df['customer_segment_vdrer'].value_counts().to_dict()}" if 'customer_segment_vdrer' in df.columns else "     - Segmentación: No aplicada")
+
+print(f"   📦 Product Intelligence:")
+performance_top = df.nlargest(3, 'product_performance_index')[['Product Name', 'product_performance_index']] if 'product_performance_index' in df.columns else None
+if performance_top is not None:
+    print(f"     - Top productos por performance:")
+    for _, row in performance_top.iterrows():
+        print(f"       • {row['Product Name'][:30]}... ({row['product_performance_index']:.3f})")
+
+print(f"   🌍 Geographic Intelligence:")
+if 'revenue_per_customer' in df.columns:
+    geo_top = df.groupby('State')['revenue_per_customer'].first().nlargest(3)
+    print(f"     - Estados top por revenue/customer:")
+    for state, revenue in geo_top.items():
+        print(f"       • {state}: ${revenue:.2f}")
+
+# ROI estimado del análisis
+print(f"\n💰 ESTIMACIÓN DE ROI - FRAMEWORK VDRER:")
+print(f"   📊 Variables 'inútiles' analizadas: 4 (Row ID, Order ID, Customer ID, Product ID)")
+print(f"   💡 Insights de negocio extraídos: {len(insights_found) if 'insights_found' in locals() else 0}")
+print(f"   🎯 Features accionables: {len(new_features_created) if 'new_features_created' in locals() else 0}")
+print(f"   📈 Preparación para KPIs: Customer, Product, Geographic, Temporal")
+
+# Exportar dataset enriquecido
+print(f"\n💾 EXPORTANDO DATASET SUPERSTORE ENRIQUECIDO...")
+try:
+    filename_enriched = 'superstore_value_extracted_python.csv'
+    
+    # Limpiar columnas problemáticas antes de export
+    export_df = df.copy()
+    
+    # Convertir datetime a string para compatibilidad
+    for col in export_df.columns:
+        if export_df[col].dtype == 'datetime64[ns]':
+            export_df[col] = export_df[col].dt.strftime('%Y-%m-%d')
+    
+    export_df.to_csv(filename_enriched, index=False, encoding='utf-8')
+    print(f"✅ Guardado como: {filename_enriched}")
+    
+    # Descargar automáticamente si es Colab
+    try:
+        from google.colab import files
+        files.download(filename_enriched)
+        print(f"📥 ¡Archivo descargado automáticamente!")
+    except:
+        print(f"📝 Archivo listo para descargar manualmente")
+    
+except Exception as e:
+    print(f"⚠️ Error en exportación: {e}")
+
+# Summary para Power BI
+print(f"\n📊 RESUMEN PARA DASHBOARD POWER BI:")
+print(f"   🏠 Página 1 - Overview: Sales totales, customer count, product performance")
+print(f"   📈 Página 2 - Customer Intelligence: CLV, segmentación, geographic patterns") 
+print(f"   📦 Página 3 - Product Intelligence: Performance index, category analysis")
+print(f"   💎 Página 4 - Valor VDRER: Insights de variables 'inútiles' documentados")
+
+print("\n" + "="*70)
+print("🎉 SUPERSTORE VDRER COMPLETADO - DATASET LISTO PARA POWER BI")
+print("🚀 ¡Datos de retail transformados en intelligence accionable!")
+print("="*70)
+
+# Mensaje de aprendizaje final
+print(f"\n📚 REFLEXIÓN RETAIL INTELLIGENCE:")
+print(f"✅ Has aplicado VDRER exitosamente a datos de e-commerce")
+print(f"✅ Transformaste IDs 'inútiles' en customer & product intelligence")
+print(f"✅ Creaste features de CLV, performance y segmentación")
+print(f"✅ Preparaste base sólida para retail analytics dashboard")
+print(f"\n💡 ¡Has convertido códigos aparentemente irrelevantes en oro de retail!")</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Power BI Dashboard SuperStore -->
+            <div class="slide">
+                <h2>⚡ POWER BI: DASHBOARD SUPERSTORE</h2>
+                
+                <div class="platform-card">
+                    <h3>🔧 Power BI para Retail Analytics</h3>
+                    <p>Crear dashboard profesional que muestre el valor extraído de variables "inútiles"</p>
+                    <p><strong>📋 REQUISITO:</strong> Dataset enriquecido de Python (superstore_value_extracted_python.csv)</p>
+                </div>
+
+                <div class="tab-container">
+                    <button class="tab-button active" onclick="showTab('powerbi-superstore-setup')">Setup & Import</button>
+                    <button class="tab-button" onclick="showTab('powerbi-superstore-pages')">4 Páginas Dashboard</button>
+                </div>
+                
+                <div id="powerbi-superstore-setup" class="tab-content active">
+                    <div class="info-card">
+                        <h3>📥 SETUP POWER BI SUPERSTORE</h3>
+                        
+                        <h4>🔧 Importación y Preparación:</h4>
+                        <ol>
+                            <li><strong>Importar datos:</strong> Get Data → Text/CSV → superstore_value_extracted_python.csv</li>
+                            <li><strong>Verificar columnas nuevas:</strong>
+                                <ul>
+                                    <li>clv_simple (Customer Lifetime Value)</li>
+                                    <li>product_performance_index</li>
+                                    <li>revenue_per_customer</li>
+                                    <li>customer_segment_vdrer</li>
+                                    <li>shipping_efficiency</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ajustar tipos de datos:</strong>
+                                <ul>
+                                    <li>Sales: Currency ($)</li>
+                                    <li>Order Date/Ship Date: Date</li>
+                                    <li>clv_simple: Currency ($)</li>
+                                    <li>customer_segment_vdrer: Text (ordinal)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Crear relaciones:</strong> Auto-detect o manual si necesario</li>
+                        </ol>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>📊 MEDIDAS DAX ESENCIALES SUPERSTORE</h3>
+                        
+                        <div class="code-block-container">
+                            <div class="language-label">DAX - Medidas Base</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block">// ===== MEDIDAS BÁSICAS SUPERSTORE =====
+Total_Sales = SUM('superstore_value_extracted_python'[Sales])
+
+Total_Orders = DISTINCTCOUNT('superstore_value_extracted_python'[Order ID])
+
+Total_Customers = DISTINCTCOUNT('superstore_value_extracted_python'[Customer ID])
+
+Total_Products = DISTINCTCOUNT('superstore_value_extracted_python'[Product ID])
+
+Avg_Order_Value = DIVIDE([Total_Sales], [Total_Orders], 0)
+
+Sales_Growth_YoY = 
+VAR CurrentYearSales = [Total_Sales]
+VAR PreviousYearSales = CALCULATE([Total_Sales], SAMEPERIODLASTYEAR('superstore_value_extracted_python'[Order Date]))
+RETURN DIVIDE(CurrentYearSales - PreviousYearSales, PreviousYearSales, 0)</pre>
+                        </div>
+
+                        <div class="code-block-container">
+                            <div class="language-label">DAX - Medidas VDRER</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block">// ===== MEDIDAS AVANZADAS - VALOR DE "DESHECHOS" =====
+
+// Análisis de Row ID patterns (si encontraste correlación temporal)
+Row_ID_Performance = 
+VAR HighRowIDs = CALCULATE([Total_Sales], 'superstore_value_extracted_python'[Row ID] > 7000)
+VAR LowRowIDs = CALCULATE([Total_Sales], 'superstore_value_extracted_python'[Row ID] <= 3000)
+RETURN DIVIDE(HighRowIDs, LowRowIDs, 1)
+
+// Customer Lifetime Value promedio
+Avg_CLV = AVERAGE('superstore_value_extracted_python'[clv_simple])
+
+// Customer Retention Rate estimado
+Customer_Retention_Rate = 
+VAR RepeatCustomers = CALCULATE(
+    DISTINCTCOUNT('superstore_value_extracted_python'[Customer ID]),
+    'superstore_value_extracted_python'[order_count] > 1
+)
+VAR TotalCustomers = [Total_Customers]
+RETURN DIVIDE(RepeatCustomers, TotalCustomers, 0)
+
+// Product Performance Score
+Avg_Product_Performance = AVERAGE('superstore_value_extracted_python'[product_performance_index])
+
+// Geographic Revenue Efficiency
+Revenue_per_Customer_by_State = AVERAGE('superstore_value_extracted_python'[revenue_per_customer])
+
+// Shipping Efficiency Rate
+Fast_Shipping_Rate = 
+DIVIDE(
+    CALCULATE(COUNT('superstore_value_extracted_python'[Row ID]), 
+              'superstore_value_extracted_python'[shipping_efficiency] = "Fast"),
+    COUNT('superstore_value_extracted_python'[Row ID]),
+    0
+)</pre>
+                        </div>
+                    </div>
+
+                    <div class="warning-card">
+                        <h3>🎨 CONFIGURACIÓN VISUAL SUPERSTORE</h3>
+                        <ul>
+                            <li><strong>Tema:</strong> Corporativo (azul/morado)</li>
+                            <li><strong>Paleta de colores:</strong>
+                                <ul>
+                                    <li>Azul principal: #667eea (tema principal)</li>
+                                    <li>Morado: #764ba2 (gradientes y acentos)</li>
+                                    <li>Dorado: #FFD700 (highlights y KPIs)</li>
+                                    <li>Azul claro: #4682B4 (datos secundarios)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Formato números:</strong> Sales en $K o $M, percentages con 1 decimal</li>
+                            <li><strong>Consistencia:</strong> Mismo estilo de tarjetas en todas las páginas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div id="powerbi-superstore-pages" class="tab-content">
+                    <div class="info-card">
+                        <h3>📊 ESTRUCTURA 4 PÁGINAS DASHBOARD</h3>
+                        
+                        <h4>🏠 PÁGINA 1: OVERVIEW EJECUTIVO SUPERSTORE</h4>
+                        <div class="framework-box">
+                            <h4>🎯 Objetivo: Vista general del negocio retail</h4>
+                            
+                            <h5>📊 KPIs Principales (Row 1):</h5>
+                            <ul>
+                                <li><strong>Card 1:</strong> [Total_Sales] - Formato: $K con % YoY growth</li>
+                                <li><strong>Card 2:</strong> [Total_Orders] - Formato: N0 con trend icon</li>
+                                <li><strong>Card 3:</strong> [Total_Customers] - Formato: N0 con % nuevos</li>
+                                <li><strong>Card 4:</strong> [Avg_Order_Value] - Formato: $ con indicador direccional</li>
+                            </ul>
+
+                            <h5>📈 Visualizaciones Clave:</h5>
+                            <ul>
+                                <li><strong>Line Chart (2x1):</strong> Sales by Order Date (mes) con forecast</li>
+                                <li><strong>Bar Chart (1x1):</strong> Sales by Region, ordenado desc</li>
+                                <li><strong>Pie Chart (1x1):</strong> Sales by Category con %</li>
+                                <li><strong>Map (1x1):</strong> Sales by State con bubble size</li>
+                                <li><strong>Table (2x1):</strong> Top 10 products: Product Name, Sales, Orders</li>
+                            </ul>
+
+                            <h5>🔧 Filtros de Página:</h5>
+                            <ul>
+                                <li>Region (Slicer visual)</li>
+                                <li>Segment (Dropdown)</li>
+                                <li>Order Date (Date range picker)</li>
+                            </ul>
+                        </div>
+
+                        <h4>👥 PÁGINA 2: CUSTOMER INTELLIGENCE</h4>
+                        <div class="framework-box">
+                            <h4>🎯 Objetivo: Insights de valor extraído de Customer IDs</h4>
+                            
+                            <h5>📊 KPIs Customer (Row 1):</h5>
+                            <ul>
+                                <li><strong>Card 1:</strong> [Avg_CLV] - "Customer Lifetime Value Promedio"</li>
+                                <li><strong>Card 2:</strong> [Customer_Retention_Rate] - "Tasa de Retención (%)"</li>
+                                <li><strong>Card 3:</strong> Gold Segment Count - "Customers VIP"</li>
+                                <li><strong>Card 4:</strong> [Revenue_per_Customer_by_State] - "Revenue/Customer Promedio"</li>
+                            </ul>
+
+                            <h5>📈 Análisis Customer:</h5>
+                            <ul>
+                                <li><strong>Clustered Column (2x1):</strong> CLV by customer_segment_vdrer</li>
+                                <li><strong>Scatter Plot (2x1):</strong> 
+                                    <ul>
+                                        <li>X: order_count, Y: total_sales</li>
+                                        <li>Size: clv_simple, Color: customer_segment_vdrer</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Treemap (1x1):</strong> Customers by State (size: total customers)</li>
+                                <li><strong>Stacked Bar (1x1):</strong> customer_segment_vdrer by Region</li>
+                                <li><strong>Matrix (2x1):</strong> customer_segment_vdrer vs metrics</li>
+                            </ul>
+
+                            <h5>💡 Insight Box:</h5>
+                            <ul>
+                                <li><strong>Text Box:</strong> "Customer ID Insights: Segmentación automática basada en patrones de comportamiento extraídos de códigos aparentemente irrelevantes"</li>
+                            </ul>
+                        </div>
+
+                        <h4>📦 PÁGINA 3: PRODUCT INTELLIGENCE</h4>
+                        <div class="framework-box">
+                            <h4>🎯 Objetivo: Valor extraído de Product IDs y códigos</h4>
+                            
+                            <h5>📊 KPIs Product (Row 1):</h5>
+                            <ul>
+                                <li><strong>Card 1:</strong> [Total_Products] - "Productos en Catálogo"</li>
+                                <li><strong>Card 2:</strong> [Avg_Product_Performance] - "Performance Promedio"</li>
+                                <li><strong>Card 3:</strong> Top Category Sales - "Categoría Líder"</li>
+                                <li><strong>Card 4:</strong> [Fast_Shipping_Rate] - "Eficiencia Logística (%)"</li>
+                            </ul>
+
+                            <h5>📈 Análisis Product:</h5>
+                            <ul>
+                                <li><strong>Horizontal Bar (2x1):</strong> Top 15 products by product_performance_index</li>
+                                <li><strong>Heat Map (2x1):</strong> Category vs Sub-Category sales matrix</li>
+                                <li><strong>Waterfall (1x1):</strong> Sales contribution by Category</li>
+                                <li><strong>Stacked Column (1x1):</strong> shipping_efficiency by Category</li>
+                                <li><strong>Top N Filter Table (2x1):</strong> Product intelligence con filtro dinámico</li>
+                            </ul>
+
+                            <h5>💡 Product ID Insights:</h5>
+                            <ul>
+                                <li><strong>Text Box:</strong> "Product ID Analysis: Jerarquías de categorías codificadas en prefijos - Performance Index combina sales volume x frequency"</li>
+                            </ul>
+                        </div>
+
+                        <h4>💎 PÁGINA 4: VALOR EXTRAÍDO - VDRER SHOWCASE</h4>
+                        <div class="framework-box">
+                            <h4>🎯 Objetivo: Documentar transformación de "deshechos" a insights</h4>
+                            
+                            <h5>📊 ROI de Análisis VDRER:</h5>
+                            <ul>
+                                <li><strong>Card 1:</strong> "4" - "Variables 'Inútiles' Analizadas"</li>
+                                <li><strong>Card 2:</strong> "3+" - "Insights Valiosos Extraídos"</li>
+                                <li><strong>Card 3:</strong> "5+" - "Features Derivadas Creadas"</li>
+                                <li><strong>Card 4:</strong> "100%" - "ROI Framework VDRER"</li>
+                            </ul>
+
+                            <h5>📋 Storytelling Visual:</h5>
+                            <ul>
+                                <li><strong>Multi-row Card (2x1):</strong> 
+                                    <ul>
+                                        <li>Row ID → "Proxy temporal de entrada al sistema"</li>
+                                        <li>Order ID → "Patrones geográficos en prefijos"</li>
+                                        <li>Customer ID → "Segmentación automática oculta"</li>
+                                        <li>Product ID → "Jerarquías de categorías codificadas"</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Before/After Bar Chart (1x1):</strong> Valor antes (0) vs después (100%) por variable</li>
+                                <li><strong>Process Flow Visual (2x1):</strong> VDRER steps con iconos</li>
+                                <li><strong>Impact Summary Table (1x1):</strong> Business impact por insight</li>
+                            </ul>
+
+                            <h5>🚀 Recomendaciones Accionables:</h5>
+                            <ul>
+                                <li><strong>Text Box Final:</strong> "Framework VDRER aplicado: Variables aparentemente 'inútiles' transformadas en 5+ features de business intelligence. ROI estimado: 300% en insights accionables."</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="warning-card">
+                        <h3>🔧 CONFIGURACIÓN TÉCNICA FINAL</h3>
+                        <ul>
+                            <li><strong>Paleta Power BI:</strong>
+                                <ul>
+                                    <li>Azul principal: #667eea (datos principales)</li>
+                                    <li>Morado: #764ba2 (destacados)</li>
+                                    <li>Dorado: #FFD700 (KPIs y métricas clave)</li>
+                                    <li>Rojo: #ff6b6b (alertas y attrition)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Navegación:</strong> Bookmarks para cada página con botones estilizados</li>
+                            <li><strong>Tooltips personalizados:</strong> En charts principales con context adicional</li>
+                            <li><strong>Drill-through:</strong> Desde overview a customer detail</li>
+                            <li><strong>Cross-filtering:</strong> Configurado entre todas las visualizaciones</li>
+                            <li><strong>Mobile layout:</strong> Optimizado para tablets y móviles</li>
+                            <li><strong>Export settings:</strong> PowerPoint y PDF ready</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: R Statistical Validation -->
+            <div class="slide">
+                <h2>📊 R: VALIDACIÓN ESTADÍSTICA SUPERSTORE</h2>
+                
+                <div class="platform-card">
+                    <h3>📈 R para Retail Statistical Intelligence</h3>
+                    <p>Usa Posit Cloud para validar estadísticamente los patrones encontrados en SuperStore</p>
+                </div>
+
+                <div class="tab-container">
+                    <button class="tab-button active" onclick="showTab('r-superstore-setup')">Setup & Validation</button>
+                    <button class="tab-button" onclick="showTab('r-superstore-advanced')">Advanced Analytics</button>
+                </div>
+                
+                <div id="r-superstore-setup" class="tab-content active">
+                    <div class="info-card">
+                        <h3>📦 R SETUP PARA SUPERSTORE</h3>
+                        
+                        <div class="code-block-container">
+                            <div class="language-label">R</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===== SETUP R PARA VALIDACIÓN ESTADÍSTICA SUPERSTORE =====
+library(tidyverse)    # Data manipulation y visualización
+library(corrplot)     # Correlation matrix
+library(cluster)      # Clustering algorithms
+library(factoextra)   # Clustering visualization
+library(randomForest) # Machine learning
+library(plotly)       # Interactive plots
+library(DT)          # Interactive tables
+
+# Cargar dataset enriquecido de Python
+superstore <- read_csv("superstore_value_extracted_python.csv")
+
+cat("🛒 SUPERSTORE STATISTICAL VALIDATION\n")
+cat("=====================================\n")
+cat("Dataset shape:", nrow(superstore), "rows x", ncol(superstore), "columns\n")
+
+# Convertir fechas si es necesario
+superstore$Order_Date <- as.Date(superstore$Order_Date)
+superstore$Ship_Date <- as.Date(superstore$Ship_Date)
+
+# Verificar features creadas por Python
+vdrer_features <- c("clv_simple", "product_performance_index", 
+                    "revenue_per_customer", "customer_segment_vdrer")
+
+cat("\n🔍 FEATURES VDRER ENCONTRADAS:\n")
+for(feature in vdrer_features) {
+  if(feature %in% names(superstore)) {
+    cat("✅", feature, "- Type:", class(superstore[[feature]])[1], "\n")
+  } else {
+    cat("❌", feature, "- NOT FOUND\n")
+  }
+}
+
+# Estadísticas descriptivas básicas
+cat("\n📊 ESTADÍSTICAS DESCRIPTIVAS:\n")
+if("Sales" %in% names(superstore)) {
+  cat("Sales: Min=", min(superstore$Sales, na.rm=T), 
+      "Max=", max(superstore$Sales, na.rm=T), 
+      "Mean=", round(mean(superstore$Sales, na.rm=T), 2), "\n")
+}
+
+if("clv_simple" %in% names(superstore)) {
+  cat("CLV: Min=", round(min(superstore$clv_simple, na.rm=T), 2), 
+      "Max=", round(max(superstore$clv_simple, na.rm=T), 2), 
+      "Mean=", round(mean(superstore$clv_simple, na.rm=T), 2), "\n")
+}</pre>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>🔬 VALIDACIÓN ESTADÍSTICA DE INSIGHTS</h3>
+                        
+                        <div class="code-block-container">
+                            <div class="language-label">R</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===== VALIDACIÓN ESTADÍSTICA DE INSIGHTS VDRER =====
+
+cat("\n🔬 VALIDACIÓN ESTADÍSTICA DE INSIGHTS\n")
+cat("=====================================\n")
+
+# 1. TEST: Customer Segment tiene diferencias significativas en CLV
+if("customer_segment_vdrer" %in% names(superstore) && "clv_simple" %in% names(superstore)) {
+  
+  cat("\n📊 TEST 1: ANOVA - CLV por Customer Segment\n")
+  
+  # Limpiar datos para ANOVA
+  anova_data <- superstore %>%
+    filter(!is.na(customer_segment_vdrer), !is.na(clv_simple)) %>%
+    filter(is.finite(clv_simple))
+  
+  if(nrow(anova_data) > 0) {
+    # ANOVA test
+    anova_result <- aov(clv_simple ~ customer_segment_vdrer, data = anova_data)
+    anova_summary <- summary(anova_result)
+    
+    cat("F-statistic:", round(anova_summary[[1]][1,4], 3), "\n")
+    cat("p-value:", format(anova_summary[[1]][1,5], scientific = TRUE), "\n")
+    
+    if(anova_summary[[1]][1,5] < 0.05) {
+      cat("✅ RESULTADO: Diferencias significativas entre segmentos (p < 0.05)\n")
+      
+      # Post-hoc test (Tukey HSD)
+      tukey_result <- TukeyHSD(anova_result)
+      cat("📈 TUKEY HSD - Diferencias entre grupos:\n")
+      significant_pairs <- tukey_result$customer_segment_vdrer[,"p adj"] < 0.05
+      if(any(significant_pairs)) {
+        sig_comparisons <- rownames(tukey_result$customer_segment_vdrer)[significant_pairs]
+        cat("Pares significativos:", paste(sig_comparisons, collapse = ", "), "\n")
+      }
+    } else {
+      cat("❌ RESULTADO: No hay diferencias significativas entre segmentos\n")
+    }
+  }
+}
+
+# 2. TEST: Correlación entre Product Performance y Sales
+if("product_performance_index" %in% names(superstore)) {
+  
+  cat("\n📊 TEST 2: CORRELACIÓN - Product Performance vs Sales\n")
+  
+  # Agregación por producto para evitar pseudoreplicación
+  product_stats <- superstore %>%
+    group_by(Product_ID) %>%
+    summarise(
+      avg_sales = mean(Sales, na.rm = TRUE),
+      performance_index = first(product_performance_index)
+    ) %>%
+    filter(!is.na(performance_index), is.finite(performance_index))
+  
+  if(nrow(product_stats) > 10) {
+    cor_test <- cor.test(product_stats$avg_sales, product_stats$performance_index)
+    
+    cat("Correlación:", round(cor_test$estimate, 3), "\n")
+    cat("p-value:", format(cor_test$p.value, scientific = TRUE), "\n")
+    cat("95% CI: [", round(cor_test$conf.int[1], 3), ",", 
+        round(cor_test$conf.int[2], 3), "]\n")
+    
+    if(cor_test$p.value < 0.05) {
+      cat("✅ RESULTADO: Correlación significativa (p < 0.05)\n")
+      
+      # Interpretación del tamaño del efecto
+      r_squared <- cor_test$estimate^2
+      cat("R²:", round(r_squared, 3), " - Performance explica", 
+          round(r_squared*100, 1), "% de la varianza en sales\n")
+    } else {
+      cat("❌ RESULTADO: Correlación no significativa\n")
+    }
+  }
+}
+
+# 3. TEST: Chi-cuadrado - Geographic distribution vs Segment
+if("Region" %in% names(superstore) && "Segment" %in% names(superstore)) {
+  
+  cat("\n📊 TEST 3: CHI-CUADRADO - Region vs Segment\n")
+  
+  # Crear tabla de contingencia
+  contingency_table <- table(superstore$Region, superstore$Segment)
+  chi_test <- chisq.test(contingency_table)
+  
+  cat("Chi-cuadrado:", round(chi_test$statistic, 3), "\n")
+  cat("p-value:", format(chi_test$p.value, scientific = TRUE), "\n")
+  
+  # Cramér's V para tamaño del efecto
+  n <- sum(contingency_table)
+  cramers_v <- sqrt(chi_test$statistic / (n * (min(dim(contingency_table)) - 1)))
+  cat("Cramér's V:", round(cramers_v, 3), "\n")
+  
+  if(chi_test$p.value < 0.05) {
+    cat("✅ RESULTADO: Asociación significativa entre Region y Segment\n")
+    cat("Tamaño del efecto:", ifelse(cramers_v < 0.1, "Pequeño", 
+                                   ifelse(cramers_v < 0.3, "Moderado", "Grande")), "\n")
+  } else {
+    cat("❌ RESULTADO: No hay asociación significativa\n")
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="r-superstore-advanced" class="tab-content">
+                    <div class="info-card">
+                        <h3>🎯 ANÁLISIS AVANZADO Y VISUALIZACIONES</h3>
+                        
+                        <div class="code-block-container">
+                            <div class="language-label">R</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===== ANÁLISIS AVANZADO SUPERSTORE =====
+
+cat("\n🎯 ANÁLISIS AVANZADO - CUSTOMER CLUSTERING\n")
+cat("==========================================\n")
+
+# 1. CUSTOMER CLUSTERING basado en features VDRER
+if(all(c("clv_simple", "total_sales", "order_count") %in% names(superstore))) {
+  
+  # Preparar datos para clustering (por customer)
+  customer_features <- superstore %>%
+    group_by(Customer_ID) %>%
+    summarise(
+      clv = first(clv_simple),
+      total_sales = first(total_sales),
+      order_count = first(order_count),
+      avg_order_value = total_sales / order_count
+    ) %>%
+    filter(!is.na(clv), is.finite(clv), is.finite(avg_order_value)) %>%
+    select(-Customer_ID)
+  
+  # Escalar variables para clustering
+  customer_scaled <- scale(customer_features)
+  
+  # Determinar número óptimo de clusters (Elbow method)
+  wss <- map_dbl(1:10, function(k) {
+    kmeans(customer_scaled, centers = k, nstart = 25)$tot.withinss
+  })
+  
+  # Encontrar "elbow"
+  optimal_k <- which.min(diff(diff(wss))) + 1
+  cat("Número óptimo de clusters (Elbow method):", optimal_k, "\n")
+  
+  # K-means clustering
+  set.seed(42)
+  kmeans_result <- kmeans(customer_scaled, centers = optimal_k, nstart = 25)
+  
+  # Agregar clusters al dataset original
+  customer_features$cluster <- kmeans_result$cluster
+  
+  # Estadísticas por cluster
+  cat("\n📊 CUSTOMER CLUSTERS - ESTADÍSTICAS:\n")
+  cluster_stats <- customer_features %>%
+    group_by(cluster) %>%
+    summarise(
+      customers = n(),
+      avg_clv = round(mean(clv), 2),
+      avg_total_sales = round(mean(total_sales), 2),
+      avg_orders = round(mean(order_count), 1)
+    )
+  
+  print(cluster_stats)
+  
+  # Silhouette analysis para validar clustering
+  sil_analysis <- silhouette(kmeans_result$cluster, dist(customer_scaled))
+  avg_sil_width <- mean(sil_analysis[, 3])
+  cat("\nPromedio Silhouette Width:", round(avg_sil_width, 3), "\n")
+  
+  if(avg_sil_width > 0.5) {
+    cat("✅ CLUSTERING: Estructura fuerte encontrada\n")
+  } else if(avg_sil_width > 0.25) {
+    cat("⚠️ CLUSTERING: Estructura débil pero razonable\n")
+  } else {
+    cat("❌ CLUSTERING: Estructura artificial o débil\n")
+  }
+}
+
+# 2. RANDOM FOREST para Feature Importance
+cat("\n🌳 RANDOM FOREST - FEATURE IMPORTANCE\n")
+cat("====================================\n")
+
+# Preparar datos para RF (predecir customer_segment_vdrer si existe)
+if("customer_segment_vdrer" %in% names(superstore)) {
+  
+  # Seleccionar features relevantes
+  rf_features <- c("Sales", "order_to_ship_days", "clv_simple", 
+                   "product_performance_index", "revenue_per_customer")
+  
+  available_features <- rf_features[rf_features %in% names(superstore)]
+  
+  if(length(available_features) > 2) {
+    
+    rf_data <- superstore %>%
+      select(all_of(available_features), customer_segment_vdrer) %>%
+      filter(!is.na(customer_segment_vdrer)) %>%
+      na.omit()
+    
+    if(nrow(rf_data) > 50) {
+      # Random Forest
+      set.seed(42)
+      rf_model <- randomForest(customer_segment_vdrer ~ ., 
+                               data = rf_data, 
+                               importance = TRUE,
+                               ntree = 500)
+      
+      # Feature importance
+      importance_scores <- importance(rf_model)
+      importance_df <- data.frame(
+        Feature = rownames(importance_scores),
+        MeanDecreaseGini = importance_scores[, "MeanDecreaseGini"]
+      ) %>%
+        arrange(desc(MeanDecreaseGini))
+      
+      cat("🏆 TOP FEATURES PARA CUSTOMER SEGMENTATION:\n")
+      print(head(importance_df, 5))
+      
+      # Model performance
+      cat("\nModel Accuracy:", round(mean(rf_model$predicted == rf_data$customer_segment_vdrer), 3), "\n")
+      cat("OOB Error Rate:", round(rf_model$err.rate[rf_model$ntree, "OOB"], 3), "\n")
+    }
+  }
+}
+
+# 3. TIME SERIES ANALYSIS de Sales
+cat("\n📈 TIME SERIES ANALYSIS - SALES PATTERNS\n")
+cat("=======================================\n")
+
+if("Order_Date" %in% names(superstore)) {
+  
+  # Agregación mensual
+  monthly_sales <- superstore %>%
+    mutate(YearMonth = floor_date(Order_Date, "month")) %>%
+    group_by(YearMonth) %>%
+    summarise(
+      Total_Sales = sum(Sales, na.rm = TRUE),
+      Order_Count = n_distinct(Order_ID)
+    ) %>%
+    arrange(YearMonth)
+  
+  cat("Período analizado:", min(monthly_sales$YearMonth), "a", max(monthly_sales$YearMonth), "\n")
+  cat("Meses con datos:", nrow(monthly_sales), "\n")
+  
+  # Calcular trend y estacionalidad básica
+  if(nrow(monthly_sales) >= 12) {
+    
+    # Decomposition simple
+    ts_sales <- ts(monthly_sales$Total_Sales, frequency = 12)
+    decomp <- decompose(ts_sales)
+    
+    # Trend analysis
+    trend_values <- as.numeric(decomp$trend)
+    trend_slope <- lm(trend_values ~ seq_along(trend_values))$coefficients[2]
+    
+    cat("Trend mensual promedio: $", round(trend_slope, 2), "\n")
+    
+    if(trend_slope > 0) {
+      cat("✅ TREND: Crecimiento positivo detectado\n")
+    } else {
+      cat("📉 TREND: Decrecimiento o estabilidad\n")
+    }
+    
+    # Seasonal patterns
+    seasonal_values <- as.numeric(decomp$seasonal)
+    peak_month <- which.max(seasonal_values[1:12])
+    low_month <- which.min(seasonal_values[1:12])
+    
+    cat("Mes pico estacional:", month.name[peak_month], "\n")
+    cat("Mes bajo estacional:", month.name[low_month], "\n")
+  }
+}
+
+# 4. EXPORT FINAL STATISTICAL SUMMARY
+cat("\n💾 EXPORTANDO RESUMEN ESTADÍSTICO\n")
+cat("=================================\n")
+
+statistical_summary <- list(
+  dataset_info = list(
+    rows = nrow(superstore),
+    features_analyzed = vdrer_features,
+    period = paste(min(superstore$Order_Date, na.rm=T), "to", max(superstore$Order_Date, na.rm=T))
+  ),
+  clustering_results = if(exists("cluster_stats")) cluster_stats else "No ejecutado",
+  model_performance = if(exists("rf_model")) list(
+    accuracy = mean(rf_model$predicted == rf_data$customer_segment_vdrer),
+    oob_error = rf_model$err.rate[rf_model$ntree, "OOB"]
+  ) else "No ejecutado",
+  trend_analysis = if(exists("trend_slope")) list(
+    monthly_growth = trend_slope,
+    direction = ifelse(trend_slope > 0, "Positive", "Negative/Stable")
+  ) else "No ejecutado"
+)
+
+# Exportar summary como JSON para fácil lectura
+if(require(jsonlite, quietly = TRUE)) {
+  write_json(statistical_summary, "superstore_statistical_summary.json", pretty = TRUE)
+  cat("✅ Resumen estadístico exportado: superstore_statistical_summary.json\n")
+}
+
+cat("\n🎉 VALIDACIÓN ESTADÍSTICA COMPLETADA\n")
+cat("====================================\n")
+cat("✅ Insights VDRER estadísticamente validados\n")
+cat("✅ Customer clustering ejecutado\n") 
+cat("✅ Feature importance identificada\n")
+cat("✅ Time series patterns analizados\n")
+cat("📊 Dataset listo para dashboard final en Power BI\n")</pre>
+                        </div>
+                    </div>
+
+                    <div class="warning-card">
+                        <h3>📊 VISUALIZACIONES R AVANZADAS</h3>
+                        
+                        <div class="code-block-container">
+                            <div class="language-label">R - Visualizations</div>
+                            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+                            <pre class="code-block"># ===== VISUALIZACIONES PUBLICATION-READY =====
+
+# 1. Customer Segmentation Plot
+if(exists("customer_features")) {
+  p1 <- ggplot(customer_features, aes(x = total_sales, y = clv, color = factor(cluster))) +
+    geom_point(alpha = 0.7, size = 2) +
+    scale_x_log10(labels = scales::dollar) +
+    scale_y_log10(labels = scales::dollar) +
+    labs(
+      title = "Customer Segmentation - VDRER Clustering",
+      subtitle = "CLV vs Total Sales con clusters identificados",
+      x = "Total Sales (log scale)",
+      y = "Customer Lifetime Value (log scale)",
+      color = "Cluster"
+    ) +
+    theme_minimal() +
+    theme(legend.position = "bottom")
+  
+  print(p1)
+  ggsave("superstore_customer_clusters.png", p1, width = 10, height = 6, dpi = 300)
+}
+
+# 2. Feature Importance Plot
+if(exists("importance_df")) {
+  p2 <- ggplot(head(importance_df, 8), aes(x = reorder(Feature, MeanDecreaseGini), y = MeanDecreaseGini)) +
+    geom_col(fill = "#2E8B57", alpha = 0.8) +
+    coord_flip() +
+    labs(
+      title = "Feature Importance - Customer Segmentation",
+      subtitle = "Variables más importantes para clasificar customer segments",
+      x = "Features",
+      y = "Mean Decrease Gini"
+    ) +
+    theme_minimal()
+  
+  print(p2)
+  ggsave("superstore_feature_importance.png", p2, width = 10, height = 6, dpi = 300)
+}
+
+# 3. Sales Time Series con Trend
+if(exists("monthly_sales")) {
+  p3 <- ggplot(monthly_sales, aes(x = YearMonth, y = Total_Sales)) +
+    geom_line(color = "#2E8B57", size = 1) +
+    geom_smooth(method = "lm", color = "#FF6B35", se = TRUE, alpha = 0.2) +
+    scale_y_continuous(labels = scales::dollar_format(scale = 1e-3, suffix = "K")) +
+    labs(
+      title = "SuperStore Sales Trend Analysis",
+      subtitle = "Monthly sales con trend line y confidence interval",
+      x = "Period",
+      y = "Total Sales"
+    ) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  print(p3)
+  ggsave("superstore_sales_trend.png", p3, width = 12, height = 6, dpi = 300)
+}
+
+cat("📊 Visualizaciones guardadas como PNG files\n")
+cat("🎯 Listas para incluir en presentaciones o reportes\n")</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Rúbrica SuperStore -->
+            <div class="slide">
+                <h2>📋 RÚBRICA SUPERSTORE - VDRER</h2>
+                
+                <div class="warning-card">
+                    <h3>⚖️ Evaluación Específica SuperStore Sales</h3>
+                    <p>Evaluación enfocada en <strong>extracción de valor de IDs y códigos retail</strong> usando Framework VDRER</p>
+                </div>
+
+                <table class="rubric-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio SuperStore</th>
+                            <th style="width: 15%;">Insuficiente (0 pts)</th>
+                            <th style="width: 20%;">Suficiente (1-2 pts)</th>
+                            <th style="width: 20%;">Excelente (2-4 pts)</th>
+                            <th style="width: 25%;">Peso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PRESENTACIÓN RETAIL</strong><br>Dashboard profesional y formato retail</td>
+                            <td class="insufficient">Dashboard confuso, sin identidad retail. Más de 7 errores. No representa estándares de e-commerce.</td>
+                            <td class="needs-improvement">Dashboard aceptable con algunos elementos retail. 3-5 errores. Organización básica.</td>
+                            <td class="excellent">Dashboard profesional con identidad retail clara. Menos de 3 errores. Estándares de e-commerce aplicados.</td>
+                            <td><strong>2 puntos (14%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>INSIGHTS DE "IDs INÚTILES"</strong><br>Valor extraído de Row ID, Order ID, Customer ID, Product ID</td>
+                            <td class="insufficient">No identifica valor en IDs. Considera variables como realmente inútiles. Sin aplicación VDRER.</td>
+                            <td class="needs-improvement">Identifica algunos patrones básicos en IDs. Aplicación parcial de VDRER. 1-2 insights válidos.</td>
+                            <td class="excellent">Extrae 3+ insights valiosos de IDs. Framework VDRER completamente aplicado. Business value claramente demostrado.</td>
+                            <td><strong>4 puntos (29%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CUSTOMER & PRODUCT INTELLIGENCE</strong><br>CLV, segmentación, performance features</td>
+                            <td class="insufficient">Sin features derivadas. No comprende customer lifetime value ni product performance. Análisis superficial.</td>
+                            <td class="needs-improvement">Algunas features básicas. CLV calculado pero sin insights. Segmentación simple sin validación.</td>
+                            <td class="excellent">Features avanzadas de CLV, segmentación estadísticamente validada, product intelligence accionable.</td>
+                            <td><strong>4 puntos (29%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>RETAIL ANALYTICS QUALITY</strong><br>KPIs, métricas y análisis específicos de retail</td>
+                            <td class="insufficient">KPIs genéricos sin contexto retail. Métricas incorrectas. No entiende e-commerce analytics.</td>
+                            <td class="needs-improvement">KPIs básicos de retail. Algunas métricas correctas pero sin profundidad analítica.</td>
+                            <td class="excellent">KPIs avanzados de retail, métricas especializadas, análisis profundo de e-commerce patterns.</td>
+                            <td><strong>4 puntos (29%)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="objective-card">
+                    <h3>🎯 Criterios Específicos SuperStore</h3>
+                    
+                    <h4>🛒 Retail Intelligence Específico (40% peso total):</h4>
+                    <ul>
+                        <li>✅ <strong>Customer Lifetime Value:</strong> Cálculo correcto y segmentación</li>
+                        <li>✅ <strong>Product Performance Index:</strong> Métricas innovadoras de productos</li>
+                        <li>✅ <strong>Geographic Revenue Density:</strong> Análisis territorial</li>
+                        <li>✅ <strong>Order Timing Intelligence:</strong> Patrones temporales de negocio</li>
+                    </ul>
+
+                    <h4>💎 Insights de Variables "Inútiles" (30% peso total):</h4>
+                    <ul>
+                        <li>✅ <strong>Row ID:</strong> Proxy temporal o secuencial insights</li>
+                        <li>✅ <strong>Order ID:</strong> Patrones geográficos/sistemáticos en prefijos</li>
+                        <li>✅ <strong>Customer ID:</strong> Segmentación oculta en codificación</li>
+                        <li>✅ <strong>Product ID:</strong> Jerarquías de categorías en estructura</li>
+                    </ul>
+
+                    <h4>📊 Dashboard SuperStore (20% peso total):</h4>
+                    <ul>
+                        <li>✅ <strong>Página 1:</strong> Overview ejecutivo con KPIs retail</li>
+                        <li>✅ <strong>Página 2:</strong> Customer Intelligence (CLV, segmentación)</li>
+                        <li>✅ <strong>Página 3:</strong> Product Intelligence (performance, categorías)</li>
+                        <li>✅ <strong>Página 4:</strong> VDRER Showcase (valor extraído documentado)</li>
+                    </ul>
+
+                    <h4>🔬 Rigor Analítico (10% peso total):</h4>
+                    <ul>
+                        <li>✅ <strong>Statistical validation:</strong> Si se usa R para confirmar patterns</li>
+                        <li>✅ <strong>Feature engineering:</strong> Metodología sólida</li>
+                        <li>✅ <strong>Business relevance:</strong> Insights aplicables al retail</li>
+                        <li>✅ <strong>Reproducibility:</strong> Código documentado y replicable</li>
+                    </ul>
+                </div>
+
+                <div class="warning-card">
+                    <h3>🏆 ELEMENTOS QUE GARANTIZAN MÁXIMA CALIFICACIÓN</h3>
+                    <ul>
+                        <li><strong>Wow Factor Retail:</strong> Descubrir patterns únicos en customer behavior o product performance</li>
+                        <li><strong>Business ROI:</strong> Cuantificar impacto real de insights en métricas de e-commerce</li>
+                        <li><strong>Advanced Segmentation:</strong> CLV y customer intelligence con validación estadística</li>
+                        <li><strong>Professional Dashboard:</strong> Calidad lista para stakeholders de retail</li>
+                        <li><strong>VDRER Mastery:</strong> Framework aplicado de manera innovadora y transferible</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>📊 Ejemplos de Insights Excelentes SuperStore</h3>
+                    
+                    <h4>💎 Insights Esperados de Variables "Inútiles":</h4>
+                    <ul>
+                        <li><strong>Row ID:</strong> "Row ID secuencial revela timing de entrada - primeros 1000 customers tienen 25% mayor CLV"</li>
+                        <li><strong>Order ID:</strong> "Prefijos 'CA' y 'US' en Order ID correlacionan con regiones específicas y ship modes"</li>
+                        <li><strong>Customer ID:</strong> "Patrones alfabéticos en Customer ID reflejan estrategias de adquisición por canal"</li>
+                        <li><strong>Product ID:</strong> "Estructura de Product ID codifica jerarquías: FUR-XX = Furniture, TEC-XX = Technology"</li>
+                    </ul>
+
+                    <h4>🎯 Features Innovadoras Esperadas:</h4>
+                    <ul>
+                        <li><strong>CLV Dinámico:</strong> Customer Lifetime Value que considera frequency y recency</li>
+                        <li><strong>Product Velocity:</strong> Índice que combina sales volume × order frequency × customer diversity</li>
+                        <li><strong>Geographic Efficiency:</strong> Revenue per customer por estado/región</li>
+                        <li><strong>Temporal Patterns:</strong> Análisis de seasonality y timing optimal de orders</li>
+                    </ul>
+                </div>
+
+                <div class="platform-card">
+                    <h3>📋 Checklist Final SuperStore</h3>
+                    <ul>
+                        <li>☐ <strong>Dashboard .pbix SuperStore</strong> con 4 páginas funcionales</li>
+                        <li>☐ <strong>Python notebook</strong> con Framework VDRER aplicado paso a paso</li>
+                        <li>☐ <strong>Dataset enriquecido</strong> con features de CLV, performance, segmentación</li>
+                        <li>☐ <strong>3+ insights de IDs</strong> con business value documentado</li>
+                        <li>☐ <strong>Customer intelligence</strong> con segmentación automática</li>
+                        <li>☐ <strong>Product intelligence</strong> con performance metrics</li>
+                        <li>☐ <strong>Retail KPIs</strong> específicos de e-commerce</li>
+                        <li>☐ <strong>Statistical validation</strong> (opcional con R)</li>
+                        <li>☐ <strong>Formato profesional</strong> listo para retail stakeholders</li>
+                        <li>☐ <strong>Naming:</strong> Actividad6_SuperStore_TuNombre_TuApellido</li>
+                    </ul>
+                </div>
+
+                <div class="framework-box">
+                    <h3>🚀 Impacto Esperado del Proyecto</h3>
+                    <p><strong>Transformación demostrada:</strong> Variables aparentemente "inútiles" → Retail Intelligence accionable</p>
+                    <p><strong>ROI Framework VDRER:</strong> 300%+ en insights de negocio extraídos</p>
+                    <p><strong>Preparación Sesión 8:</strong> Base sólida para KPIs avanzados, indicadores y jerarquías de retail</p>
+                    <p><strong>Transferibilidad:</strong> Metodología aplicable a cualquier dataset de e-commerce</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-indicator">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== FUNCIONALIDAD COMPLETA PARA SUPERSTORE VDRER =====
+        
+        function copyCode(button) {
+            try {
+                const codeBlock = button.nextElementSibling;
+                const codeText = codeBlock.innerText || codeBlock.textContent;
+                
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(codeText).then(() => {
+                        showCopySuccess(button);
+                    }).catch(err => {
+                        fallbackCopyTextToClipboard(codeText, button);
+                    });
+                } else {
+                    fallbackCopyTextToClipboard(codeText, button);
+                }
+            } catch (error) {
+                console.error('Error copying code:', error);
+                showCopyError(button);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess(button);
+                } else {
+                    showCopyError(button);
+                }
+            } catch (err) {
+                console.error('Fallback: Unable to copy', err);
+                showCopyError(button);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showCopySuccess(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '✅ ¡Copiado!';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        function showCopyError(button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = '❌ Error';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Variables globales para navegación
+        let currentSlideIndex = 0;
+        const totalSlides = 6;
+
+        function navigateSlide(direction) {
+            try {
+                const slides = document.querySelectorAll('.slide');
+                if (slides.length === 0) return;
+
+                const newIndex = Math.max(0, Math.min(slides.length - 1, currentSlideIndex + direction));
+                
+                if (newIndex !== currentSlideIndex) {
+                    slides[currentSlideIndex].classList.remove('active');
+                    slides[currentSlideIndex].style.display = 'none';
+
+                    slides[newIndex].style.display = 'block';
+                    setTimeout(() => {
+                        slides[newIndex].classList.add('active');
+                    }, 10);
+
+                    currentSlideIndex = newIndex;
+                    updateSlideCounter();
+                    updateProgressBar();
+                    updateNavigationButtons();
+                    resetTabsToDefault();
+
+                    const slideContainer = document.querySelector('.slide-container');
+                    if (slideContainer) {
+                        slideContainer.scrollTop = 0;
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Error in navigateSlide:', error);
+            }
+        }
+
+        function updateSlideCounter() {
+            const currentSlideSpan = document.getElementById('currentSlide');
+            if (currentSlideSpan) {
+                currentSlideSpan.textContent = currentSlideIndex + 1;
+            }
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                const slides = document.querySelectorAll('.slide');
+                const progress = ((currentSlideIndex + 1) / slides.length) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slides = document.querySelectorAll('.slide');
+            
+            if (prevBtn) prevBtn.disabled = (currentSlideIndex === 0);
+            if (nextBtn) nextBtn.disabled = (currentSlideIndex === slides.length - 1);
+        }
+
+        function showTab(tabId) {
+            try {
+                const clickedButton = event.target;
+                const tabContainer = clickedButton.closest('.slide');
+                
+                if (!tabContainer) return;
+
+                const tabContents = tabContainer.querySelectorAll('.tab-content');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                const tabButtons = tabContainer.querySelectorAll('.tab-button');
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+                
+                const selectedTab = document.getElementById(tabId);
+                if (selectedTab) {
+                    selectedTab.classList.add('active');
+                }
+                
+                clickedButton.classList.add('active');
+                
+                setTimeout(() => {
+                    if (selectedTab) {
+                        selectedTab.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'nearest' 
+                        });
+                    }
+                }, 100);
+                
+            } catch (error) {
+                console.error('Error in showTab:', error);
+            }
+        }
+
+        function resetTabsToDefault() {
+            try {
+                const defaultTabs = {
+                    1: [], // Slide 1 - No tabs
+                    2: ['superstore-python'], // Slide 2 - Python validation por defecto
+                    3: ['python-vdrer-generic'], // Slide 3 - Generic framework
+                    4: ['powerbi-superstore-setup'], // Slide 4 - Setup por defecto
+                    5: ['r-superstore-setup'], // Slide 5 - R setup por defecto
+                    6: [] // Slide 6 - No tabs
+                };
+
+                const currentSlideNum = currentSlideIndex + 1;
+                const defaultTabsForSlide = defaultTabs[currentSlideNum];
+
+                if (defaultTabsForSlide && defaultTabsForSlide.length > 0) {
+                    const currentSlide = document.querySelectorAll('.slide')[currentSlideIndex];
+                    
+                    const allTabContents = currentSlide.querySelectorAll('.tab-content');
+                    const allTabButtons = currentSlide.querySelectorAll('.tab-button');
+                    
+                    allTabContents.forEach(content => content.classList.remove('active'));
+                    allTabButtons.forEach(button => button.classList.remove('active'));
+
+                    defaultTabsForSlide.forEach(tabId => {
+                        const tab = document.getElementById(tabId);
+                        if (tab) {
+                            tab.classList.add('active');
+                            const button = currentSlide.querySelector(`[onclick*="${tabId}"]`);
+                            if (button) {
+                                button.classList.add('active');
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error in resetTabsToDefault:', error);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', function(e) {
+            try {
+                const activeElement = document.activeElement;
+                const isInputActive = activeElement && (
+                    activeElement.tagName === 'INPUT' || 
+                    activeElement.tagName === 'TEXTAREA' ||
+                    activeElement.contentEditable === 'true'
+                );
+
+                if (!isInputActive) {
+                    switch(e.key) {
+                        case 'ArrowLeft':
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            navigateSlide(-1);
+                            break;
+                        case 'ArrowRight':
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            navigateSlide(1);
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            while (currentSlideIndex > 0) {
+                                navigateSlide(-1);
+                            }
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            const slides = document.querySelectorAll('.slide');
+                            while (currentSlideIndex < slides.length - 1) {
+                                navigateSlide(1);
+                            }
+                            break;
+                    }
+                }
+            } catch (error) {
+                console.error('Error in keyboard handler:', error);
+            }
+        });
+
+        // Touch gestures
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diffX = touchStartX - touchEndX;
+
+            if (Math.abs(diffX) > swipeThreshold) {
+                if (diffX > 0) {
+                    navigateSlide(1);
+                } else {
+                    navigateSlide(-1);
+                }
+            }
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                console.log('🛒 Inicializando SuperStore VDRER Instructions...');
+
+                const slides = document.querySelectorAll('.slide');
+                if (slides.length > 0) {
+                    slides.forEach((slide, index) => {
+                        if (index === 0) {
+                            slide.classList.add('active');
+                            slide.style.display = 'block';
+                        } else {
+                            slide.classList.remove('active');
+                            slide.style.display = 'none';
+                        }
+                    });
+
+                    const totalSlidesSpan = document.getElementById('totalSlides');
+                    if (totalSlidesSpan) {
+                        totalSlidesSpan.textContent = slides.length;
+                    }
+
+                    updateSlideCounter();
+                    updateProgressBar();
+                    updateNavigationButtons();
+                    resetTabsToDefault();
+
+                    console.log(`✅ SuperStore VDRER inicializado: ${slides.length} slides`);
+                } else {
+                    console.error('❌ No slides found');
+                }
+
+                const copyButtons = document.querySelectorAll('.copy-btn');
+                console.log(`🔧 ${copyButtons.length} copy buttons configured`);
+
+                copyButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        copyCode(this);
+                    });
+                });
+
+                console.log('✅ SuperStore VDRER Instructions ready!');
+                console.log('');
+                console.log('🛒 SUPERSTORE FRAMEWORK VDRER - ORDEN DE EJECUCIÓN:');
+                console.log('  1. Slide 1: Objetivos y contexto SuperStore');
+                console.log('  2. Slide 2: Verificar dataset 9,800 × 18');
+                console.log('  3. Slide 3: Python VDRER (EJECUTAR PRIMERO)');
+                console.log('     - Extraer valor de Row ID, Order ID, Customer ID, Product ID');
+                console.log('     - Crear CLV, Product Performance Index, Customer Segmentation');
+                console.log('  4. Slide 4: Power BI Dashboard (DESPUÉS DE PYTHON)');
+                console.log('     - 4 páginas: Overview, Customer Intelligence, Product Intelligence, VDRER Value');
+                console.log('  5. Slide 5: R Statistical Validation (OPCIONAL)');
+                console.log('  6. Slide 6: Rúbrica específica SuperStore');
+                console.log('');
+                console.log('⌨️ Keyboard controls: ← → arrows, Home/End');
+                console.log('📱 Touch gestures enabled');
+                
+            } catch (error) {
+                console.error('❌ Error initializing SuperStore presentation:', error);
+            }
+        });
+
+        window.navigateSlide = navigateSlide;
+        window.showTab = showTab;
+        window.copyCode = copyCode;
+
+        window.debugSuperStore = function() {
+            console.log('🔍 SuperStore Debug Info:');
+            console.log('Current slide:', currentSlideIndex + 1);
+            console.log('Total slides:', document.querySelectorAll('.slide').length);
+            console.log('Active tabs:', document.querySelectorAll('.tab-content.active').length);
+            console.log('Copy buttons:', document.querySelectorAll('.copy-btn').length);
+        };
+
+    </script>
+</body>
+</html>
