@@ -975,72 +975,70 @@ print("="*70)</pre>
                 <div class="code-block-container">
                     <div class="language-label">DAX - Medidas B2B</div>
                     <button class="copy-btn">📋 Copiar</button>
-                    <pre class="code-block">// ===== MEDIDAS DAX ESENCIALES B2B =====
+                    <pre class="code-block">
+// ========== MÉTRICAS BÁSICAS ==========
+Total Revenue :=
+SUM('customer_sales_value_extracted_python'[SALES])
 
-// Medidas básicas
-Total_Revenue = SUM('customer_sales_value_extracted_python'[SALES])
-Total_Customers = DISTINCTCOUNT('customer_sales_value_extracted_python'[CUSTOMERNAME])
-Total_Orders = DISTINCTCOUNT('customer_sales_value_extracted_python'[ORDERNUMBER])
-Avg_Deal_Size = DIVIDE([Total_Revenue], [Total_Orders], 0)
+Total Customers :=
+DISTINCTCOUNT('customer_sales_value_extracted_python'[CUSTOMERNAME])
 
-// Customer Intelligence
-Avg_CLV_B2B = AVERAGE('customer_sales_value_extracted_python'[clv_b2b])
-Platinum_Customers = CALCULATE(
+Total Orders :=
+DISTINCTCOUNT('customer_sales_value_extracted_python'[ORDERNUMBER])
+
+Avg Deal Size :=
+DIVIDE([Total Revenue], [Total Orders], 0)
+
+Revenue per Customer :=
+DIVIDE([Total Revenue], [Total Customers], 0)
+
+Avg Sales per OrderLine :=
+AVERAGE('customer_sales_value_extracted_python'[SALES])
+
+// ========== CUSTOMER INTELLIGENCE ==========
+Avg CLV B2B :=
+AVERAGE('customer_sales_value_extracted_python'[CLV_B2B])
+
+Platinum Customers :=
+CALCULATE(
     DISTINCTCOUNT('customer_sales_value_extracted_python'[CUSTOMERNAME]),
     'customer_sales_value_extracted_python'[customer_tier] = "Platinum"
 )
 
-// Territory Performance
-Avg_Territory_Performance = AVERAGE('customer_sales_value_extracted_python'[territory_performance_index])
+// ========== TERRITORY PERFORMANCE ==========
+Avg Territory Performance :=
+AVERAGE('customer_sales_value_extracted_python'[territory_performance_index])
 
-// Deal Complexity
-Complex_Deals_Rate = 
+// ========== DEAL COMPLEXITY ==========
+Complex Deals Rate :=
 DIVIDE(
-    CALCULATE([Total_Orders], 'customer_sales_value_extracted_python'[deal_complexity_score] > 3),
-    [Total_Orders],
+    CALCULATE(
+        [Total Orders],
+        'customer_sales_value_extracted_python'[deal_complexity_score] > 3
+    ),
+    [Total Orders],
     0
 )
 
-// VDRER Insights from "useless" variables
-Early_Customers_Performance = 
+// ========== EARLY CUSTOMERS INSIGHT ==========
+Early Customers CLV :=
 CALCULATE(
-    [Avg_CLV_B2B],
+    [Avg CLV B2B],
     'customer_sales_value_extracted_python'[acquisition_quartile] = "Early"
 )
-                   // === MEDIDAS DAX DISPONIBLES EN BASE A TU DATA ===
 
-// Medidas básicas
-Total_Revenue = SUM('customer_sales_value_extracted_python'[sales])
-
-Total_Customers = DISTINCTCOUNT('customer_sales_value_extracted_python'[customername])
-
-Total_Orders = DISTINCTCOUNT('customer_sales_value_extracted_python'[ordernumber])
-
-Avg_Deal_Size = DIVIDE([Total_Revenue], [Total_Orders], 0)
-
-Revenue_per_Customer = 
-DIVIDE([Total_Revenue], [Total_Customers], 0)
-
-Revenue_per_OrderLine = 
-AVERAGE('customer_sales_value_extracted_python'[sales])
-
-// Análisis por categoría de producto
-Revenue_by_ProductLine = 
+// ========== TABLAS CALCULADAS ==========
+Revenue by ProductLine :=
 SUMMARIZECOLUMNS(
     'customer_sales_value_extracted_python'[productline],
-    "Total Revenue", [Total_Revenue]
+    "Total Revenue", [Total Revenue]
 )
 
-// Análisis temporal (año)
-Revenue_by_Year = 
+Revenue by Year :=
 SUMMARIZECOLUMNS(
     'customer_sales_value_extracted_python'[year],
-    "Total Revenue", [Total_Revenue]
-)
- 
-                    
-                    
-                    
+    "Total Revenue", [Total Revenue]
+) 
                     
                     </pre>
                 </div>
