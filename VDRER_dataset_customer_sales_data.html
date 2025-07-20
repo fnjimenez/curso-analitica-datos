@@ -1,31 +1,30 @@
 
 <div style="font-family:'Segoe UI', sans-serif; background: linear-gradient(145deg, #6a67ce, #764ba2); color: white; padding: 2.5rem; border-radius: 24px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); margin-bottom: 2rem; max-width: 960px; margin:auto;">
-  <h1 style="font-size: 2.7rem; margin-bottom: 1rem;">📘 Block de Notas - Dataset IBM HR Attrition</h1>
+  <h1 style="font-size: 2.7rem; margin-bottom: 1rem;">📊 Customer Sales Data – Datos de Ventas de Clientes</h1>
 
   <p style="font-size: 1.2rem;"><strong>🔗 Enlace directo a la base de datos:</strong>
-  <a href="https://fnjimenez.github.io/curso-analitica-datos/datashets/WA_Fn-UseC_-HR-Employee-Attrition.csv" target="_blank" style="color: #ffe066; font-weight:bold;">WA_Fn-UseC_-HR-Employee-Attrition.csv</a></p>
+  <a href="https://fnjimenez.github.io/curso-analitica-datos/datasets/customer_sales_data.csv" target="_blank" style="color: #ffe066; font-weight:bold;">customer_sales_data.csv</a></p>
 
-  <p style="font-size: 1.2rem;"><strong>📊 Contenido de la base de datos:</strong></p>
+  <p style="font-size: 1.2rem;"><strong>📝 Transacciones de ventas y datos demográficos de los clientes:</strong></p>
   <ul style="font-size: 1.1rem; line-height: 1.7;">
-    <li>1470 registros únicos de empleados.</li>
-    <li>35 columnas que abarcan información de desempeño, satisfacción, rotación y demografía.</li>
-    <li>Etiquetado de clase binaria: <strong>Attrition</strong> (Yes/No).</li>
-    <li>Incluye variables como: Age, Gender, Department, MonthlyIncome, YearsAtCompany, etc.</li>
+    <li>Incluye órdenes, ingresos, región, cliente, categoría de producto y método de envío.</li>
+    <li>Dataset utilizado para segmentación, análisis de clientes, simulaciones y análisis de ventas.</li>
+    <li>Ideal para entrenamiento en analítica de ventas y comportamiento del cliente.</li>
   </ul>
 
   <p style="font-size: 1.2rem;"><strong>📎 Fuente y licencia:</strong></p>
   <p style="font-size: 1.1rem;">
-    Esta base de datos fue compartida por <strong>Pavan Subhasht</strong> en Kaggle bajo licencia <strong>Creative Commons</strong>.<br>
-    Consulta el dataset original aquí:<br>
-    <a href="https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset" target="_blank" style="color: #ffdd66; font-weight:bold;">
-      IBM HR Analytics Dataset en Kaggle
+    Publicado originalmente por <strong>María Carina Roldán</strong> (Pentaho Community Member, BI Consultant, Argentina).<br>
+    Licenciado bajo Creative Commons Attribution-NonCommercial-ShareAlike 3.0.<br>
+    Modificado por Gus Segura, junio 2014.<br>
+    <a href="https://www.kaggle.com/datasets/kyanyoga/sample-sales-data" target="_blank" style="color: #ffdd66; font-weight:bold;">
+      Ver dataset en Kaggle
     </a>
   </p>
 
-  <p style="font-size: 1.2rem;"><strong>🧠 Propósito educativo:</strong></p>
+  <p style="font-size: 1.2rem;"><strong>📊 Propósito educativo:</strong></p>
   <p style="font-size: 1.1rem;">
-    Este conjunto de datos es ideal para actividades de análisis exploratorio, predicción de rotación de personal, visualización de KPIs,
-    y prácticas de modelado de clasificación supervisada.
+    Este conjunto de datos es útil para prácticas de visualización, modelado de clientes, clustering y simulación de escenarios comerciales.
   </p>
 </div>
 <!DOCTYPE html>
@@ -7578,7 +7577,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
@@ -7633,121 +7632,36 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># ============================================</span>
-<span class="c1"># SCRIPT CORREGIDO: Carga robusta + Reparación de TODAS las líneas problemáticas</span>
-<span class="c1"># ============================================</span>
+<div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
+<span class="c1"># BLOQUE 2: CARGA DE DATOS</span>
+<span class="c1"># ===================================================================</span>
+<span class="c1"># Opción 1: Subir archivo desde tu computadora</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\U0001F4C2</span><span class="s2"> Selecciona tu archivo CSV desde tu computadora:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"📂 Selecciona tu archivo CSV desde tu computadora:"</span><span class="p">)</span>
 <span class="n">uploaded</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">upload</span><span class="p">()</span>
 
+<span class="c1"># Obtener el nombre del archivo subido</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">uploaded</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\U0001F4C4</span><span class="s2"> Archivo detectado: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📄 Archivo detectado: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="n">raw_bytes</span> <span class="o">=</span> <span class="n">uploaded</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span>
-<span class="n">preview</span> <span class="o">=</span> <span class="n">raw_bytes</span><span class="p">[:</span><span class="mi">3000</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">)</span>
-
-<span class="c1"># === DETECCIÓN DEL DELIMITADOR ===</span>
-<span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">','</span><span class="p">,</span> <span class="s1">';'</span><span class="p">,</span> <span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">]</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">header_line</span> <span class="o">=</span> <span class="n">preview</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="k">for</span> <span class="n">delim</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">([</span><span class="n">header_line</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delim</span><span class="p">)</span>
-        <span class="n">n_fields</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">))</span>
-        <span class="n">counts</span><span class="p">[</span><span class="n">delim</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_fields</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">continue</span>
-
-<span class="n">best_delim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
-<span class="n">expected_fields</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">best_delim</span><span class="p">]</span>
-
-<span class="c1"># === REPARAR TODAS LAS LÍNEAS PROBLEMÁTICAS ===</span>
-<span class="n">lines</span> <span class="o">=</span> <span class="n">raw_bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-<span class="n">header</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">data_lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📋 Campos esperados: </span><span class="si">{</span><span class="n">expected_fields</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📄 Total de líneas de datos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_lines</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="n">problematic_lines</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">repaired_lines</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_lines</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>  <span class="c1"># Solo procesar líneas no vacías</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Parsear la línea para contar campos</span>
-            <span class="n">fields</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">([</span><span class="n">line</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">best_delim</span><span class="p">))</span>
-            <span class="n">num_fields</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">num_fields</span> <span class="o">==</span> <span class="n">expected_fields</span><span class="p">:</span>
-                <span class="c1"># Línea correcta</span>
-                <span class="n">repaired_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">num_fields</span> <span class="o">&gt;</span> <span class="n">expected_fields</span><span class="p">:</span>
-                <span class="c1"># Línea con campos extra - truncar</span>
-                <span class="n">truncated_fields</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[:</span><span class="n">expected_fields</span><span class="p">]</span>
-                <span class="c1"># Reensamblar la línea truncada</span>
-                <span class="n">repaired_line</span> <span class="o">=</span> <span class="n">best_delim</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s1">"'</span> <span class="k">if</span> <span class="n">best_delim</span> <span class="ow">in</span> <span class="n">field</span> <span class="ow">or</span> <span class="s1">'"'</span> <span class="ow">in</span> <span class="n">field</span> <span class="k">else</span> <span class="n">field</span>
-                                              <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">truncated_fields</span><span class="p">)</span>
-                <span class="n">repaired_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">repaired_line</span><span class="p">)</span>
-                <span class="n">problematic_lines</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">69</span><span class="p">:</span>  <span class="c1"># Línea 70 (índice 69)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔧 Línea 70 reparada: </span><span class="si">{</span><span class="n">num_fields</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">expected_fields</span><span class="si">}</span><span class="s2"> campos"</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Línea con campos faltantes - rellenar</span>
-                <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">expected_fields</span><span class="p">:</span>
-                    <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
-                <span class="n">repaired_line</span> <span class="o">=</span> <span class="n">best_delim</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s1">"'</span> <span class="k">if</span> <span class="n">best_delim</span> <span class="ow">in</span> <span class="n">field</span> <span class="ow">or</span> <span class="s1">'"'</span> <span class="ow">in</span> <span class="n">field</span> <span class="k">else</span> <span class="n">field</span>
-                                              <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">)</span>
-                <span class="n">repaired_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">repaired_line</span><span class="p">)</span>
-                <span class="n">problematic_lines</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="c1"># Si no se puede parsear la línea, intentar mantenerla o saltarla</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en línea </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)[:</span><span class="mi">50</span><span class="p">]</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
-            <span class="n">problematic_lines</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="c1"># Intentar mantener la línea original</span>
-            <span class="n">repaired_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔧 Total de líneas problemáticas reparadas: </span><span class="si">{</span><span class="n">problematic_lines</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="c1"># Reconstruir archivo reparado en memoria</span>
-<span class="n">data_clean</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">header</span><span class="p">]</span> <span class="o">+</span> <span class="n">repaired_lines</span><span class="p">)</span>
-
-<span class="c1"># === CARGAR EL DATASET ===</span>
+<span class="c1"># Cargar el dataset con manejo de errores</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">data_clean</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">best_delim</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset cargado exitosamente con delimitador detectado: '</span><span class="si">{</span><span class="n">best_delim</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📊 Forma del dataset: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"❌ Error leyendo con delimitador '</span><span class="si">{</span><span class="n">best_delim</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Problema de encoding, intentando con latin-1..."</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'latin-1'</span><span class="p">)</span>
 
-<span class="c1"># === LIMPIEZA DE NOMBRES DE COLUMNAS ===</span>
-<span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'-'</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[^a-z0-9_]'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🧽 Columnas limpias: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="c1"># Información básica de carga</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset cargado exitosamente"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📏 Dimensiones: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💾 Memoria usada: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📈 Resumen final:"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  • Filas cargadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  • Columnas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  • Líneas reparadas: </span><span class="si">{</span><span class="n">problematic_lines</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🎉 ¡Importación completada!"</span><span class="p">)</span>
+<span class="c1"># Opción 2: Cargar desde URL (comentado)</span>
+<span class="c1"># df = pd.read_csv('https://tu-url-del-dataset.csv')</span>
 </pre></div>
 </div>
 </div>
@@ -7767,8 +7681,8 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<input disabled="" id="files-e8f12ec0-9f96-41e6-9a5d-e2957793e884" multiple="" name="files[]" style="border:none" type="file"/>
-<output id="result-e8f12ec0-9f96-41e6-9a5d-e2957793e884">
+<input disabled="" id="files-f675e9d8-8674-4fba-a221-92ebaf7a05d4" multiple="" name="files[]" style="border:none" type="file"/>
+<output id="result-f675e9d8-8674-4fba-a221-92ebaf7a05d4">
       Upload widget is only available when the cell has been executed in the
       current browser session. Please rerun this cell to enable.
       </output>
@@ -7953,23 +7867,12 @@ scope.google.colab._files = {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Saving WA_Fn-UseC_-HR-Employee-Attrition.csv to WA_Fn-UseC_-HR-Employee-Attrition.csv
-📄 Archivo detectado: WA_Fn-UseC_-HR-Employee-Attrition.csv
-📋 Campos esperados: 35
-📄 Total de líneas de datos: 1470
-🔧 Total de líneas problemáticas reparadas: 0
-✅ Dataset cargado exitosamente con delimitador detectado: ','
-📊 Forma del dataset: (1470, 35)
-
-🧽 Columnas limpias: 35 columnas
-['age', 'attrition', 'businesstravel', 'dailyrate', 'department', 'distancefromhome', 'education', 'educationfield', 'employeecount', 'employeenumber', 'environmentsatisfaction', 'gender', 'hourlyrate', 'jobinvolvement', 'joblevel', 'jobrole', 'jobsatisfaction', 'maritalstatus', 'monthlyincome', 'monthlyrate', 'numcompaniesworked', 'over18', 'overtime', 'percentsalaryhike', 'performancerating', 'relationshipsatisfaction', 'standardhours', 'stockoptionlevel', 'totalworkingyears', 'trainingtimeslastyear', 'worklifebalance', 'yearsatcompany', 'yearsincurrentrole', 'yearssincelastpromotion', 'yearswithcurrmanager']
-
-📈 Resumen final:
-  • Filas cargadas: 1,470
-  • Columnas: 35
-  • Líneas reparadas: 0
-
-🎉 ¡Importación completada!
+<pre>Saving customer_sales_data.csv to customer_sales_data.csv
+📄 Archivo detectado: customer_sales_data.csv
+⚠️ Problema de encoding, intentando con latin-1...
+✅ Dataset cargado exitosamente
+📏 Dimensiones: 2,823 filas × 25 columnas
+💾 Memoria usada: 2.88 MB
 </pre>
 </div>
 </div>
@@ -7991,7 +7894,7 @@ scope.google.colab._files = {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
@@ -8058,17 +7961,22 @@ scope.google.colab._files = {
 ==================================================
 
 🔢 INFORMACIÓN BÁSICA:
-Filas: 1,470
-Columnas: 35
-Memoria total: 1.12 MB
+Filas: 2,823
+Columnas: 25
+Memoria total: 2.88 MB
 
 📋 TIPOS DE DATOS:
-int64     26
-object     9
+object     16
+int64       7
+float64     2
 Name: count, dtype: int64
 
 ❓ VALORES FALTANTES:
-✅ No hay valores faltantes en el dataset
+     Columna  Faltantes  Porcentaje
+ADDRESSLINE2       2521   89.302161
+       STATE       1486   52.639036
+   TERRITORY       1074   38.044633
+  POSTALCODE         76    2.692171
 
 🔄 DUPLICADOS:
 Filas duplicadas: 0 (0.00%)
@@ -8076,98 +7984,50 @@ Filas duplicadas: 0 (0.00%)
 📊 ESTADÍSTICAS DESCRIPTIVAS:
 
 Columnas numéricas:
-               age    dailyrate  distancefromhome    education  employeecount  \
-count  1470.000000  1470.000000       1470.000000  1470.000000         1470.0   
-mean     36.923810   802.485714          9.192517     2.912925            1.0   
-std       9.135373   403.509100          8.106864     1.024165            0.0   
-min      18.000000   102.000000          1.000000     1.000000            1.0   
-25%      30.000000   465.000000          2.000000     2.000000            1.0   
-50%      36.000000   802.000000          7.000000     3.000000            1.0   
-75%      43.000000  1157.000000         14.000000     4.000000            1.0   
-max      60.000000  1499.000000         29.000000     5.000000            1.0   
+        ORDERNUMBER  QUANTITYORDERED    PRICEEACH  ORDERLINENUMBER  \
+count   2823.000000      2823.000000  2823.000000      2823.000000   
+mean   10258.725115        35.092809    83.658544         6.466171   
+std       92.085478         9.741443    20.174277         4.225841   
+min    10100.000000         6.000000    26.880000         1.000000   
+25%    10180.000000        27.000000    68.860000         3.000000   
+50%    10262.000000        35.000000    95.700000         6.000000   
+75%    10333.500000        43.000000   100.000000         9.000000   
+max    10425.000000        97.000000   100.000000        18.000000   
 
-       employeenumber  environmentsatisfaction   hourlyrate  jobinvolvement  \
-count     1470.000000              1470.000000  1470.000000     1470.000000   
-mean      1024.865306                 2.721769    65.891156        2.729932   
-std        602.024335                 1.093082    20.329428        0.711561   
-min          1.000000                 1.000000    30.000000        1.000000   
-25%        491.250000                 2.000000    48.000000        2.000000   
-50%       1020.500000                 3.000000    66.000000        3.000000   
-75%       1555.750000                 4.000000    83.750000        3.000000   
-max       2068.000000                 4.000000   100.000000        4.000000   
-
-          joblevel  jobsatisfaction  monthlyincome   monthlyrate  \
-count  1470.000000      1470.000000    1470.000000   1470.000000   
-mean      2.063946         2.728571    6502.931293  14313.103401   
-std       1.106940         1.102846    4707.956783   7117.786044   
-min       1.000000         1.000000    1009.000000   2094.000000   
-25%       1.000000         2.000000    2911.000000   8047.000000   
-50%       2.000000         3.000000    4919.000000  14235.500000   
-75%       3.000000         4.000000    8379.000000  20461.500000   
-max       5.000000         4.000000   19999.000000  26999.000000   
-
-       numcompaniesworked  percentsalaryhike  performancerating  \
-count         1470.000000        1470.000000        1470.000000   
-mean             2.693197          15.209524           3.153741   
-std              2.498009           3.659938           0.360824   
-min              0.000000          11.000000           3.000000   
-25%              1.000000          12.000000           3.000000   
-50%              2.000000          14.000000           3.000000   
-75%              4.000000          18.000000           3.000000   
-max              9.000000          25.000000           4.000000   
-
-       relationshipsatisfaction  standardhours  stockoptionlevel  \
-count               1470.000000         1470.0       1470.000000   
-mean                   2.712245           80.0          0.793878   
-std                    1.081209            0.0          0.852077   
-min                    1.000000           80.0          0.000000   
-25%                    2.000000           80.0          0.000000   
-50%                    3.000000           80.0          1.000000   
-75%                    4.000000           80.0          1.000000   
-max                    4.000000           80.0          3.000000   
-
-       totalworkingyears  trainingtimeslastyear  worklifebalance  \
-count        1470.000000            1470.000000      1470.000000   
-mean           11.279592               2.799320         2.761224   
-std             7.780782               1.289271         0.706476   
-min             0.000000               0.000000         1.000000   
-25%             6.000000               2.000000         2.000000   
-50%            10.000000               3.000000         3.000000   
-75%            15.000000               3.000000         3.000000   
-max            40.000000               6.000000         4.000000   
-
-       yearsatcompany  yearsincurrentrole  yearssincelastpromotion  \
-count     1470.000000         1470.000000              1470.000000   
-mean         7.008163            4.229252                 2.187755   
-std          6.126525            3.623137                 3.222430   
-min          0.000000            0.000000                 0.000000   
-25%          3.000000            2.000000                 0.000000   
-50%          5.000000            3.000000                 1.000000   
-75%          9.000000            7.000000                 3.000000   
-max         40.000000           18.000000                15.000000   
-
-       yearswithcurrmanager  
-count           1470.000000  
-mean               4.123129  
-std                3.568136  
-min                0.000000  
-25%                2.000000  
-50%                3.000000  
-75%                7.000000  
-max               17.000000  
+              SALES       QTR_ID     MONTH_ID     YEAR_ID         MSRP  
+count   2823.000000  2823.000000  2823.000000  2823.00000  2823.000000  
+mean    3553.889072     2.717676     7.092455  2003.81509   100.715551  
+std     1841.865106     1.203878     3.656633     0.69967    40.187912  
+min      482.130000     1.000000     1.000000  2003.00000    33.000000  
+25%     2203.430000     2.000000     4.000000  2003.00000    68.000000  
+50%     3184.800000     3.000000     8.000000  2004.00000    99.000000  
+75%     4508.000000     4.000000    11.000000  2004.00000   124.000000  
+max    14082.800000     4.000000    12.000000  2005.00000   214.000000  
 
 Columnas categóricas:
-       attrition businesstravel              department educationfield gender  \
-count       1470           1470                    1470           1470   1470   
-unique         2              3                       3              6      2   
-top           No  Travel_Rarely  Research &amp; Development  Life Sciences   Male   
-freq        1233           1043                     961            606    882   
+              ORDERDATE   STATUS   PRODUCTLINE PRODUCTCODE  \
+count              2823     2823          2823        2823   
+unique              252        6             7         109   
+top     11/14/2003 0:00  Shipped  Classic Cars    S18_3232   
+freq                 38     2617           967          52   
 
-                jobrole maritalstatus over18 overtime  
-count              1470          1470   1470     1470  
-unique                9             3      1        2  
-top     Sales Executive       Married      Y       No  
-freq                326           673   1470     1054  
+                 CUSTOMERNAME           PHONE        ADDRESSLINE1  \
+count                    2823            2823                2823   
+unique                     92              91                  92   
+top     Euro Shopping Channel  (91) 555 94 44  C/ Moralzarzal, 86   
+freq                      259             259                 259   
+
+       ADDRESSLINE2    CITY STATE POSTALCODE COUNTRY TERRITORY  \
+count           302    2823  1337       2747    2823      1749   
+unique            9      73    16         73      19         3   
+top         Level 3  Madrid    CA      28034     USA      EMEA   
+freq             55     304   416        259    1004      1407   
+
+       CONTACTLASTNAME CONTACTFIRSTNAME DEALSIZE  
+count             2823             2823     2823  
+unique              77               72        3  
+top             Freyre            Diego   Medium  
+freq               259              259     1384  
 </pre>
 </div>
 </div>
@@ -8189,7 +8049,7 @@ freq                326           673   1470     1054
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
@@ -8278,32 +8138,29 @@ freq                326           673   1470     1054
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>📋 INICIANDO PROCESO DE LIMPIEZA...
-📊 Dataset original: (1470, 35)
+📊 Dataset original: (2823, 25)
 
 🔄 ELIMINANDO DUPLICADOS:
    • Duplicados eliminados: 0
-   • Filas restantes: 1,470
+   • Filas restantes: 2,823
 
 📝 ESTANDARIZANDO NOMBRES DE COLUMNAS:
-   Nombres originales: ['age', 'attrition', 'businesstravel', 'dailyrate', 'department'] ...
-   Nombres estandarizados: ['age', 'attrition', 'businesstravel', 'dailyrate', 'department'] ...
+   Nombres originales: ['ORDERNUMBER', 'QUANTITYORDERED', 'PRICEEACH', 'ORDERLINENUMBER', 'SALES'] ...
+   Nombres estandarizados: ['ordernumber', 'quantityordered', 'priceeach', 'orderlinenumber', 'sales'] ...
 
 🔧 MANEJO DE VALORES FALTANTES:
+   • addressline2: 2,521 valores → 'Level 3'
+   • state: 1,486 valores → 'CA'
+   • postalcode: 76 valores → '28034'
+   • territory: 1,074 valores → 'EMEA'
 
 🎯 TRATAMIENTO DE OUTLIERS:
-   • monthlyincome: 114 outliers winsorizados (7.8%)
-   • numcompaniesworked: 52 outliers mantenidos (3.5%)
-   • performancerating: 226 outliers winsorizados (15.4%)
-   • stockoptionlevel: 85 outliers winsorizados (5.8%)
-   • totalworkingyears: 63 outliers mantenidos (4.3%)
-   • trainingtimeslastyear: 238 outliers winsorizados (16.2%)
-   • yearsatcompany: 104 outliers winsorizados (7.1%)
-   • yearsincurrentrole: 21 outliers mantenidos (1.4%)
-   • yearssincelastpromotion: 107 outliers winsorizados (7.3%)
-   • yearswithcurrmanager: 14 outliers mantenidos (1.0%)
+   • quantityordered: 8 outliers mantenidos (0.3%)
+   • sales: 81 outliers mantenidos (2.9%)
+   • msrp: 28 outliers mantenidos (1.0%)
 
 ✅ LIMPIEZA COMPLETADA
-📊 Dimensiones finales: (1470, 35)
+📊 Dimensiones finales: (2823, 25)
 ❓ Valores faltantes restantes: 0
 </pre>
 </div>
@@ -8317,16 +8174,16 @@ freq                326           673   1470     1054
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="5.-Exportar-dataset-limpio-para-respaldo">5. Exportar dataset limpio para respaldo<a class="anchor-link" href="#5.-Exportar-dataset-limpio-para-respaldo">¶</a></h1>
+<h1 id="5.-Exportar-dataset-limpio-para-respaldO">5. Exportar dataset limpio para respaldO<a class="anchor-link" href="#5.-Exportar-dataset-limpio-para-respaldO">¶</a></h1>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
@@ -8335,7 +8192,7 @@ freq                326           673   1470     1054
 <span class="nb">print</span><span class="p">(</span><span class="s2">"💾 GUARDANDO DATASET LIMPIO..."</span><span class="p">)</span>
 
 <span class="c1"># Opción 1: Guardar como CSV (recomendado para Power BI)</span>
-<span class="n">filename_clean</span> <span class="o">=</span> <span class="s1">'cleaned_RH.csv'</span>
+<span class="n">filename_clean</span> <span class="o">=</span> <span class="s1">'cleaned_customersales.csv'</span>
 <span class="n">df_clean</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename_clean</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset limpio guardado como: </span><span class="si">{</span><span class="n">filename_clean</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
@@ -8349,88 +8206,6 @@ freq                326           673   1470     1054
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📁 Tamaño: </span><span class="si">{</span><span class="n">df_clean</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🎯 Listo para usar en Actividad 6!"</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>💾 GUARDANDO DATASET LIMPIO...
-✅ Dataset limpio guardado como: cleaned_RH.csv
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="47866409-bf6b-41bf-97b8-b7a66ff1d220" tabindex="0">
-<script type="text/javascript">
-var element = document.getElementById('47866409-bf6b-41bf-97b8-b7a66ff1d220');
-
-    async function download(id, filename, size) {
-      if (!google.colab.kernel.accessAllowed) {
-        return;
-      }
-      const div = document.createElement('div');
-      const label = document.createElement('label');
-      label.textContent = `Downloading "${filename}": `;
-      div.appendChild(label);
-      const progress = document.createElement('progress');
-      progress.max = size;
-      div.appendChild(progress);
-      document.body.appendChild(div);
-
-      const buffers = [];
-      let downloaded = 0;
-
-      const channel = await google.colab.kernel.comms.open(id);
-      // Send a message to notify the kernel that we're ready.
-      channel.send({})
-
-      for await (const message of channel.messages) {
-        // Send a message to notify the kernel that we're ready.
-        channel.send({})
-        if (message.buffers) {
-          for (const buffer of message.buffers) {
-            buffers.push(buffer);
-            downloaded += buffer.byteLength;
-            progress.value = downloaded;
-          }
-        }
-      }
-      const blob = new Blob(buffers, {type: 'application/binary'});
-      const a = document.createElement('a');
-      a.href = window.URL.createObjectURL(blob);
-      a.download = filename;
-      div.appendChild(a);
-      a.click();
-      div.remove();
-    }
-  
-</script>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="54f495f3-5cb6-4d38-990a-dd65a2644af5" tabindex="0">
-<script type="text/javascript">
-var element = document.getElementById('54f495f3-5cb6-4d38-990a-dd65a2644af5');
-download("download_2425881e-1cf0-45f1-a3b7-e71becd918f6", "cleaned_RH.csv", 244071)
-</script>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>📥 Archivo descargado a tu computadora
-📊 Archivo final: 1,470 filas × 35 columnas
-📁 Tamaño: 1.12 MB
-🎯 Listo para usar en Actividad 6!
-</pre>
 </div>
 </div>
 </div>
@@ -8451,29 +8226,50 @@ download("download_2425881e-1cf0-45f1-a3b7-e71becd918f6", "cleaned_RH.csv", 2440
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
-<span class="c1"># BLOQUE 6: SETUP INICIAL / VALIDACIÓN INICIAL DEL DATASET DE RH</span>
+<span class="c1"># BLOQUE 6: VALIDACIÓN INICIAL CUSTOMER SALES DATA</span>
 <span class="c1"># ===================================================================</span>
 
-<span class="c1"># ✅ Usa directamente df_clean que ya tienes en memoria</span>
+<span class="c1"># Normalizar nombres de columnas: snake_case</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">)</span>
 
-<span class="c1"># Verificar que el dataset esté limpio y listo</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📊 VERIFICACIÓN DATASET LIMPIO PARA ACTIVIDAD 6"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Shape: </span><span class="si">{</span><span class="n">df_clean</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing values: </span><span class="si">{</span><span class="n">df_clean</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duplicates: </span><span class="si">{</span><span class="n">df_clean</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"💼 CUSTOMER SALES DATA - Validación inicial"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔢 Dimensiones del DataFrame: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="c1"># Verificar tipos de datos</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔧 Tipos de datos (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_clean</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span><span class="si">}</span><span class="s2"> columnas):"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_clean</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="c1"># Convertir order_date si es necesario</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'orderdate'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'orderdate'</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📅 Período: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'orderdate'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> a </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'orderdate'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="c1"># Asignar a df para continuar con el código de Actividad 6</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df_clean</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Dataset listo para Actividad 6: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># Información básica B2B</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 OVERVIEW B2B SALES:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🧾 Total de órdenes: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"👤 Total de clientes: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'customername'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📦 Total de productos: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'productcode'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🧮 Total de líneas de producto: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'productline'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💰 Rango de ventas: $</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'sales'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2"> - $</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'sales'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💵 Ingreso total: $</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'sales'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Verificar calidad de datos</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 CALIDAD DE DATOS:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🧼 Valores faltantes: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📋 Filas duplicadas: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Identificar variables sospechosas para aplicar VDRER</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📌 VARIABLES 'SOSPECHOSAS' PARA VDRER:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔢 ordernumber: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔑 productcode: Ejemplo → </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'productcode'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📞 phone: Ejemplo → </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'phone'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🧾 orderlinenumber: 1 - </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'orderlinenumber'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Distribución del deal size</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📐 Distribución de DEALSIZE:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'dealsize'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Dataset listo para aplicar Framework VDRER"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8486,19 +8282,37 @@ download("download_2425881e-1cf0-45f1-a3b7-e71becd918f6", "cleaned_RH.csv", 2440
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>📊 VERIFICACIÓN DATASET LIMPIO PARA ACTIVIDAD 6
-==================================================
-Shape: (1470, 35)
-Missing values: 0
-Duplicates: 0
+<pre>💼 CUSTOMER SALES DATA - Validación inicial
+============================================================
+🔢 Dimensiones del DataFrame: (2823, 25)
+📅 Período: 2003-01-06 a 2005-05-31
 
-🔧 Tipos de datos (35 columnas):
-int64      20
-object      9
-float64     6
+📊 OVERVIEW B2B SALES:
+🧾 Total de órdenes: 307
+👤 Total de clientes: 92
+📦 Total de productos: 109
+🧮 Total de líneas de producto: 7
+💰 Rango de ventas: $482.13 - $14,082.80
+💵 Ingreso total: $10,032,628.85
+
+🔍 CALIDAD DE DATOS:
+🧼 Valores faltantes: 0
+📋 Filas duplicadas: 0
+
+📌 VARIABLES 'SOSPECHOSAS' PARA VDRER:
+🔢 ordernumber: 10100 - 10425
+🔑 productcode: Ejemplo → S10_1678
+📞 phone: Ejemplo → 2125557818
+🧾 orderlinenumber: 1 - 18
+
+📐 Distribución de DEALSIZE:
+dealsize
+Medium    1384
+Small     1282
+Large      157
 Name: count, dtype: int64
 
-✅ Dataset listo para Actividad 6: (1470, 35)
+✅ Dataset listo para aplicar Framework VDRER
 </pre>
 </div>
 </div>
@@ -8520,33 +8334,55 @@ Name: count, dtype: int64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ====================================================================</span>
-<span class="c1"># BLOQUE 7: ✅ (SIN CARGAR CSV) 🔍 FASE 1: VALIDAR - Verificación de Dataset de RH</span>
+<span class="c1"># BLOQUE 7: ✅ FASE 1: VALIDAR - CUSTOMER SALES DATA (SIN CARGAR CSV)</span>
 <span class="c1"># ====================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"🔄 INICIANDO ACTIVIDAD 6: EXTRACCIÓN DE VALOR DE DESHECHOS DIGITALES"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📋 FASE 1: VALIDAR - INICIANDO ANÁLISIS DEL DATASET"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 
-<span class="c1"># Usar el dataset ya limpio de Actividad 5</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df_clean</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset base: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
+<span class="c1"># 1. Asignar copia del dataset limpio</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>  <span class="c1"># estandarizar encabezados</span>
 
-<span class="c1"># Verificación de calidad</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 FASE 1: VALIDAR - Verificando calidad del dataset"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing values: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duplicates: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tipos de datos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
+<span class="c1"># 2. Convertir fechas si existen</span>
+<span class="k">if</span> <span class="s1">'orderdate'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'orderdate'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'orderdate'</span><span class="p">])</span>
+    <span class="n">fecha_inicio</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'orderdate'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">fecha_fin</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'orderdate'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📅 Período de ventas: </span><span class="si">{</span><span class="n">fecha_inicio</span><span class="si">}</span><span class="s2"> a </span><span class="si">{</span><span class="n">fecha_fin</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ ERROR: No se encontró la columna 'orderdate' en el dataset."</span><span class="p">)</span>
 
-<span class="c1"># Ver primeras filas para orientarnos</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">👀 Preview del dataset:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1"># 3. Overview del negocio B2B</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🏢 OVERVIEW B2B SALES:"</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">'ordernumber'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📋 Órdenes únicas: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Faltante: 'ordernumber'"</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ FASE 1 COMPLETADA - Dataset validado y listo"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📋 Ahora ejecuta la Fase 2 para descubrir variables 'inútiles'"</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">'customername'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"👥 Clientes únicos: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'customername'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Faltante: 'customername'"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s1">'productcode'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📦 Productos únicos: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'productcode'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Faltante: 'productcode'"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s1">'sales'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💰 Revenue total: $</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'sales'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Faltante: 'sales'"</span><span class="p">)</span>
+
+<span class="c1"># 4. Verificación de calidad de datos</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 CALIDAD DE DATOS:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔢 Valores nulos totales: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📑 Filas duplicadas: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8560,64 +8396,19 @@ Name: count, dtype: int64
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-======================================================================
-🔄 INICIANDO ACTIVIDAD 6: EXTRACCIÓN DE VALOR DE DESHECHOS DIGITALES
-======================================================================
-✅ Dataset base: 1,470 filas × 35 columnas
+📋 FASE 1: VALIDAR - INICIANDO ANÁLISIS DEL DATASET
+============================================================
+📅 Período de ventas: 2003-01-06 a 2005-05-31
 
-🔍 FASE 1: VALIDAR - Verificando calidad del dataset
-Missing values: 0
-Duplicates: 0
-Tipos de datos: 35 columnas
+🏢 OVERVIEW B2B SALES:
+📋 Órdenes únicas: 307
+👥 Clientes únicos: 92
+📦 Productos únicos: 109
+💰 Revenue total: $10,032,628.85
 
-👀 Preview del dataset:
-   age attrition     businesstravel  dailyrate              department  \
-0   41       Yes      Travel_Rarely       1102                   Sales   
-1   49        No  Travel_Frequently        279  Research &amp; Development   
-2   37       Yes      Travel_Rarely       1373  Research &amp; Development   
-
-   distancefromhome  education educationfield  employeecount  employeenumber  \
-0                 1          2  Life Sciences              1               1   
-1                 8          1  Life Sciences              1               2   
-2                 2          2          Other              1               4   
-
-   environmentsatisfaction  gender  hourlyrate  jobinvolvement  joblevel  \
-0                        2  Female          94               3         2   
-1                        3    Male          61               2         2   
-2                        4    Male          92               2         1   
-
-                 jobrole  jobsatisfaction maritalstatus  monthlyincome  \
-0        Sales Executive                4        Single         5993.0   
-1     Research Scientist                2       Married         5130.0   
-2  Laboratory Technician                3        Single         2090.0   
-
-   monthlyrate  numcompaniesworked over18 overtime  percentsalaryhike  \
-0        19479                   8      Y      Yes                 11   
-1        24907                   1      Y       No                 23   
-2         2396                   6      Y      Yes                 15   
-
-   performancerating  relationshipsatisfaction  standardhours  \
-0                3.0                         1             80   
-1                3.0                         4             80   
-2                3.0                         2             80   
-
-   stockoptionlevel  totalworkingyears  trainingtimeslastyear  \
-0               0.0                  8                    0.5   
-1               1.0                 10                    3.0   
-2               0.0                  7                    3.0   
-
-   worklifebalance  yearsatcompany  yearsincurrentrole  \
-0                1             6.0                   4   
-1                3            10.0                   7   
-2                3             0.0                   0   
-
-   yearssincelastpromotion  yearswithcurrmanager  
-0                      0.0                     5  
-1                      1.0                     7  
-2                      0.0                     0  
-
-✅ FASE 1 COMPLETADA - Dataset validado y listo
-📋 Ahora ejecuta la Fase 2 para descubrir variables 'inútiles'
+🔍 CALIDAD DE DATOS:
+🔢 Valores nulos totales: 0
+📑 Filas duplicadas: 0
 </pre>
 </div>
 </div>
@@ -8639,43 +8430,71 @@ Tipos de datos: 35 columnas
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ====================================================================</span>
-<span class="c1"># BLOQUE 8: 🔍 FASE 2: DESCUBRIR - Identificar Variables Aparentemente "Inútiles"</span>
+<span class="c1"># BLOQUE 8: 🔍 FASE 2: DESCUBRIR - VARIABLES 'INÚTILES' CON POTENCIAL DE VALOR</span>
 <span class="c1"># ====================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 FASE 2: DESCUBRIR - Buscando variables aparentemente 'inútiles'"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 FASE 2: DESCUBRIR - Explorando variables aparentemente 'inútiles'"</span><span class="p">)</span>
+<span class="n">insights_found</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Lista para registrar hallazgos relevantes</span>
 
-<span class="c1"># Identificar variables constantes o casi constantes</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 ANÁLISIS DE VARIABLES 'SOSPECHOSAS':"</span><span class="p">)</span>
-<span class="n">constant_vars</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">almost_constant_vars</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># ===== ANÁLISIS DE ORDERNUMBER =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 Análisis de ORDERNUMBER:"</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">'ordernumber'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Rango: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Total de valores únicos: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• ¿Secuencial?: </span><span class="si">{</span><span class="s1">'Sí'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">is_monotonic_increasing</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'No'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"ORDERNUMBER podría usarse para identificar cohortes de adquisición"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Columna 'ordernumber' no encontrada"</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-    <span class="n">unique_count</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
-    <span class="n">total_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="c1"># ===== ANÁLISIS DE ORDERLINENUMBER =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 Análisis de ORDERLINENUMBER:"</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">'orderlinenumber'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Máximo por orden: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'ordernumber'</span><span class="p">)[</span><span class="s1">'orderlinenumber'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Distribución de líneas por orden (ejemplo):"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'orderlinenumber'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"ORDERLINENUMBER refleja complejidad de cada deal B2B"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Columna 'orderlinenumber' no encontrada"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">unique_count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔴 </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: CONSTANTE - 1 valor único = </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">constant_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">unique_count</span> <span class="o">&lt;=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'attrition'</span><span class="p">]:</span>  <span class="c1"># Excluir variable objetivo</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🟡 </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: CASI CONSTANTE - </span><span class="si">{</span><span class="n">unique_count</span><span class="si">}</span><span class="s2"> valores únicos"</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Valores: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">almost_constant_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+<span class="c1"># ===== ANÁLISIS DE CUSTOMERNAME &amp; PHONE =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 Análisis de CUSTOMERNAME y PHONE:"</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">'customername'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="s1">'phone'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">duplicados</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'customername'</span><span class="p">,</span> <span class="s1">'phone'</span><span class="p">]]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Posibles duplicados customer-phone: </span><span class="si">{</span><span class="n">duplicados</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Ejemplo customer + phone:</span><span class="se">\n</span><span class="si">{</span><span class="n">df</span><span class="p">[[</span><span class="s1">'customername'</span><span class="p">,</span><span class="w"> </span><span class="s1">'phone'</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"PHONE permite validar unicidad y posibles duplicados de cliente"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Columnas 'customername' o 'phone' faltantes"</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💡 RESUMEN DESCUBRIMIENTO:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🔴 Variables constantes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">constant_vars</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🟡 Variables casi constantes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">almost_constant_vars</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🎯 Total 'sospechosas': </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">constant_vars</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">almost_constant_vars</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># ===== ANÁLISIS DE PRODUCTCODE =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 Análisis de PRODUCTCODE:"</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">'productcode'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Ejemplo de códigos: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'productcode'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Longitud promedio del código: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'productcode'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Prefijos de producto (primeros 2 caracteres):"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'productcode'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"PRODUCTCODE podría codificar jerarquías o familias de producto"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Columna 'productcode' no encontrada"</span><span class="p">)</span>
 
-<span class="c1"># Guardar lista de variables sospechosas para siguiente fase</span>
-<span class="n">suspicious_vars</span> <span class="o">=</span> <span class="n">constant_vars</span> <span class="o">+</span> <span class="n">almost_constant_vars</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📝 Variables para analizar en Fase 3: </span><span class="si">{</span><span class="n">suspicious_vars</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># ===== ANÁLISIS DE DEALSIZE =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 Análisis de DEALSIZE:"</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">'dealsize'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Categorías encontradas: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'dealsize'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"• Distribución:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'dealsize'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"DEALSIZE clasifica el tamaño de la venta B2B y puede ser usada como feature de segmentación"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Columna 'dealsize' no encontrada"</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ FASE 2 COMPLETADA - Variables 'inútiles' identificadas"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📋 Ahora ejecuta la Fase 3 para extraer valor de estas variables"</span><span class="p">)</span>
+<span class="c1"># ===== RESUMEN DE HALLAZGOS =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Variables 'inútiles' con potencial valor encontradas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">insights_found</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">insight</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">insights_found</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">insight</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8689,33 +8508,59 @@ Tipos de datos: 35 columnas
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-🔍 FASE 2: DESCUBRIR - Buscando variables aparentemente 'inútiles'
+🔍 FASE 2: DESCUBRIR - Explorando variables aparentemente 'inútiles'
 
-📊 ANÁLISIS DE VARIABLES 'SOSPECHOSAS':
-🟡 businesstravel: CASI CONSTANTE - 3 valores únicos
-   Valores: {'Travel_Rarely': 1043, 'Travel_Frequently': 277, 'Non-Travel': 150}
-🟡 department: CASI CONSTANTE - 3 valores únicos
-   Valores: {'Research &amp; Development': 961, 'Sales': 446, 'Human Resources': 63}
-🔴 employeecount: CONSTANTE - 1 valor único = 1
-🟡 gender: CASI CONSTANTE - 2 valores únicos
-   Valores: {'Male': 882, 'Female': 588}
-🟡 maritalstatus: CASI CONSTANTE - 3 valores únicos
-   Valores: {'Married': 673, 'Single': 470, 'Divorced': 327}
-🔴 over18: CONSTANTE - 1 valor único = Y
-🟡 overtime: CASI CONSTANTE - 2 valores únicos
-   Valores: {'No': 1054, 'Yes': 416}
-🔴 performancerating: CONSTANTE - 1 valor único = 3.0
-🔴 standardhours: CONSTANTE - 1 valor único = 80
+📊 Análisis de ORDERNUMBER:
+• Rango: 10100 - 10425
+• Total de valores únicos: 307
+• ¿Secuencial?: No
 
-💡 RESUMEN DESCUBRIMIENTO:
-   🔴 Variables constantes: 4
-   🟡 Variables casi constantes: 5
-   🎯 Total 'sospechosas': 9
+📊 Análisis de ORDERLINENUMBER:
+• Máximo por orden: 18
+• Distribución de líneas por orden (ejemplo):
+orderlinenumber
+1    307
+2    291
+3    270
+4    256
+5    239
+Name: count, dtype: int64
 
-📝 Variables para analizar en Fase 3: ['employeecount', 'over18', 'performancerating', 'standardhours', 'businesstravel', 'department', 'gender', 'maritalstatus', 'overtime']
+📊 Análisis de CUSTOMERNAME y PHONE:
+• Posibles duplicados customer-phone: 2731
+• Ejemplo customer + phone:
+         customername             phone
+0   Land of Toys Inc.        2125557818
+1  Reims Collectables        26.47.1555
+2     Lyon Souveniers  +33 1 46 62 7555
 
-✅ FASE 2 COMPLETADA - Variables 'inútiles' identificadas
-📋 Ahora ejecuta la Fase 3 para extraer valor de estas variables
+📊 Análisis de PRODUCTCODE:
+• Ejemplo de códigos: ['S10_1678' 'S10_1949' 'S10_2016' 'S10_4698' 'S10_4757']
+• Longitud promedio del código: 8.1
+• Prefijos de producto (primeros 2 caracteres):
+productcode
+S1    1415
+S2     731
+S7     366
+S3     206
+S5     105
+Name: count, dtype: int64
+
+📊 Análisis de DEALSIZE:
+• Categorías encontradas: ['Small', 'Medium', 'Large']
+• Distribución:
+dealsize
+Medium    1384
+Small     1282
+Large      157
+Name: count, dtype: int64
+
+✅ Variables 'inútiles' con potencial valor encontradas: 5
+   1. ORDERNUMBER podría usarse para identificar cohortes de adquisición
+   2. ORDERLINENUMBER refleja complejidad de cada deal B2B
+   3. PHONE permite validar unicidad y posibles duplicados de cliente
+   4. PRODUCTCODE podría codificar jerarquías o familias de producto
+   5. DEALSIZE clasifica el tamaño de la venta B2B y puede ser usada como feature de segmentación
 </pre>
 </div>
 </div>
@@ -8737,65 +8582,53 @@ Tipos de datos: 35 columnas
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ====================================================================</span>
-<span class="c1"># BLOQUE 9: ♻️ FASE 3: REUTILIZAR - Extraer Valor de Variables "Inútiles" de Recursos Humanos</span>
+<span class="c1"># BLOQUE 9: ♻️ FASE 3: REUTILIZAR - EXTRACCIÓN DE VALOR DE VARIABLES 'INÚTILES'</span>
 <span class="c1"># ====================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">⚙️ FASE 3: REUTILIZAR - Extrayendo valor de variables 'inútiles'"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">♻️ FASE 3: REUTILIZAR - Extrayendo valor de variables sin aparente utilidad directa"</span><span class="p">)</span>
 
-<span class="n">insights_found</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="c1"># 💎 INSIGHT 1: Employee Number patterns (cohortes empresariales ocultas)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💎 INSIGHT 1: Patrones Ocultos en Employee Numbers"</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'employee_cohort'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'employeenumber'</span><span class="p">],</span>
-                                  <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
-                                  <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'Founders'</span><span class="p">,</span> <span class="s1">'Growth'</span><span class="p">,</span> <span class="s1">'Scale'</span><span class="p">,</span> <span class="s1">'Recent'</span><span class="p">])</span>
-
-    <span class="n">cohort_attrition</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'employee_cohort'</span><span class="p">)[</span><span class="s1">'attrition'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="s1">'Yes'</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="c1"># ===== CUSTOMER ACQUISITION COHORTS =====</span>
+<span class="c1"># Determinar el primer número de orden por cliente (simula la adquisición)</span>
+<span class="k">if</span> <span class="s1">'customername'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="s1">'ordernumber'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">first_order_by_customer</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'customername'</span><span class="p">)[</span><span class="s1">'ordernumber'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'customer_acquisition_cohort'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'customername'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">first_order_by_customer</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'acquisition_quartile'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">'customer_acquisition_cohort'</span><span class="p">],</span>
+        <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'Early'</span><span class="p">,</span> <span class="s1">'Growth'</span><span class="p">,</span> <span class="s1">'Scale'</span><span class="p">,</span> <span class="s1">'Recent'</span><span class="p">]</span>
     <span class="p">)</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"ORDERNUMBER revela momento de adquisición del cliente"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Faltan columnas necesarias para cohortes de adquisición"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"🏢 Tasa de attrición por cohorte de empleado:"</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">cohort</span><span class="p">,</span> <span class="n">rate</span> <span class="ow">in</span> <span class="n">cohort_attrition</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • </span><span class="si">{</span><span class="n">cohort</span><span class="si">}</span><span class="s2"> Era: </span><span class="si">{</span><span class="n">rate</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+<span class="c1"># ===== PRODUCT HIERARCHY =====</span>
+<span class="c1"># Identificar categorías a partir del código de producto (primeros 2 caracteres)</span>
+<span class="k">if</span> <span class="s1">'productcode'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'product_prefix'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'productcode'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"PRODUCTCODE estructura codifica jerarquía de productos"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Columna 'productcode' no disponible para extraer prefijos"</span><span class="p">)</span>
 
-    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Employee Number revela cohortes con diferentes comportamientos"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en análisis de cohortes: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># ===== DEAL COMPLEXITY =====</span>
+<span class="c1"># Calcular qué tan complejo fue un deal (cantidad de líneas por orden)</span>
+<span class="k">if</span> <span class="s1">'ordernumber'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="s1">'orderlinenumber'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">order_complexity</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'ordernumber'</span><span class="p">)[</span><span class="s1">'orderlinenumber'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">order_complexity</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'deal_complexity_score'</span><span class="p">),</span>
+        <span class="n">left_on</span><span class="o">=</span><span class="s1">'ordernumber'</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"ORDERLINENUMBER indica complejidad de cada trato"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Faltan columnas para calcular la complejidad de la orden"</span><span class="p">)</span>
 
-<span class="c1"># 💎 INSIGHT 2: StandardHours como baseline empresarial</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💎 INSIGHT 2: StandardHours como Referencia Empresarial"</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">standard_hours</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'standardhours'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">overtime_employees</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'overtime'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="s1">'overtime'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">else</span> <span class="mi">0</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🕒 Horas estándar empresa: </span><span class="si">{</span><span class="n">standard_hours</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"👥 Empleados con overtime: </span><span class="si">{</span><span class="n">overtime_employees</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💡 Insight: StandardHours = </span><span class="si">{</span><span class="n">standard_hours</span><span class="si">}</span><span class="s2"> es el baseline para calcular carga laboral real"</span><span class="p">)</span>
-
-    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"StandardHours revela política de horas base de la empresa"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en análisis StandardHours: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="c1"># 💎 INSIGHT 3: Over18 revela políticas de contratación</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💎 INSIGHT 3: Over18 Revela Políticas Empresariales"</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">over18_values</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'over18'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"👥 Over18 valores únicos: </span><span class="si">{</span><span class="n">over18_values</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💡 Insight: Política empresarial estricta - solo empleados mayores de 18 años"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔍 Esto indica compliance con regulaciones laborales internacionales"</span><span class="p">)</span>
-
-    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Over18 constante revela política de compliance laboral"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en análisis Over18: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ FASE 3 COMPLETADA - </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">insights_found</span><span class="p">)</span><span class="si">}</span><span class="s2"> insights de valor extraídos"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📊 Insights encontrados: </span><span class="si">{</span><span class="n">insights_found</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📋 Ahora ejecuta la Fase 4 para crear nuevas features"</span><span class="p">)</span>
+<span class="c1"># ===== RESUMEN DE VARIABLES REUTILIZADAS =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Variables reutilizadas exitosamente: 3"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • Cohortes de adquisición ('acquisition_quartile')"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • Jerarquía de productos ('product_prefix')"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • Complejidad del deal ('deal_complexity_score')"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8809,28 +8642,12 @@ Tipos de datos: 35 columnas
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-⚙️ FASE 3: REUTILIZAR - Extrayendo valor de variables 'inútiles'
+♻️ FASE 3: REUTILIZAR - Extrayendo valor de variables sin aparente utilidad directa
 
-💎 INSIGHT 1: Patrones Ocultos en Employee Numbers
-🏢 Tasa de attrición por cohorte de empleado:
-   • Founders Era: 15.1%
-   • Growth Era: 17.1%
-   • Scale Era: 19.0%
-   • Recent Era: 14.3%
-
-💎 INSIGHT 2: StandardHours como Referencia Empresarial
-🕒 Horas estándar empresa: 80
-👥 Empleados con overtime: 416
-💡 Insight: StandardHours = 80 es el baseline para calcular carga laboral real
-
-💎 INSIGHT 3: Over18 Revela Políticas Empresariales
-👥 Over18 valores únicos: ['Y']
-💡 Insight: Política empresarial estricta - solo empleados mayores de 18 años
-🔍 Esto indica compliance con regulaciones laborales internacionales
-
-✅ FASE 3 COMPLETADA - 3 insights de valor extraídos
-📊 Insights encontrados: ['Employee Number revela cohortes con diferentes comportamientos', 'StandardHours revela política de horas base de la empresa', 'Over18 constante revela política de compliance laboral']
-📋 Ahora ejecuta la Fase 4 para crear nuevas features
+✅ Variables reutilizadas exitosamente: 3
+   • Cohortes de adquisición ('acquisition_quartile')
+   • Jerarquía de productos ('product_prefix')
+   • Complejidad del deal ('deal_complexity_score')
 </pre>
 </div>
 </div>
@@ -8852,75 +8669,91 @@ Tipos de datos: 35 columnas
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ================================================================</span>
-<span class="c1"># BLOQUE 10: ⚙️ FASE 4: ENGINEER - Crear Features Derivadas de Valor para Recursos Humanos</span>
+<span class="c1"># BLOQUE 10: 🔧 FASE 4: ENGINEER - CREACIÓN DE FEATURES B2B DE ALTO VALOR</span>
 <span class="c1"># ================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔧 FASE 4: ENGINEER - Creando features derivadas valiosas"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔧 FASE 4: ENGINEER - Creando features B2B inteligentes"</span><span class="p">)</span>
 
 <span class="n">new_features_created</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="c1"># Feature 1: Career Progression Rate (velocidad de ascenso)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'career_progression_rate'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'joblevel'</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'totalworkingyears'</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ career_progression_rate: Velocidad de progresión profesional"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'career_progression_rate'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Más alto = ascenso más rápido"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'career_progression_rate'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando career_progression_rate: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># ===== CUSTOMER LIFETIME VALUE (CLV B2B) =====</span>
+<span class="k">if</span> <span class="p">{</span><span class="s1">'customername'</span><span class="p">,</span> <span class="s1">'sales'</span><span class="p">,</span> <span class="s1">'orderdate'</span><span class="p">}</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
 
-<span class="c1"># Feature 2: Stability Index (índice de estabilidad laboral)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'stability_index'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'yearsatcompany'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'numcompaniesworked'</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ stability_index: Índice de estabilidad laboral"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'stability_index'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Más alto = mayor lealtad/estabilidad"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'stability_index'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando stability_index: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">customer_metrics</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'customername'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+        <span class="s1">'sales'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'sum'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">],</span>
+        <span class="s1">'orderdate'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'min'</span><span class="p">,</span> <span class="s1">'max'</span><span class="p">]</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="c1"># Feature 3: Promotion Gap (brecha de promoción)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'promotion_gap'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'yearsincurrentrole'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'yearssincelastpromotion'</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ promotion_gap: Brecha entre rol actual y última promoción"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'promotion_gap'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Positivo = tiempo desde promoción &gt; tiempo en rol"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'promotion_gap'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando promotion_gap: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">customer_metrics</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'total_sales'</span><span class="p">,</span> <span class="s1">'order_count'</span><span class="p">,</span> <span class="s1">'avg_order_value'</span><span class="p">,</span>
+                               <span class="s1">'first_order_date'</span><span class="p">,</span> <span class="s1">'last_order_date'</span><span class="p">]</span>
 
-<span class="c1"># Feature 4: Satisfaction Consistency (consistencia en satisfacción)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">satisfaction_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'jobsatisfaction'</span><span class="p">,</span> <span class="s1">'environmentsatisfaction'</span><span class="p">,</span> <span class="s1">'relationshipsatisfaction'</span><span class="p">]</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'satisfaction_variance'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">satisfaction_cols</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ satisfaction_variance: Consistencia en satisfacción"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'satisfaction_variance'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Bajo = satisfacción consistente, Alto = mixta"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'satisfaction_variance'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando satisfaction_variance: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="c1"># Días de vida del cliente</span>
+    <span class="n">customer_metrics</span><span class="p">[</span><span class="s1">'customer_lifetime_days'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">customer_metrics</span><span class="p">[</span><span class="s1">'last_order_date'</span><span class="p">]</span> <span class="o">-</span> <span class="n">customer_metrics</span><span class="p">[</span><span class="s1">'first_order_date'</span><span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span> <span class="o">+</span> <span class="mi">1</span>
 
-<span class="c1"># Feature 5: Income-Education Ratio (compensación vs educación)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">education_mapping</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">'Below College'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'College'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'Bachelor'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">'Master'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">'Doctor'</span><span class="p">:</span> <span class="mi">5</span>
-    <span class="p">}</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'education_numeric'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'educationfield'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">education_mapping</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'income_education_ratio'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'monthlyincome'</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'education_numeric'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ income_education_ratio: Compensación vs nivel educativo"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'income_education_ratio'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Más alto = mejor compensado para su educación"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'income_education_ratio'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando income_education_ratio: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="c1"># CLV anualizado</span>
+    <span class="n">customer_metrics</span><span class="p">[</span><span class="s1">'clv_b2b'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">customer_metrics</span><span class="p">[</span><span class="s1">'total_sales'</span><span class="p">]</span> <span class="o">/</span> <span class="n">customer_metrics</span><span class="p">[</span><span class="s1">'customer_lifetime_days'</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">365</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">customer_metrics</span><span class="p">[</span><span class="s1">'total_sales'</span><span class="p">])</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ FASE 4 COMPLETADA - </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="si">}</span><span class="s2"> nuevas features creadas"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📊 Features: </span><span class="si">{</span><span class="n">new_features_created</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📋 Ahora ejecuta la Fase 5 para reportar y exportar resultados"</span><span class="p">)</span>
+    <span class="c1"># Integrar al dataframe original</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">customer_metrics</span><span class="p">[[</span><span class="s1">'total_sales'</span><span class="p">,</span> <span class="s1">'order_count'</span><span class="p">,</span> <span class="s1">'clv_b2b'</span><span class="p">]],</span>
+                  <span class="n">left_on</span><span class="o">=</span><span class="s1">'customername'</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="s1">'_customer'</span><span class="p">))</span>
+
+    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'clv_b2b'</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ No se encontraron columnas suficientes para calcular CLV"</span><span class="p">)</span>
+
+<span class="c1"># ===== TERRITORY PERFORMANCE INDEX =====</span>
+<span class="k">if</span> <span class="s1">'territory'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">territory_metrics</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'territory'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+        <span class="s1">'sales'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'sum'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">],</span>
+        <span class="s1">'customername'</span><span class="p">:</span> <span class="s1">'nunique'</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">territory_metrics</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'territory_total_sales'</span><span class="p">,</span> <span class="s1">'territory_order_count'</span><span class="p">,</span>
+                                 <span class="s1">'territory_avg_sale'</span><span class="p">,</span> <span class="s1">'territory_customers'</span><span class="p">]</span>
+
+    <span class="c1"># Índice ponderado: 60% revenue, 40% clientes</span>
+    <span class="n">territory_metrics</span><span class="p">[</span><span class="s1">'territory_performance_index'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">territory_metrics</span><span class="p">[</span><span class="s1">'territory_total_sales'</span><span class="p">]</span> <span class="o">/</span> <span class="n">territory_metrics</span><span class="p">[</span><span class="s1">'territory_total_sales'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">+</span>
+        <span class="p">(</span><span class="n">territory_metrics</span><span class="p">[</span><span class="s1">'territory_customers'</span><span class="p">]</span> <span class="o">/</span> <span class="n">territory_metrics</span><span class="p">[</span><span class="s1">'territory_customers'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.4</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">territory_metrics</span><span class="p">[[</span><span class="s1">'territory_performance_index'</span><span class="p">]],</span>
+                  <span class="n">left_on</span><span class="o">=</span><span class="s1">'territory'</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'territory_performance_index'</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ La columna 'territory' no se encuentra"</span><span class="p">)</span>
+
+<span class="c1"># ===== CUSTOMER VALUE SCORE &amp; TIERS =====</span>
+<span class="k">if</span> <span class="p">{</span><span class="s1">'clv_b2b'</span><span class="p">,</span> <span class="s1">'order_count'</span><span class="p">,</span> <span class="s1">'total_sales'</span><span class="p">}</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s1">'customer_value_score'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'clv_b2b'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'clv_b2b'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span>
+        <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'order_count'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'order_count'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.3</span> <span class="o">+</span>
+        <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'total_sales'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'total_sales'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.2</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s1">'customer_tier'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'customer_value_score'</span><span class="p">],</span>
+                                 <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+                                 <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'Bronze'</span><span class="p">,</span> <span class="s1">'Silver'</span><span class="p">,</span> <span class="s1">'Gold'</span><span class="p">,</span> <span class="s1">'Platinum'</span><span class="p">])</span>
+
+    <span class="n">new_features_created</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">'customer_value_score'</span><span class="p">,</span> <span class="s1">'customer_tier'</span><span class="p">])</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ No se pudieron calcular customer tiers por falta de columnas"</span><span class="p">)</span>
+
+<span class="c1"># ===== REGISTRO FINAL =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Features creadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   📌 Nuevas columnas: </span><span class="si">{</span><span class="n">new_features_created</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8934,30 +8767,10 @@ Tipos de datos: 35 columnas
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-🔧 FASE 4: ENGINEER - Creando features derivadas valiosas
-✅ career_progression_rate: Velocidad de progresión profesional
-   Media: 0.207
-   Interpretación: Más alto = ascenso más rápido
+🔧 FASE 4: ENGINEER - Creando features B2B inteligentes
 
-✅ stability_index: Índice de estabilidad laboral
-   Media: 4.477
-   Interpretación: Más alto = mayor lealtad/estabilidad
-
-✅ promotion_gap: Brecha entre rol actual y última promoción
-   Media: 2.306
-   Interpretación: Positivo = tiempo desde promoción &gt; tiempo en rol
-
-✅ satisfaction_variance: Consistencia en satisfacción
-   Media: 1.197
-   Interpretación: Bajo = satisfacción consistente, Alto = mixta
-
-✅ income_education_ratio: Compensación vs nivel educativo
-   Media: 3.181
-   Interpretación: Más alto = mejor compensado para su educación
-
-✅ FASE 4 COMPLETADA - 5 nuevas features creadas
-📊 Features: ['career_progression_rate', 'stability_index', 'promotion_gap', 'satisfaction_variance', 'income_education_ratio']
-📋 Ahora ejecuta la Fase 5 para reportar y exportar resultados
+✅ Features creadas: 4
+   📌 Nuevas columnas: ['clv_b2b', 'territory_performance_index', 'customer_value_score', 'customer_tier']
 </pre>
 </div>
 </div>
@@ -8979,72 +8792,58 @@ Tipos de datos: 35 columnas
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ================================================================</span>
-<span class="c1"># BLOQUE 11: 📋 FASE 5: REPORTAR - Documentar Insights de RH y Exportar Dataset</span>
+<span class="c1"># BLOQUE 11: 📋 FASE 5: REPORTAR - EXPORTACIÓN Y ANÁLISIS FINAL</span>
 <span class="c1"># ================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📋 FASE 5: REPORTAR - Documentando valor extraído"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📋 FASE 5: REPORTAR - Exportando dataset enriquecido"</span><span class="p">)</span>
 
-<span class="c1"># Resumen completo del análisis</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 REPORTE FINAL - FRAMEWORK VDRER APLICADO:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🔍 Variables 'inútiles' analizadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">suspicious_vars</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'suspicious_vars'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'N/A'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   💎 Insights de negocio encontrados: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">insights_found</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'insights_found'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'N/A'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   ⚙️ Features derivadas creadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'new_features_created'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'N/A'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   📈 Dimensiones finales: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># Verificación de insights y features</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 REPORTE FINAL:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   💎 Insights extraídos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">insights_found</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'insights_found'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'N/A'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   ⚙️ Features creadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'new_features_created'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'N/A'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   📈 Dimensiones finales del dataset: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
 
-<span class="c1"># Análisis de correlación con attrition de nuevas features</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📈 CORRELACIÓN CON ATTRITION (nuevas features):"</span><span class="p">)</span>
-<span class="k">if</span> <span class="s1">'new_features_created'</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
-    <span class="c1"># Crear variable numérica de attrition para correlaciones</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'attrition_numeric'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'attrition'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="c1"># Customer Tier breakdown</span>
+<span class="k">if</span> <span class="s1">'customer_tier'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">tier_dist</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'customer_tier'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">👥 Distribución de customer tiers: </span><span class="si">{</span><span class="n">tier_dist</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">new_features_created</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'float64'</span><span class="p">,</span> <span class="s1">'int64'</span><span class="p">]:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">corr</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'attrition_numeric'</span><span class="p">])</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">corr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">: No se pudo calcular correlación"</span><span class="p">)</span>
+<span class="c1"># Territory breakdown</span>
+<span class="k">if</span> <span class="s1">'territory'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">territory_dist</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'territory'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🌍 Distribución por territorio: </span><span class="si">{</span><span class="n">territory_dist</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="c1"># ROI del análisis (simulado)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💰 ESTIMACIÓN DE VALOR GENERADO:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   💡 Insights de políticas empresariales: 3"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   📊 Features predictivas nuevas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'new_features_created'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🎯 Preparación para KPIs Sesión 8: Completa"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   💎 Transformación: 'Desperdicio' → Valor empresarial"</span><span class="p">)</span>
-
-<span class="c1"># Guardar dataset enriquecido</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💾 EXPORTANDO DATASET ENRIQUECIDO..."</span><span class="p">)</span>
+<span class="c1"># Exportación a CSV</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">filename_enriched</span> <span class="o">=</span> <span class="s1">'hr_value_extracted_python.csv'</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename_enriched</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Guardado como: </span><span class="si">{</span><span class="n">filename_enriched</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s2">"customer_sales_value_extracted_python.csv"</span>
+    <span class="n">export_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="c1"># Descargar automáticamente</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
-    <span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">filename_enriched</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📥 ¡Archivo descargado automáticamente!"</span><span class="p">)</span>
+    <span class="c1"># Formateo de fechas para exportar sin errores</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">export_df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">'datetime'</span><span class="p">):</span>
+        <span class="n">export_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">export_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
 
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en exportación: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">export_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Dataset enriquecido guardado como: `</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">`"</span><span class="p">)</span>
+
+    <span class="c1"># Intentar descarga automática en Colab</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+        <span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📥 ¡Archivo descargado automáticamente en Colab!"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">colab_err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📎 Descarga manual disponible si no estás en entorno Colab."</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">export_err</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error al exportar: </span><span class="si">{</span><span class="n">export_err</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"🎉 ACTIVIDAD 6 COMPLETADA - FRAMEWORK VDRER APLICADO EXITOSAMENTE"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"🚀 ¡Dataset listo para crear dashboard en Power BI!"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"🎉 CUSTOMER SALES VDRER COMPLETADO CON ÉXITO"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"🚀 ¡Listo para visualización y análisis en Power BI!"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
-
-<span class="c1"># Mensaje de aprendizaje</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📚 REFLEXIÓN DE APRENDIZAJE:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Has aplicado exitosamente el Framework VDRER:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Validaste la calidad de datos"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Descubriste variables aparentemente 'inútiles'"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Reutilizaste esas variables para extraer insights valiosos"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Engineaste nuevas features derivadas"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Reportaste y documentaste todo el proceso"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💡 ¡Has transformado 'basura digital' en oro empresarial!"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9058,37 +8857,26 @@ Tipos de datos: 35 columnas
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-📋 FASE 5: REPORTAR - Documentando valor extraído
+📋 FASE 5: REPORTAR - Exportando dataset enriquecido
 
-📊 REPORTE FINAL - FRAMEWORK VDRER APLICADO:
-   🔍 Variables 'inútiles' analizadas: 9
-   💎 Insights de negocio encontrados: 3
-   ⚙️ Features derivadas creadas: 5
-   📈 Dimensiones finales: (1470, 42)
+📊 REPORTE FINAL:
+   💎 Insights extraídos: 8
+   ⚙️ Features creadas: 4
+   📈 Dimensiones finales del dataset: 2,823 filas × 35 columnas
 
-📈 CORRELACIÓN CON ATTRITION (nuevas features):
-   • career_progression_rate: 0.171
-   • stability_index: -0.131
-   • promotion_gap: -0.159
-   • satisfaction_variance: 0.018
-   • income_education_ratio: -0.165
+👥 Distribución de customer tiers: {'Bronze': 2370, 'Gold': 273, 'Silver': 180, 'Platinum': 0}
 
-💰 ESTIMACIÓN DE VALOR GENERADO:
-   💡 Insights de políticas empresariales: 3
-   📊 Features predictivas nuevas: 5
-   🎯 Preparación para KPIs Sesión 8: Completa
-   💎 Transformación: 'Desperdicio' → Valor empresarial
+🌍 Distribución por territorio: {'EMEA': 2481, 'APAC': 221, 'Japan': 121}
 
-💾 EXPORTANDO DATASET ENRIQUECIDO...
-✅ Guardado como: hr_value_extracted_python.csv
+✅ Dataset enriquecido guardado como: `customer_sales_value_extracted_python.csv`
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="fc77f88b-daba-492a-a78a-89515012d7b1" tabindex="0">
+<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="9401a405-cddd-439b-ad24-d087c6abaad4" tabindex="0">
 <script type="text/javascript">
-var element = document.getElementById('fc77f88b-daba-492a-a78a-89515012d7b1');
+var element = document.getElementById('9401a405-cddd-439b-ad24-d087c6abaad4');
 
     async function download(id, filename, size) {
       if (!google.colab.kernel.accessAllowed) {
@@ -9135,32 +8923,22 @@ var element = document.getElementById('fc77f88b-daba-492a-a78a-89515012d7b1');
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="8e223172-35a7-45a0-84a3-5536d14b21aa" tabindex="0">
+<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="c94ca050-29e7-4a20-9c16-4ecf1225df83" tabindex="0">
 <script type="text/javascript">
-var element = document.getElementById('8e223172-35a7-45a0-84a3-5536d14b21aa');
-download("download_355f4816-af36-4994-8261-7bafa51d8503", "hr_value_extracted_python.csv", 331567)
+var element = document.getElementById('c94ca050-29e7-4a20-9c16-4ecf1225df83');
+download("download_2e3e3e69-3c2a-4b66-87e8-20620d33ce37", "customer_sales_value_extracted_python.csv", 730778)
 </script>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>📥 ¡Archivo descargado automáticamente!
+<pre>📥 ¡Archivo descargado automáticamente en Colab!
 
 ======================================================================
-🎉 ACTIVIDAD 6 COMPLETADA - FRAMEWORK VDRER APLICADO EXITOSAMENTE
-🚀 ¡Dataset listo para crear dashboard en Power BI!
+🎉 CUSTOMER SALES VDRER COMPLETADO CON ÉXITO
+🚀 ¡Listo para visualización y análisis en Power BI!
 ======================================================================
-
-📚 REFLEXIÓN DE APRENDIZAJE:
-Has aplicado exitosamente el Framework VDRER:
-✅ Validaste la calidad de datos
-✅ Descubriste variables aparentemente 'inútiles'
-✅ Reutilizaste esas variables para extraer insights valiosos
-✅ Engineaste nuevas features derivadas
-✅ Reportaste y documentaste todo el proceso
-
-💡 ¡Has transformado 'basura digital' en oro empresarial!
 </pre>
 </div>
 </div>

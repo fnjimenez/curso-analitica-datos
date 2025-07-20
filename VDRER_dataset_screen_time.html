@@ -1,31 +1,30 @@
 
 <div style="font-family:'Segoe UI', sans-serif; background: linear-gradient(145deg, #6a67ce, #764ba2); color: white; padding: 2.5rem; border-radius: 24px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); margin-bottom: 2rem; max-width: 960px; margin:auto;">
-  <h1 style="font-size: 2.7rem; margin-bottom: 1rem;">📘 Block de Notas - Dataset IBM HR Attrition</h1>
+  <h1 style="font-size: 2.7rem; margin-bottom: 1rem;">📱 Analyzing Screen Time – Análisis de Tiempo de Pantalla</h1>
 
   <p style="font-size: 1.2rem;"><strong>🔗 Enlace directo a la base de datos:</strong>
-  <a href="https://fnjimenez.github.io/curso-analitica-datos/datashets/WA_Fn-UseC_-HR-Employee-Attrition.csv" target="_blank" style="color: #ffe066; font-weight:bold;">WA_Fn-UseC_-HR-Employee-Attrition.csv</a></p>
+  <a href="https://fnjimenez.github.io/curso-analitica-datos/datasets/analiz_screen_time.csv" target="_blank" style="color: #ffe066; font-weight:bold;">analiz_screen_time.csv</a></p>
 
-  <p style="font-size: 1.2rem;"><strong>📊 Contenido de la base de datos:</strong></p>
+  <p style="font-size: 1.2rem;"><strong>📝 Uso de apps móviles por tiempo, usuario y categoría:</strong></p>
   <ul style="font-size: 1.1rem; line-height: 1.7;">
-    <li>1470 registros únicos de empleados.</li>
-    <li>35 columnas que abarcan información de desempeño, satisfacción, rotación y demografía.</li>
-    <li>Etiquetado de clase binaria: <strong>Attrition</strong> (Yes/No).</li>
-    <li>Incluye variables como: Age, Gender, Department, MonthlyIncome, YearsAtCompany, etc.</li>
+    <li>700 registros con datos sobre comportamiento de usuarios en dispositivos móviles.</li>
+    <li>Variables: tiempo en apps, pantalla activa, batería, datos móviles, edad, género y clase de comportamiento.</li>
+    <li>Categorías de comportamiento: desde uso ligero hasta extremo (1 a 5).</li>
   </ul>
 
   <p style="font-size: 1.2rem;"><strong>📎 Fuente y licencia:</strong></p>
   <p style="font-size: 1.1rem;">
-    Esta base de datos fue compartida por <strong>Pavan Subhasht</strong> en Kaggle bajo licencia <strong>Creative Commons</strong>.<br>
-    Consulta el dataset original aquí:<br>
-    <a href="https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset" target="_blank" style="color: #ffdd66; font-weight:bold;">
-      IBM HR Analytics Dataset en Kaggle
+    Dataset publicado en Kaggle por <strong>Valak Horasani</strong> con fines educativos.<br>
+    No se recomienda su uso en publicaciones científicas ni artículos académicos.<br>
+    Ver en Kaggle:
+    <a href="https://www.kaggle.com/datasets/valakhorasani/mobile-device-usage-and-user-behavior-dataset" target="_blank" style="color: #ffdd66; font-weight:bold;">
+      Mobile Device Usage Dataset
     </a>
   </p>
 
-  <p style="font-size: 1.2rem;"><strong>🧠 Propósito educativo:</strong></p>
+  <p style="font-size: 1.2rem;"><strong>📊 Propósito educativo:</strong></p>
   <p style="font-size: 1.1rem;">
-    Este conjunto de datos es ideal para actividades de análisis exploratorio, predicción de rotación de personal, visualización de KPIs,
-    y prácticas de modelado de clasificación supervisada.
+    Permite el análisis de patrones de uso móvil, clasificación de usuarios, y modelado predictivo aplicado a tecnología móvil y apps.
   </p>
 </div>
 <!DOCTYPE html>
@@ -7578,7 +7577,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
@@ -7633,121 +7632,36 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># ============================================</span>
-<span class="c1"># SCRIPT CORREGIDO: Carga robusta + Reparación de TODAS las líneas problemáticas</span>
-<span class="c1"># ============================================</span>
+<div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
+<span class="c1"># BLOQUE 2: CARGA DE DATOS</span>
+<span class="c1"># ===================================================================</span>
+<span class="c1"># Opción 1: Subir archivo desde tu computadora</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\U0001F4C2</span><span class="s2"> Selecciona tu archivo CSV desde tu computadora:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"📂 Selecciona tu archivo CSV desde tu computadora:"</span><span class="p">)</span>
 <span class="n">uploaded</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">upload</span><span class="p">()</span>
 
+<span class="c1"># Obtener el nombre del archivo subido</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">uploaded</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\U0001F4C4</span><span class="s2"> Archivo detectado: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📄 Archivo detectado: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="n">raw_bytes</span> <span class="o">=</span> <span class="n">uploaded</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span>
-<span class="n">preview</span> <span class="o">=</span> <span class="n">raw_bytes</span><span class="p">[:</span><span class="mi">3000</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">)</span>
-
-<span class="c1"># === DETECCIÓN DEL DELIMITADOR ===</span>
-<span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">','</span><span class="p">,</span> <span class="s1">';'</span><span class="p">,</span> <span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">]</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">header_line</span> <span class="o">=</span> <span class="n">preview</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="k">for</span> <span class="n">delim</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">([</span><span class="n">header_line</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delim</span><span class="p">)</span>
-        <span class="n">n_fields</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">))</span>
-        <span class="n">counts</span><span class="p">[</span><span class="n">delim</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_fields</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="k">continue</span>
-
-<span class="n">best_delim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
-<span class="n">expected_fields</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">best_delim</span><span class="p">]</span>
-
-<span class="c1"># === REPARAR TODAS LAS LÍNEAS PROBLEMÁTICAS ===</span>
-<span class="n">lines</span> <span class="o">=</span> <span class="n">raw_bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-<span class="n">header</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">data_lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📋 Campos esperados: </span><span class="si">{</span><span class="n">expected_fields</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📄 Total de líneas de datos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_lines</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="n">problematic_lines</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">repaired_lines</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_lines</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>  <span class="c1"># Solo procesar líneas no vacías</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Parsear la línea para contar campos</span>
-            <span class="n">fields</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">([</span><span class="n">line</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">best_delim</span><span class="p">))</span>
-            <span class="n">num_fields</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">num_fields</span> <span class="o">==</span> <span class="n">expected_fields</span><span class="p">:</span>
-                <span class="c1"># Línea correcta</span>
-                <span class="n">repaired_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">num_fields</span> <span class="o">&gt;</span> <span class="n">expected_fields</span><span class="p">:</span>
-                <span class="c1"># Línea con campos extra - truncar</span>
-                <span class="n">truncated_fields</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[:</span><span class="n">expected_fields</span><span class="p">]</span>
-                <span class="c1"># Reensamblar la línea truncada</span>
-                <span class="n">repaired_line</span> <span class="o">=</span> <span class="n">best_delim</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s1">"'</span> <span class="k">if</span> <span class="n">best_delim</span> <span class="ow">in</span> <span class="n">field</span> <span class="ow">or</span> <span class="s1">'"'</span> <span class="ow">in</span> <span class="n">field</span> <span class="k">else</span> <span class="n">field</span>
-                                              <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">truncated_fields</span><span class="p">)</span>
-                <span class="n">repaired_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">repaired_line</span><span class="p">)</span>
-                <span class="n">problematic_lines</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">69</span><span class="p">:</span>  <span class="c1"># Línea 70 (índice 69)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔧 Línea 70 reparada: </span><span class="si">{</span><span class="n">num_fields</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">expected_fields</span><span class="si">}</span><span class="s2"> campos"</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Línea con campos faltantes - rellenar</span>
-                <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">expected_fields</span><span class="p">:</span>
-                    <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
-                <span class="n">repaired_line</span> <span class="o">=</span> <span class="n">best_delim</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s1">"'</span> <span class="k">if</span> <span class="n">best_delim</span> <span class="ow">in</span> <span class="n">field</span> <span class="ow">or</span> <span class="s1">'"'</span> <span class="ow">in</span> <span class="n">field</span> <span class="k">else</span> <span class="n">field</span>
-                                              <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">)</span>
-                <span class="n">repaired_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">repaired_line</span><span class="p">)</span>
-                <span class="n">problematic_lines</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="c1"># Si no se puede parsear la línea, intentar mantenerla o saltarla</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en línea </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)[:</span><span class="mi">50</span><span class="p">]</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
-            <span class="n">problematic_lines</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="c1"># Intentar mantener la línea original</span>
-            <span class="n">repaired_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔧 Total de líneas problemáticas reparadas: </span><span class="si">{</span><span class="n">problematic_lines</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="c1"># Reconstruir archivo reparado en memoria</span>
-<span class="n">data_clean</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">header</span><span class="p">]</span> <span class="o">+</span> <span class="n">repaired_lines</span><span class="p">)</span>
-
-<span class="c1"># === CARGAR EL DATASET ===</span>
+<span class="c1"># Cargar el dataset con manejo de errores</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">data_clean</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">best_delim</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset cargado exitosamente con delimitador detectado: '</span><span class="si">{</span><span class="n">best_delim</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📊 Forma del dataset: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"❌ Error leyendo con delimitador '</span><span class="si">{</span><span class="n">best_delim</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⚠️ Problema de encoding, intentando con latin-1..."</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'latin-1'</span><span class="p">)</span>
 
-<span class="c1"># === LIMPIEZA DE NOMBRES DE COLUMNAS ===</span>
-<span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'-'</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[^a-z0-9_]'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🧽 Columnas limpias: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="c1"># Información básica de carga</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset cargado exitosamente"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📏 Dimensiones: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💾 Memoria usada: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> MB"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📈 Resumen final:"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  • Filas cargadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  • Columnas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  • Líneas reparadas: </span><span class="si">{</span><span class="n">problematic_lines</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🎉 ¡Importación completada!"</span><span class="p">)</span>
+<span class="c1"># Opción 2: Cargar desde URL (comentado)</span>
+<span class="c1"># df = pd.read_csv('https://tu-url-del-dataset.csv')</span>
 </pre></div>
 </div>
 </div>
@@ -7767,8 +7681,8 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<input disabled="" id="files-e8f12ec0-9f96-41e6-9a5d-e2957793e884" multiple="" name="files[]" style="border:none" type="file"/>
-<output id="result-e8f12ec0-9f96-41e6-9a5d-e2957793e884">
+<input disabled="" id="files-88ecf09a-edee-432b-a2fb-2e34c70a34da" multiple="" name="files[]" style="border:none" type="file"/>
+<output id="result-88ecf09a-edee-432b-a2fb-2e34c70a34da">
       Upload widget is only available when the cell has been executed in the
       current browser session. Please rerun this cell to enable.
       </output>
@@ -7953,23 +7867,11 @@ scope.google.colab._files = {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Saving WA_Fn-UseC_-HR-Employee-Attrition.csv to WA_Fn-UseC_-HR-Employee-Attrition.csv
-📄 Archivo detectado: WA_Fn-UseC_-HR-Employee-Attrition.csv
-📋 Campos esperados: 35
-📄 Total de líneas de datos: 1470
-🔧 Total de líneas problemáticas reparadas: 0
-✅ Dataset cargado exitosamente con delimitador detectado: ','
-📊 Forma del dataset: (1470, 35)
-
-🧽 Columnas limpias: 35 columnas
-['age', 'attrition', 'businesstravel', 'dailyrate', 'department', 'distancefromhome', 'education', 'educationfield', 'employeecount', 'employeenumber', 'environmentsatisfaction', 'gender', 'hourlyrate', 'jobinvolvement', 'joblevel', 'jobrole', 'jobsatisfaction', 'maritalstatus', 'monthlyincome', 'monthlyrate', 'numcompaniesworked', 'over18', 'overtime', 'percentsalaryhike', 'performancerating', 'relationshipsatisfaction', 'standardhours', 'stockoptionlevel', 'totalworkingyears', 'trainingtimeslastyear', 'worklifebalance', 'yearsatcompany', 'yearsincurrentrole', 'yearssincelastpromotion', 'yearswithcurrmanager']
-
-📈 Resumen final:
-  • Filas cargadas: 1,470
-  • Columnas: 35
-  • Líneas reparadas: 0
-
-🎉 ¡Importación completada!
+<pre>Saving analiz_screen_time.csv to analiz_screen_time.csv
+📄 Archivo detectado: analiz_screen_time.csv
+✅ Dataset cargado exitosamente
+📏 Dimensiones: 700 filas × 11 columnas
+💾 Memoria usada: 0.17 MB
 </pre>
 </div>
 </div>
@@ -7991,7 +7893,7 @@ scope.google.colab._files = {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
@@ -8058,13 +7960,14 @@ scope.google.colab._files = {
 ==================================================
 
 🔢 INFORMACIÓN BÁSICA:
-Filas: 1,470
-Columnas: 35
-Memoria total: 1.12 MB
+Filas: 700
+Columnas: 11
+Memoria total: 0.17 MB
 
 📋 TIPOS DE DATOS:
-int64     26
-object     9
+int64      7
+object     3
+float64    1
 Name: count, dtype: int64
 
 ❓ VALORES FALTANTES:
@@ -8076,98 +7979,42 @@ Filas duplicadas: 0 (0.00%)
 📊 ESTADÍSTICAS DESCRIPTIVAS:
 
 Columnas numéricas:
-               age    dailyrate  distancefromhome    education  employeecount  \
-count  1470.000000  1470.000000       1470.000000  1470.000000         1470.0   
-mean     36.923810   802.485714          9.192517     2.912925            1.0   
-std       9.135373   403.509100          8.106864     1.024165            0.0   
-min      18.000000   102.000000          1.000000     1.000000            1.0   
-25%      30.000000   465.000000          2.000000     2.000000            1.0   
-50%      36.000000   802.000000          7.000000     3.000000            1.0   
-75%      43.000000  1157.000000         14.000000     4.000000            1.0   
-max      60.000000  1499.000000         29.000000     5.000000            1.0   
+         User ID  App Usage Time (min/day)  Screen On Time (hours/day)  \
+count  700.00000                700.000000                  700.000000   
+mean   350.50000                271.128571                    5.272714   
+std    202.21688                177.199484                    3.068584   
+min      1.00000                 30.000000                    1.000000   
+25%    175.75000                113.250000                    2.500000   
+50%    350.50000                227.500000                    4.900000   
+75%    525.25000                434.250000                    7.400000   
+max    700.00000                598.000000                   12.000000   
 
-       employeenumber  environmentsatisfaction   hourlyrate  jobinvolvement  \
-count     1470.000000              1470.000000  1470.000000     1470.000000   
-mean      1024.865306                 2.721769    65.891156        2.729932   
-std        602.024335                 1.093082    20.329428        0.711561   
-min          1.000000                 1.000000    30.000000        1.000000   
-25%        491.250000                 2.000000    48.000000        2.000000   
-50%       1020.500000                 3.000000    66.000000        3.000000   
-75%       1555.750000                 4.000000    83.750000        3.000000   
-max       2068.000000                 4.000000   100.000000        4.000000   
+       Battery Drain (mAh/day)  Number of Apps Installed  Data Usage (MB/day)  \
+count               700.000000                700.000000           700.000000   
+mean               1525.158571                 50.681429           929.742857   
+std                 819.136414                 26.943324           640.451729   
+min                 302.000000                 10.000000           102.000000   
+25%                 722.250000                 26.000000           373.000000   
+50%                1502.500000                 49.000000           823.500000   
+75%                2229.500000                 74.000000          1341.000000   
+max                2993.000000                 99.000000          2497.000000   
 
-          joblevel  jobsatisfaction  monthlyincome   monthlyrate  \
-count  1470.000000      1470.000000    1470.000000   1470.000000   
-mean      2.063946         2.728571    6502.931293  14313.103401   
-std       1.106940         1.102846    4707.956783   7117.786044   
-min       1.000000         1.000000    1009.000000   2094.000000   
-25%       1.000000         2.000000    2911.000000   8047.000000   
-50%       2.000000         3.000000    4919.000000  14235.500000   
-75%       3.000000         4.000000    8379.000000  20461.500000   
-max       5.000000         4.000000   19999.000000  26999.000000   
-
-       numcompaniesworked  percentsalaryhike  performancerating  \
-count         1470.000000        1470.000000        1470.000000   
-mean             2.693197          15.209524           3.153741   
-std              2.498009           3.659938           0.360824   
-min              0.000000          11.000000           3.000000   
-25%              1.000000          12.000000           3.000000   
-50%              2.000000          14.000000           3.000000   
-75%              4.000000          18.000000           3.000000   
-max              9.000000          25.000000           4.000000   
-
-       relationshipsatisfaction  standardhours  stockoptionlevel  \
-count               1470.000000         1470.0       1470.000000   
-mean                   2.712245           80.0          0.793878   
-std                    1.081209            0.0          0.852077   
-min                    1.000000           80.0          0.000000   
-25%                    2.000000           80.0          0.000000   
-50%                    3.000000           80.0          1.000000   
-75%                    4.000000           80.0          1.000000   
-max                    4.000000           80.0          3.000000   
-
-       totalworkingyears  trainingtimeslastyear  worklifebalance  \
-count        1470.000000            1470.000000      1470.000000   
-mean           11.279592               2.799320         2.761224   
-std             7.780782               1.289271         0.706476   
-min             0.000000               0.000000         1.000000   
-25%             6.000000               2.000000         2.000000   
-50%            10.000000               3.000000         3.000000   
-75%            15.000000               3.000000         3.000000   
-max            40.000000               6.000000         4.000000   
-
-       yearsatcompany  yearsincurrentrole  yearssincelastpromotion  \
-count     1470.000000         1470.000000              1470.000000   
-mean         7.008163            4.229252                 2.187755   
-std          6.126525            3.623137                 3.222430   
-min          0.000000            0.000000                 0.000000   
-25%          3.000000            2.000000                 0.000000   
-50%          5.000000            3.000000                 1.000000   
-75%          9.000000            7.000000                 3.000000   
-max         40.000000           18.000000                15.000000   
-
-       yearswithcurrmanager  
-count           1470.000000  
-mean               4.123129  
-std                3.568136  
-min                0.000000  
-25%                2.000000  
-50%                3.000000  
-75%                7.000000  
-max               17.000000  
+              Age  User Behavior Class  
+count  700.000000           700.000000  
+mean    38.482857             2.990000  
+std     12.012916             1.401476  
+min     18.000000             1.000000  
+25%     28.000000             2.000000  
+50%     38.000000             3.000000  
+75%     49.000000             4.000000  
+max     59.000000             5.000000  
 
 Columnas categóricas:
-       attrition businesstravel              department educationfield gender  \
-count       1470           1470                    1470           1470   1470   
-unique         2              3                       3              6      2   
-top           No  Travel_Rarely  Research &amp; Development  Life Sciences   Male   
-freq        1233           1043                     961            606    882   
-
-                jobrole maritalstatus over18 overtime  
-count              1470          1470   1470     1470  
-unique                9             3      1        2  
-top     Sales Executive       Married      Y       No  
-freq                326           673   1470     1054  
+        Device Model Operating System Gender
+count            700              700    700
+unique             5                2      2
+top     Xiaomi Mi 11          Android   Male
+freq             146              554    364
 </pre>
 </div>
 </div>
@@ -8189,7 +8036,7 @@ freq                326           673   1470     1054
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
@@ -8278,32 +8125,22 @@ freq                326           673   1470     1054
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>📋 INICIANDO PROCESO DE LIMPIEZA...
-📊 Dataset original: (1470, 35)
+📊 Dataset original: (700, 11)
 
 🔄 ELIMINANDO DUPLICADOS:
    • Duplicados eliminados: 0
-   • Filas restantes: 1,470
+   • Filas restantes: 700
 
 📝 ESTANDARIZANDO NOMBRES DE COLUMNAS:
-   Nombres originales: ['age', 'attrition', 'businesstravel', 'dailyrate', 'department'] ...
-   Nombres estandarizados: ['age', 'attrition', 'businesstravel', 'dailyrate', 'department'] ...
+   Nombres originales: ['User ID', 'Device Model', 'Operating System', 'App Usage Time (min/day)', 'Screen On Time (hours/day)'] ...
+   Nombres estandarizados: ['user_id', 'device_model', 'operating_system', 'app_usage_time_minday', 'screen_on_time_hoursday'] ...
 
 🔧 MANEJO DE VALORES FALTANTES:
 
 🎯 TRATAMIENTO DE OUTLIERS:
-   • monthlyincome: 114 outliers winsorizados (7.8%)
-   • numcompaniesworked: 52 outliers mantenidos (3.5%)
-   • performancerating: 226 outliers winsorizados (15.4%)
-   • stockoptionlevel: 85 outliers winsorizados (5.8%)
-   • totalworkingyears: 63 outliers mantenidos (4.3%)
-   • trainingtimeslastyear: 238 outliers winsorizados (16.2%)
-   • yearsatcompany: 104 outliers winsorizados (7.1%)
-   • yearsincurrentrole: 21 outliers mantenidos (1.4%)
-   • yearssincelastpromotion: 107 outliers winsorizados (7.3%)
-   • yearswithcurrmanager: 14 outliers mantenidos (1.0%)
 
 ✅ LIMPIEZA COMPLETADA
-📊 Dimensiones finales: (1470, 35)
+📊 Dimensiones finales: (700, 11)
 ❓ Valores faltantes restantes: 0
 </pre>
 </div>
@@ -8317,7 +8154,7 @@ freq                326           673   1470     1054
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="5.-Exportar-dataset-limpio-para-respaldo">5. Exportar dataset limpio para respaldo<a class="anchor-link" href="#5.-Exportar-dataset-limpio-para-respaldo">¶</a></h1>
+<h1 id="5.-Exportar-dataset-limpio-para-respaldO">5. Exportar dataset limpio para respaldO<a class="anchor-link" href="#5.-Exportar-dataset-limpio-para-respaldO">¶</a></h1>
 </div>
 </div>
 </div>
@@ -8326,7 +8163,7 @@ freq                326           673   1470     1054
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
@@ -8335,7 +8172,7 @@ freq                326           673   1470     1054
 <span class="nb">print</span><span class="p">(</span><span class="s2">"💾 GUARDANDO DATASET LIMPIO..."</span><span class="p">)</span>
 
 <span class="c1"># Opción 1: Guardar como CSV (recomendado para Power BI)</span>
-<span class="n">filename_clean</span> <span class="o">=</span> <span class="s1">'cleaned_RH.csv'</span>
+<span class="n">filename_clean</span> <span class="o">=</span> <span class="s1">'cleaned_customersales.csv'</span>
 <span class="n">df_clean</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename_clean</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset limpio guardado como: </span><span class="si">{</span><span class="n">filename_clean</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
@@ -8361,15 +8198,15 @@ freq                326           673   1470     1054
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>💾 GUARDANDO DATASET LIMPIO...
-✅ Dataset limpio guardado como: cleaned_RH.csv
+✅ Dataset limpio guardado como: cleaned_customersales.csv
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="47866409-bf6b-41bf-97b8-b7a66ff1d220" tabindex="0">
+<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="365dd9e0-e87a-4d7c-94a3-ceddeef35bd0" tabindex="0">
 <script type="text/javascript">
-var element = document.getElementById('47866409-bf6b-41bf-97b8-b7a66ff1d220');
+var element = document.getElementById('365dd9e0-e87a-4d7c-94a3-ceddeef35bd0');
 
     async function download(id, filename, size) {
       if (!google.colab.kernel.accessAllowed) {
@@ -8416,10 +8253,10 @@ var element = document.getElementById('47866409-bf6b-41bf-97b8-b7a66ff1d220');
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="54f495f3-5cb6-4d38-990a-dd65a2644af5" tabindex="0">
+<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="e9c5f97f-2774-4046-8a03-7413fa74cded" tabindex="0">
 <script type="text/javascript">
-var element = document.getElementById('54f495f3-5cb6-4d38-990a-dd65a2644af5');
-download("download_2425881e-1cf0-45f1-a3b7-e71becd918f6", "cleaned_RH.csv", 244071)
+var element = document.getElementById('e9c5f97f-2774-4046-8a03-7413fa74cded');
+download("download_d58fdb19-68d8-41d3-a314-c8bb548f2c7c", "cleaned_customersales.csv", 38866)
 </script>
 </div>
 </div>
@@ -8427,8 +8264,8 @@ download("download_2425881e-1cf0-45f1-a3b7-e71becd918f6", "cleaned_RH.csv", 2440
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>📥 Archivo descargado a tu computadora
-📊 Archivo final: 1,470 filas × 35 columnas
-📁 Tamaño: 1.12 MB
+📊 Archivo final: 700 filas × 11 columnas
+📁 Tamaño: 0.17 MB
 🎯 Listo para usar en Actividad 6!
 </pre>
 </div>
@@ -8451,29 +8288,55 @@ download("download_2425881e-1cf0-45f1-a3b7-e71becd918f6", "cleaned_RH.csv", 2440
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-python"><pre><span></span><span class="c1"># ===================================================================</span>
-<span class="c1"># BLOQUE 6: SETUP INICIAL / VALIDACIÓN INICIAL DEL DATASET DE RH</span>
-<span class="c1"># ===================================================================</span>
+<div class="highlight hl-python"><pre><span></span><span class="c1"># ===== VALIDACIÓN INICIAL SCREEN TIME ANALYTICS =====</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="c1"># ✅ Usa directamente df_clean que ya tienes en memoria</span>
+<span class="c1"># Dataset ya cargado como df_clean</span>
 
-<span class="c1"># Verificar que el dataset esté limpio y listo</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📊 VERIFICACIÓN DATASET LIMPIO PARA ACTIVIDAD 6"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\U0001F4F1</span><span class="s2"> SCREEN TIME ANALYTICS - VALIDACIÓN INICIAL"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Shape: </span><span class="si">{</span><span class="n">df_clean</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># INFORMACIÓN BÁSICA DIGITAL BEHAVIOR</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n\U0001F4CA</span><span class="s2"> OVERVIEW DIGITAL BEHAVIOR:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total users: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Device models: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'device_model'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Operating systems: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'operating_system'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Age range: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2"> años"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Gender distribution: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'gender'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># USAGE METRICS SUMMARY</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n\U0001F4CA</span><span class="s2"> USAGE METRICS SUMMARY:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"App usage time: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2"> min/day"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Screen on time: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'screen_on_time_hoursday'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'screen_on_time_hoursday'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> hours/day"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Battery drain: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'battery_drain_mahday'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'battery_drain_mahday'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2"> mAh/day"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Data usage: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'data_usage_mbday'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'data_usage_mbday'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2"> MB/day"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Apps installed: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'number_of_apps_installed'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'number_of_apps_installed'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2"> apps"</span><span class="p">)</span>
+
+<span class="c1"># BEHAVIOR CLASSES ANALYSIS</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n\U0001F4CA</span><span class="s2"> USER BEHAVIOR CLASSES:"</span><span class="p">)</span>
+<span class="n">behavior_dist</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[</span><span class="s1">'user_behavior_class'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">behavior_class</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">behavior_dist</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">percentage</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_clean</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Class </span><span class="si">{</span><span class="n">behavior_class</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> users (</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+
+<span class="c1"># VERIFICACIÓN DE CALIDAD DE DATOS</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 CALIDAD DE DATOS:"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing values: </span><span class="si">{</span><span class="n">df_clean</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duplicates: </span><span class="si">{</span><span class="n">df_clean</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="c1"># Verificar tipos de datos</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔧 Tipos de datos (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_clean</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span><span class="si">}</span><span class="s2"> columnas):"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_clean</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="c1"># IDENTIFICAR VARIABLES SOSPECHOSAS PARA VDRER</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 VARIABLES 'SOSPECHOSAS' PARA VDRER:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"user_id: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2"> (¿secuencial?)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"device_model: Ejemplo '</span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'device_model'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"os distribution: </span><span class="si">{</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'operating_system'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"behavior class: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">df_clean</span><span class="p">[</span><span class="s1">'user_behavior_class'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">}</span><span class="s2"> (¿solo labels?)"</span><span class="p">)</span>
 
-<span class="c1"># Asignar a df para continuar con el código de Actividad 6</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df_clean</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Dataset listo para Actividad 6: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ Dataset listo para aplicar Framework VDRER"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8486,19 +8349,42 @@ download("download_2425881e-1cf0-45f1-a3b7-e71becd918f6", "cleaned_RH.csv", 2440
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>📊 VERIFICACIÓN DATASET LIMPIO PARA ACTIVIDAD 6
-==================================================
-Shape: (1470, 35)
+<pre>📱 SCREEN TIME ANALYTICS - VALIDACIÓN INICIAL
+============================================================
+Shape: (700, 11)
+
+📊 OVERVIEW DIGITAL BEHAVIOR:
+Total users: 700
+Device models: 5
+Operating systems: {'Android': 554, 'iOS': 146}
+Age range: 18 - 59 años
+Gender distribution: {'Male': 364, 'Female': 336}
+
+📊 USAGE METRICS SUMMARY:
+App usage time: 30 - 598 min/day
+Screen on time: 1.0 - 12.0 hours/day
+Battery drain: 302 - 2993 mAh/day
+Data usage: 102 - 2497 MB/day
+Apps installed: 10 - 99 apps
+
+📊 USER BEHAVIOR CLASSES:
+Class 1: 136 users (19.4%)
+Class 2: 146 users (20.9%)
+Class 3: 143 users (20.4%)
+Class 4: 139 users (19.9%)
+Class 5: 136 users (19.4%)
+
+🔍 CALIDAD DE DATOS:
 Missing values: 0
 Duplicates: 0
 
-🔧 Tipos de datos (35 columnas):
-int64      20
-object      9
-float64     6
-Name: count, dtype: int64
+🔍 VARIABLES 'SOSPECHOSAS' PARA VDRER:
+user_id: 1 - 700 (¿secuencial?)
+device_model: Ejemplo 'Google Pixel 5'
+os distribution: {'Android': 554, 'iOS': 146}
+behavior class: [np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5)] (¿solo labels?)
 
-✅ Dataset listo para Actividad 6: (1470, 35)
+✅ Dataset listo para aplicar Framework VDRER
 </pre>
 </div>
 </div>
@@ -8520,33 +8406,42 @@ Name: count, dtype: int64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ====================================================================</span>
-<span class="c1"># BLOQUE 7: ✅ (SIN CARGAR CSV) 🔍 FASE 1: VALIDAR - Verificación de Dataset de RH</span>
+<span class="c1"># BLOQUE 7: ✅ (SIN CARGAR CSV) FASE 1: 🔍 VALIDAR - Verificación de Dataset Screen Time Analytics</span>
 <span class="c1"># ====================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"🔄 INICIANDO ACTIVIDAD 6: EXTRACCIÓN DE VALOR DE DESHECHOS DIGITALES"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">'ignore'</span><span class="p">)</span>
 
-<span class="c1"># Usar el dataset ya limpio de Actividad 5</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df_clean</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset base: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
+<span class="c1"># ===== FASE 1: VALIDAR =====</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df_clean</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'('</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">')'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Dataset cargado: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
 
-<span class="c1"># Verificación de calidad</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 FASE 1: VALIDAR - Verificando calidad del dataset"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing values: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duplicates: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tipos de datos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
+<span class="c1"># Overview del comportamiento digital</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📱 OVERVIEW DIGITAL BEHAVIOR:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"👥 Total Users: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📱 Device Models: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'device_model'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💻 Operating Systems: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'operating_system'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🎂 Age Range: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2"> años"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚡ Avg Screen Time: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'screen_on_time_hoursday'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> hrs/day"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📊 Avg App Usage: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> min/day"</span><span class="p">)</span>
 
-<span class="c1"># Ver primeras filas para orientarnos</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">👀 Preview del dataset:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ FASE 1 COMPLETADA - Dataset validado y listo"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📋 Ahora ejecuta la Fase 2 para descubrir variables 'inútiles'"</span><span class="p">)</span>
+<span class="c1"># Behavior classes overview</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🌟 USER BEHAVIOR CLASSES DISTRIBUTION:"</span><span class="p">)</span>
+<span class="n">behavior_stats</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'user_behavior_class'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">behavior_stats</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">pct</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Class </span><span class="si">{</span><span class="n">class_num</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> users (</span><span class="si">{</span><span class="n">pct</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8559,65 +8454,22 @@ Name: count, dtype: int64
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-======================================================================
-🔄 INICIANDO ACTIVIDAD 6: EXTRACCIÓN DE VALOR DE DESHECHOS DIGITALES
-======================================================================
-✅ Dataset base: 1,470 filas × 35 columnas
+<pre>✅ Dataset cargado: 700 filas × 11 columnas
 
-🔍 FASE 1: VALIDAR - Verificando calidad del dataset
-Missing values: 0
-Duplicates: 0
-Tipos de datos: 35 columnas
+📱 OVERVIEW DIGITAL BEHAVIOR:
+👥 Total Users: 700
+📱 Device Models: 5
+💻 Operating Systems: {'Android': 554, 'iOS': 146}
+🎂 Age Range: 18-59 años
+⚡ Avg Screen Time: 5.3 hrs/day
+📊 Avg App Usage: 271 min/day
 
-👀 Preview del dataset:
-   age attrition     businesstravel  dailyrate              department  \
-0   41       Yes      Travel_Rarely       1102                   Sales   
-1   49        No  Travel_Frequently        279  Research &amp; Development   
-2   37       Yes      Travel_Rarely       1373  Research &amp; Development   
-
-   distancefromhome  education educationfield  employeecount  employeenumber  \
-0                 1          2  Life Sciences              1               1   
-1                 8          1  Life Sciences              1               2   
-2                 2          2          Other              1               4   
-
-   environmentsatisfaction  gender  hourlyrate  jobinvolvement  joblevel  \
-0                        2  Female          94               3         2   
-1                        3    Male          61               2         2   
-2                        4    Male          92               2         1   
-
-                 jobrole  jobsatisfaction maritalstatus  monthlyincome  \
-0        Sales Executive                4        Single         5993.0   
-1     Research Scientist                2       Married         5130.0   
-2  Laboratory Technician                3        Single         2090.0   
-
-   monthlyrate  numcompaniesworked over18 overtime  percentsalaryhike  \
-0        19479                   8      Y      Yes                 11   
-1        24907                   1      Y       No                 23   
-2         2396                   6      Y      Yes                 15   
-
-   performancerating  relationshipsatisfaction  standardhours  \
-0                3.0                         1             80   
-1                3.0                         4             80   
-2                3.0                         2             80   
-
-   stockoptionlevel  totalworkingyears  trainingtimeslastyear  \
-0               0.0                  8                    0.5   
-1               1.0                 10                    3.0   
-2               0.0                  7                    3.0   
-
-   worklifebalance  yearsatcompany  yearsincurrentrole  \
-0                1             6.0                   4   
-1                3            10.0                   7   
-2                3             0.0                   0   
-
-   yearssincelastpromotion  yearswithcurrmanager  
-0                      0.0                     5  
-1                      1.0                     7  
-2                      0.0                     0  
-
-✅ FASE 1 COMPLETADA - Dataset validado y listo
-📋 Ahora ejecuta la Fase 2 para descubrir variables 'inútiles'
+🌟 USER BEHAVIOR CLASSES DISTRIBUTION:
+   Class 1: 136 users (19.4%)
+   Class 2: 146 users (20.9%)
+   Class 3: 143 users (20.4%)
+   Class 4: 139 users (19.9%)
+   Class 5: 136 users (19.4%)
 </pre>
 </div>
 </div>
@@ -8639,43 +8491,85 @@ Tipos de datos: 35 columnas
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ====================================================================</span>
-<span class="c1"># BLOQUE 8: 🔍 FASE 2: DESCUBRIR - Identificar Variables Aparentemente "Inútiles"</span>
+<span class="c1"># BLOQUE 8: 🔍 FASE 2: DESCUBRIR - Identificar Variables "Inútiles" digitales</span>
 <span class="c1"># ====================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔍 FASE 2: DESCUBRIR - Buscando variables aparentemente 'inútiles'"</span><span class="p">)</span>
+<span class="c1"># ===== FASE 2: DESCUBRIR - Screen Time Analytics =====</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\U0001F50D</span><span class="s2"> FASE 2: DESCUBRIR - Variables 'in</span><span class="se">\u00fa</span><span class="s2">tiles' digitales"</span><span class="p">)</span>
 
-<span class="c1"># Identificar variables constantes o casi constantes</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 ANÁLISIS DE VARIABLES 'SOSPECHOSAS':"</span><span class="p">)</span>
-<span class="n">constant_vars</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">almost_constant_vars</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Validar existencia del DataFrame y columnas necesarias</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">df</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"</span><span class="se">\u274c</span><span class="s2"> El DataFrame 'df' no est</span><span class="se">\u00e1</span><span class="s2"> definido en el entorno."</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-    <span class="n">unique_count</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
-    <span class="n">total_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">required_cols</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'app_usage_time_minday'</span><span class="p">,</span> <span class="s1">'device_model'</span><span class="p">,</span> <span class="s1">'screen_on_time_hoursday'</span>
+<span class="p">]</span>
+<span class="n">missing_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_cols</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">missing_cols</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Faltan columnas necesarias para la Fase 2: </span><span class="si">{</span><span class="n">missing_cols</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">unique_count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔴 </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: CONSTANTE - 1 valor único = </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">constant_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">unique_count</span> <span class="o">&lt;=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'attrition'</span><span class="p">]:</span>  <span class="c1"># Excluir variable objetivo</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🟡 </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: CASI CONSTANTE - </span><span class="si">{</span><span class="n">unique_count</span><span class="si">}</span><span class="s2"> valores únicos"</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Valores: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">almost_constant_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+<span class="c1"># Inicializar lista de insights si no existe</span>
+<span class="k">if</span> <span class="s1">'insights_found'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+    <span class="n">insights_found</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💡 RESUMEN DESCUBRIMIENTO:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🔴 Variables constantes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">constant_vars</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🟡 Variables casi constantes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">almost_constant_vars</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🎯 Total 'sospechosas': </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">constant_vars</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">almost_constant_vars</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># ========================</span>
+<span class="c1"># Análisis User ID</span>
+<span class="c1"># ========================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\U0001F4CA</span><span class="s2"> AN</span><span class="se">\u00c1</span><span class="s2">LISIS USER ID:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Rango: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">user_id_gaps</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Gaps en secuencia: media = </span><span class="si">{</span><span class="n">user_id_gaps</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, std = </span><span class="si">{</span><span class="n">user_id_gaps</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="c1"># Guardar lista de variables sospechosas para siguiente fase</span>
-<span class="n">suspicious_vars</span> <span class="o">=</span> <span class="n">constant_vars</span> <span class="o">+</span> <span class="n">almost_constant_vars</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📝 Variables para analizar en Fase 3: </span><span class="si">{</span><span class="n">suspicious_vars</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">corr_userid_app</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Correlación User ID vs App Usage Time: </span><span class="si">{</span><span class="n">corr_userid_app</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">corr_userid_app</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.3</span><span class="p">:</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"User ID correlaciona con patrones de adopción digital"</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ FASE 2 COMPLETADA - Variables 'inútiles' identificadas"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📋 Ahora ejecuta la Fase 3 para extraer valor de estas variables"</span><span class="p">)</span>
+<span class="c1"># ========================</span>
+<span class="c1"># Análisis Device Model</span>
+<span class="c1"># ========================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\U0001F4CA</span><span class="s2"> AN</span><span class="se">\u00c1</span><span class="s2">LISIS DEVICE MODEL:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ejemplo: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'device_model'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">device_brands</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'device_model'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Top device brands: </span><span class="si">{</span><span class="n">device_brands</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">device_brands</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\u26a0\ufe0f</span><span class="s2"> Poca variedad de modelos detectada"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Device Model contiene estructura sobre ecosistema de marcas"</span><span class="p">)</span>
+
+<span class="c1"># ========================</span>
+<span class="c1"># Análisis Operating System</span>
+<span class="c1"># ========================</span>
+<span class="k">if</span> <span class="s1">'operating_system'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\U0001F4CA</span><span class="s2"> AN</span><span class="se">\u00c1</span><span class="s2">LISIS OPERATING SYSTEM:"</span><span class="p">)</span>
+    <span class="n">os_dist</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'operating_system'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Distribución: </span><span class="si">{</span><span class="n">os_dist</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">os_dist</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\u26a0\ufe0f</span><span class="s2"> El sistema operativo puede ser una variable categorica 'sospechosa'"</span><span class="p">)</span>
+    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Operating System permite segmentar por preferencias de ecosistema"</span><span class="p">)</span>
+
+<span class="c1"># ========================</span>
+<span class="c1"># Variables constantes o poco variables</span>
+<span class="c1"># ========================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\U0001F4CA</span><span class="s2"> AN</span><span class="se">\u00c1</span><span class="s2">LISIS DE VARIABILIDAD:"</span><span class="p">)</span>
+<span class="n">constant_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">almost_constant</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'user_behavior_class'</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Variables constantes: </span><span class="si">{</span><span class="n">constant_vars</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Variables casi constantes: </span><span class="si">{</span><span class="n">almost_constant</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Guardar para fase 3</span>
+<span class="n">suspicious_vars</span> <span class="o">=</span> <span class="n">constant_vars</span> <span class="o">+</span> <span class="n">almost_constant</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n\U0001F4DD</span><span class="s2"> Variables digitales 'sospechosas' para analizar en Fase 3: </span><span class="si">{</span><span class="n">suspicious_vars</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\u2705</span><span class="s2"> FASE 2 COMPLETADA - Insights iniciales extraídos"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8689,33 +8583,28 @@ Tipos de datos: 35 columnas
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-🔍 FASE 2: DESCUBRIR - Buscando variables aparentemente 'inútiles'
+🔍 FASE 2: DESCUBRIR - Variables 'inútiles' digitales
 
-📊 ANÁLISIS DE VARIABLES 'SOSPECHOSAS':
-🟡 businesstravel: CASI CONSTANTE - 3 valores únicos
-   Valores: {'Travel_Rarely': 1043, 'Travel_Frequently': 277, 'Non-Travel': 150}
-🟡 department: CASI CONSTANTE - 3 valores únicos
-   Valores: {'Research &amp; Development': 961, 'Sales': 446, 'Human Resources': 63}
-🔴 employeecount: CONSTANTE - 1 valor único = 1
-🟡 gender: CASI CONSTANTE - 2 valores únicos
-   Valores: {'Male': 882, 'Female': 588}
-🟡 maritalstatus: CASI CONSTANTE - 3 valores únicos
-   Valores: {'Married': 673, 'Single': 470, 'Divorced': 327}
-🔴 over18: CONSTANTE - 1 valor único = Y
-🟡 overtime: CASI CONSTANTE - 2 valores únicos
-   Valores: {'No': 1054, 'Yes': 416}
-🔴 performancerating: CONSTANTE - 1 valor único = 3.0
-🔴 standardhours: CONSTANTE - 1 valor único = 80
+📊 ANÁLISIS USER ID:
+Rango: 1 - 700
+Gaps en secuencia: media = 1.0, std = 0.0
+Correlación User ID vs App Usage Time: -0.025
 
-💡 RESUMEN DESCUBRIMIENTO:
-   🔴 Variables constantes: 4
-   🟡 Variables casi constantes: 5
-   🎯 Total 'sospechosas': 9
+📊 ANÁLISIS DEVICE MODEL:
+Ejemplo: Google Pixel 5
+Top device brands: {'Xiaomi': 146, 'iPhone': 146, 'Google': 142, 'OnePlus': 133, 'Samsung': 133}
 
-📝 Variables para analizar en Fase 3: ['employeecount', 'over18', 'performancerating', 'standardhours', 'businesstravel', 'department', 'gender', 'maritalstatus', 'overtime']
+📊 ANÁLISIS OPERATING SYSTEM:
+Distribución: {'Android': 554, 'iOS': 146}
+⚠️ El sistema operativo puede ser una variable categorica 'sospechosa'
 
-✅ FASE 2 COMPLETADA - Variables 'inútiles' identificadas
-📋 Ahora ejecuta la Fase 3 para extraer valor de estas variables
+📊 ANÁLISIS DE VARIABILIDAD:
+Variables constantes: []
+Variables casi constantes: ['operating_system', 'gender']
+
+📝 Variables digitales 'sospechosas' para analizar en Fase 3: ['operating_system', 'gender']
+
+✅ FASE 2 COMPLETADA - Insights iniciales extraídos
 </pre>
 </div>
 </div>
@@ -8737,65 +8626,68 @@ Tipos de datos: 35 columnas
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ====================================================================</span>
-<span class="c1"># BLOQUE 9: ♻️ FASE 3: REUTILIZAR - Extraer Valor de Variables "Inútiles" de Recursos Humanos</span>
+<span class="c1"># BLOQUE 9: ♻️ FASE 3: REUTILIZAR - Extraer Valor de códigos digitales</span>
 <span class="c1"># ====================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">⚙️ FASE 3: REUTILIZAR - Extrayendo valor de variables 'inútiles'"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">♻️ FASE 3: REUTILIZAR - Extrayendo valor de códigos digitales"</span><span class="p">)</span>
 
-<span class="n">insights_found</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Validar nombres de columnas esperadas en formato snake_case</span>
+<span class="n">required_cols</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'device_model'</span><span class="p">,</span> <span class="s1">'operating_system'</span><span class="p">,</span> <span class="s1">'app_usage_time_minday'</span><span class="p">,</span>
+    <span class="s1">'screen_on_time_hoursday'</span><span class="p">,</span> <span class="s1">'battery_drain_mahday'</span><span class="p">,</span> <span class="s1">'number_of_apps_installed'</span><span class="p">,</span>
+    <span class="s1">'user_behavior_class'</span>
+<span class="p">]</span>
+<span class="n">missing_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_cols</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">missing_cols</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Faltan columnas necesarias para la Fase 3: </span><span class="si">{</span><span class="n">missing_cols</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="c1"># 💎 INSIGHT 1: Employee Number patterns (cohortes empresariales ocultas)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💎 INSIGHT 1: Patrones Ocultos en Employee Numbers"</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'employee_cohort'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'employeenumber'</span><span class="p">],</span>
-                                  <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
-                                  <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'Founders'</span><span class="p">,</span> <span class="s1">'Growth'</span><span class="p">,</span> <span class="s1">'Scale'</span><span class="p">,</span> <span class="s1">'Recent'</span><span class="p">])</span>
+<span class="c1"># User adoption cohorts (basado en User ID como proxy de signup timing)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'user_cohort'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'user_id'</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'EarlyAdopters'</span><span class="p">,</span> <span class="s1">'Growth'</span><span class="p">,</span> <span class="s1">'Expansion'</span><span class="p">,</span> <span class="s1">'Recent'</span><span class="p">])</span>
 
-    <span class="n">cohort_attrition</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'employee_cohort'</span><span class="p">)[</span><span class="s1">'attrition'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="s1">'Yes'</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
-    <span class="p">)</span>
+<span class="c1"># Device ecosystem extraction</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'device_brand'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'device_model'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'device_generation'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'device_model'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="sa">r</span><span class="s1">'(\d+)'</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">'0'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"🏢 Tasa de attrición por cohorte de empleado:"</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">cohort</span><span class="p">,</span> <span class="n">rate</span> <span class="ow">in</span> <span class="n">cohort_attrition</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • </span><span class="si">{</span><span class="n">cohort</span><span class="si">}</span><span class="s2"> Era: </span><span class="si">{</span><span class="n">rate</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+<span class="c1"># OS ecosystem preferences</span>
+<span class="n">os_usage_patterns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'operating_system'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s1">'app_usage_time_minday'</span><span class="p">:</span> <span class="s1">'mean'</span><span class="p">,</span>
+    <span class="s1">'screen_on_time_hoursday'</span><span class="p">:</span> <span class="s1">'mean'</span><span class="p">,</span>
+    <span class="s1">'battery_drain_mahday'</span><span class="p">:</span> <span class="s1">'mean'</span>
+<span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Employee Number revela cohortes con diferentes comportamientos"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en análisis de cohortes: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📱 OS ECOSYSTEM PATTERNS:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">os</span> <span class="ow">in</span> <span class="n">os_usage_patterns</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">app_time</span> <span class="o">=</span> <span class="n">os_usage_patterns</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">os</span><span class="p">,</span> <span class="s1">'app_usage_time_minday'</span><span class="p">]</span>
+    <span class="n">screen_time</span> <span class="o">=</span> <span class="n">os_usage_patterns</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">os</span><span class="p">,</span> <span class="s1">'screen_on_time_hoursday'</span><span class="p">]</span>
+    <span class="n">battery</span> <span class="o">=</span> <span class="n">os_usage_patterns</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">os</span><span class="p">,</span> <span class="s1">'battery_drain_mahday'</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">os</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">app_time</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">min apps, </span><span class="si">{</span><span class="n">screen_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">h screen, </span><span class="si">{</span><span class="n">battery</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">mAh battery"</span><span class="p">)</span>
 
-<span class="c1"># 💎 INSIGHT 2: StandardHours como baseline empresarial</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💎 INSIGHT 2: StandardHours como Referencia Empresarial"</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">standard_hours</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'standardhours'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">overtime_employees</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'overtime'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="s1">'overtime'</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">else</span> <span class="mi">0</span>
+<span class="c1"># User Behavior Class deeper analysis</span>
+<span class="n">behavior_analysis</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'user_behavior_class'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s1">'app_usage_time_minday'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'mean'</span><span class="p">,</span> <span class="s1">'std'</span><span class="p">],</span>
+    <span class="s1">'screen_on_time_hoursday'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'mean'</span><span class="p">,</span> <span class="s1">'std'</span><span class="p">],</span>
+    <span class="s1">'number_of_apps_installed'</span><span class="p">:</span> <span class="s1">'mean'</span>
+<span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🕒 Horas estándar empresa: </span><span class="si">{</span><span class="n">standard_hours</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"👥 Empleados con overtime: </span><span class="si">{</span><span class="n">overtime_employees</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💡 Insight: StandardHours = </span><span class="si">{</span><span class="n">standard_hours</span><span class="si">}</span><span class="s2"> es el baseline para calcular carga laboral real"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🎯 BEHAVIOR CLASS DEEP ANALYSIS:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">class_num</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'user_behavior_class'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
+    <span class="k">if</span> <span class="n">class_num</span> <span class="ow">in</span> <span class="n">behavior_analysis</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="n">app_mean</span> <span class="o">=</span> <span class="n">behavior_analysis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="s1">'app_usage_time_minday'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">)]</span>
+        <span class="n">screen_mean</span> <span class="o">=</span> <span class="n">behavior_analysis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="s1">'screen_on_time_hoursday'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">)]</span>
+        <span class="n">apps_count</span> <span class="o">=</span> <span class="n">behavior_analysis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="s1">'number_of_apps_installed'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">)]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Class </span><span class="si">{</span><span class="n">class_num</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">app_mean</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">min apps, </span><span class="si">{</span><span class="n">screen_mean</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">h screen, </span><span class="si">{</span><span class="n">apps_count</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> apps"</span><span class="p">)</span>
 
-    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"StandardHours revela política de horas base de la empresa"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en análisis StandardHours: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="c1"># 💎 INSIGHT 3: Over18 revela políticas de contratación</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💎 INSIGHT 3: Over18 Revela Políticas Empresariales"</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">over18_values</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'over18'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"👥 Over18 valores únicos: </span><span class="si">{</span><span class="n">over18_values</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"💡 Insight: Política empresarial estricta - solo empleados mayores de 18 años"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"🔍 Esto indica compliance con regulaciones laborales internacionales"</span><span class="p">)</span>
-
-    <span class="n">insights_found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Over18 constante revela política de compliance laboral"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en análisis Over18: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ FASE 3 COMPLETADA - </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">insights_found</span><span class="p">)</span><span class="si">}</span><span class="s2"> insights de valor extraídos"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📊 Insights encontrados: </span><span class="si">{</span><span class="n">insights_found</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📋 Ahora ejecuta la Fase 4 para crear nuevas features"</span><span class="p">)</span>
+<span class="c1"># Extender insights</span>
+<span class="n">insights_found</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+    <span class="s2">"user_id revela adoption cohorts con diferentes usage patterns"</span><span class="p">,</span>
+    <span class="s2">"device_model estructura indica brand ecosystems y generations"</span><span class="p">,</span>
+    <span class="s2">"operating_system correlaciona con usage efficiency patterns"</span><span class="p">,</span>
+    <span class="s2">"user_behavior_class codifica sophisticated digital wellness segments"</span>
+<span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8809,28 +8701,18 @@ Tipos de datos: 35 columnas
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-⚙️ FASE 3: REUTILIZAR - Extrayendo valor de variables 'inútiles'
+♻️ FASE 3: REUTILIZAR - Extrayendo valor de códigos digitales
 
-💎 INSIGHT 1: Patrones Ocultos en Employee Numbers
-🏢 Tasa de attrición por cohorte de empleado:
-   • Founders Era: 15.1%
-   • Growth Era: 17.1%
-   • Scale Era: 19.0%
-   • Recent Era: 14.3%
+📱 OS ECOSYSTEM PATTERNS:
+   Android: 268min apps, 5.2h screen, 1508mAh battery
+   iOS: 282min apps, 5.4h screen, 1590mAh battery
 
-💎 INSIGHT 2: StandardHours como Referencia Empresarial
-🕒 Horas estándar empresa: 80
-👥 Empleados con overtime: 416
-💡 Insight: StandardHours = 80 es el baseline para calcular carga laboral real
-
-💎 INSIGHT 3: Over18 Revela Políticas Empresariales
-👥 Over18 valores únicos: ['Y']
-💡 Insight: Política empresarial estricta - solo empleados mayores de 18 años
-🔍 Esto indica compliance con regulaciones laborales internacionales
-
-✅ FASE 3 COMPLETADA - 3 insights de valor extraídos
-📊 Insights encontrados: ['Employee Number revela cohortes con diferentes comportamientos', 'StandardHours revela política de horas base de la empresa', 'Over18 constante revela política de compliance laboral']
-📋 Ahora ejecuta la Fase 4 para crear nuevas features
+🎯 BEHAVIOR CLASS DEEP ANALYSIS:
+   Class 1: 60min apps, 1.5h screen, 15 apps
+   Class 2: 132min apps, 3.0h screen, 31 apps
+   Class 3: 235min apps, 5.0h screen, 50 apps
+   Class 4: 396min apps, 6.9h screen, 70 apps
+   Class 5: 541min apps, 10.1h screen, 89 apps
 </pre>
 </div>
 </div>
@@ -8852,75 +8734,95 @@ Tipos de datos: 35 columnas
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ================================================================</span>
-<span class="c1"># BLOQUE 10: ⚙️ FASE 4: ENGINEER - Crear Features Derivadas de Valor para Recursos Humanos</span>
+<span class="c1"># BLOQUE 10: ⚙️ FASE 4: ENGINEER - Creando Features de digital wellness</span>
 <span class="c1"># ================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔧 FASE 4: ENGINEER - Creando features derivadas valiosas"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🔧 FASE 4: ENGINEER - Creando features de digital wellness"</span><span class="p">)</span>
 
 <span class="n">new_features_created</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="c1"># Feature 1: Career Progression Rate (velocidad de ascenso)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'career_progression_rate'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'joblevel'</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'totalworkingyears'</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ career_progression_rate: Velocidad de progresión profesional"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'career_progression_rate'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Más alto = ascenso más rápido"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'career_progression_rate'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando career_progression_rate: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># Digital Wellness Index</span>
+<span class="c1"># Combinar múltiples factores de healthy digital usage</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'screen_time_hours'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'screen_on_time_hoursday'</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_hours'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span>
 
-<span class="c1"># Feature 2: Stability Index (índice de estabilidad laboral)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'stability_index'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'yearsatcompany'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'numcompaniesworked'</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ stability_index: Índice de estabilidad laboral"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'stability_index'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Más alto = mayor lealtad/estabilidad"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'stability_index'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando stability_index: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># Normalize values for scoring (lower screen time = higher wellness)</span>
+<span class="n">max_screen</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'screen_time_hours'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">max_app</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_hours'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 
-<span class="c1"># Feature 3: Promotion Gap (brecha de promoción)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'promotion_gap'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'yearsincurrentrole'</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'yearssincelastpromotion'</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ promotion_gap: Brecha entre rol actual y última promoción"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'promotion_gap'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Positivo = tiempo desde promoción &gt; tiempo en rol"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'promotion_gap'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando promotion_gap: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'digital_wellness_index'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'screen_time_hours'</span><span class="p">]</span> <span class="o">/</span> <span class="n">max_screen</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span>  <span class="c1"># Less screen time = better</span>
+    <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_hours'</span><span class="p">]</span> <span class="o">/</span> <span class="n">max_app</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span> <span class="o">+</span>  <span class="c1"># Less app time = better</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'number_of_apps_installed'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'number_of_apps_installed'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.3</span>  <span class="c1"># More apps = more choice</span>
+<span class="p">)</span>
 
-<span class="c1"># Feature 4: Satisfaction Consistency (consistencia en satisfacción)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">satisfaction_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'jobsatisfaction'</span><span class="p">,</span> <span class="s1">'environmentsatisfaction'</span><span class="p">,</span> <span class="s1">'relationshipsatisfaction'</span><span class="p">]</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'satisfaction_variance'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">satisfaction_cols</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ satisfaction_variance: Consistencia en satisfacción"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'satisfaction_variance'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Bajo = satisfacción consistente, Alto = mixta"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'satisfaction_variance'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando satisfaction_variance: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># Device Efficiency Score</span>
+<span class="c1"># Battery life vs usage efficiency</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'device_efficiency_score'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'screen_on_time_hoursday'</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'battery_drain_mahday'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>  <span class="c1"># Hours of usage per unit of battery</span>
 
-<span class="c1"># Feature 5: Income-Education Ratio (compensación vs educación)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">education_mapping</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">'Below College'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'College'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'Bachelor'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">'Master'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">'Doctor'</span><span class="p">:</span> <span class="mi">5</span>
-    <span class="p">}</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'education_numeric'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'educationfield'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">education_mapping</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'income_education_ratio'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'monthlyincome'</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'education_numeric'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ income_education_ratio: Compensación vs nivel educativo"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Media: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'income_education_ratio'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   Interpretación: Más alto = mejor compensado para su educación"</span><span class="p">)</span>
-    <span class="n">new_features_created</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'income_education_ratio'</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error creando income_education_ratio: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># User Engagement Level</span>
+<span class="c1"># Based on app usage intensity and diversity</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'usage_intensity'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">+</span>  <span class="c1"># Hours of app usage</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'screen_on_time_hoursday'</span><span class="p">]</span> <span class="o">+</span>  <span class="c1"># Hours of screen time</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'data_usage_mbday'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>  <span class="c1"># GB of data usage</span>
+<span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">✅ FASE 4 COMPLETADA - </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="si">}</span><span class="s2"> nuevas features creadas"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📊 Features: </span><span class="si">{</span><span class="n">new_features_created</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"📋 Ahora ejecuta la Fase 5 para reportar y exportar resultados"</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'engagement_level'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'usage_intensity'</span><span class="p">],</span>
+                               <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">'inf'</span><span class="p">)],</span>
+                               <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'Light'</span><span class="p">,</span> <span class="s1">'Moderate'</span><span class="p">,</span> <span class="s1">'Heavy'</span><span class="p">,</span> <span class="s1">'Extreme'</span><span class="p">])</span>
+
+<span class="c1"># Battery Optimization Index</span>
+<span class="c1"># How efficiently users manage battery vs usage</span>
+<span class="n">median_battery</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'battery_drain_mahday'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'battery_optimization_index'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'battery_drain_mahday'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">median_battery</span><span class="p">,</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'device_efficiency_score'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">,</span>  <span class="c1"># Bonus for low battery usage</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'device_efficiency_score'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.8</span>   <span class="c1"># Penalty for high battery usage</span>
+<span class="p">)</span>
+
+<span class="c1"># Age-Digital Natives Score</span>
+<span class="c1"># How digital behavior aligns with age expectations</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'digital_native_score'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">25</span><span class="p">,</span>  <span class="c1"># Digital natives</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">400</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'number_of_apps_installed'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">50</span><span class="p">),</span>  <span class="c1"># Expected high usage</span>
+    <span class="p">(</span><span class="mi">200</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'app_usage_time_minday'</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mi">20</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'number_of_apps_installed'</span><span class="p">])</span>  <span class="c1"># Expected moderate usage</span>
+<span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Device Ecosystem Loyalty</span>
+<span class="n">device_brand_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'device_brand'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'brand_popularity'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'device_brand'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">device_brand_counts</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'ecosystem_preference'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span>
+    <span class="s1">'Apple'</span> <span class="k">if</span> <span class="s1">'iphone'</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'device_model'</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="n">row</span><span class="p">[</span><span class="s1">'operating_system'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'ios'</span>
+    <span class="k">else</span> <span class="s1">'Google'</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">'operating_system'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'android'</span>
+    <span class="k">else</span> <span class="s1">'Other'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">new_features_created</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+    <span class="s1">'digital_wellness_index'</span><span class="p">,</span> <span class="s1">'device_efficiency_score'</span><span class="p">,</span> <span class="s1">'engagement_level'</span><span class="p">,</span>
+    <span class="s1">'battery_optimization_index'</span><span class="p">,</span> <span class="s1">'digital_native_score'</span><span class="p">,</span> <span class="s1">'ecosystem_preference'</span>
+<span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Features digitales creadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Performance analysis por cohort</span>
+<span class="n">cohort_analysis</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'user_cohort'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s1">'digital_wellness_index'</span><span class="p">:</span> <span class="s1">'mean'</span><span class="p">,</span>
+    <span class="s1">'device_efficiency_score'</span><span class="p">:</span> <span class="s1">'mean'</span><span class="p">,</span>
+    <span class="s1">'app_usage_time_minday'</span><span class="p">:</span> <span class="s1">'mean'</span>
+<span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📈 PERFORMANCE BY USER COHORT:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">cohort</span> <span class="ow">in</span> <span class="n">cohort_analysis</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">wellness</span> <span class="o">=</span> <span class="n">cohort_analysis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cohort</span><span class="p">,</span> <span class="s1">'digital_wellness_index'</span><span class="p">]</span>
+    <span class="n">efficiency</span> <span class="o">=</span> <span class="n">cohort_analysis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cohort</span><span class="p">,</span> <span class="s1">'device_efficiency_score'</span><span class="p">]</span>
+    <span class="n">app_time</span> <span class="o">=</span> <span class="n">cohort_analysis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cohort</span><span class="p">,</span> <span class="s1">'app_usage_time_minday'</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">cohort</span><span class="si">}</span><span class="s2">: Wellness=</span><span class="si">{</span><span class="n">wellness</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, Efficiency=</span><span class="si">{</span><span class="n">efficiency</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, AppTime=</span><span class="si">{</span><span class="n">app_time</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">min"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8934,30 +8836,14 @@ Tipos de datos: 35 columnas
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-🔧 FASE 4: ENGINEER - Creando features derivadas valiosas
-✅ career_progression_rate: Velocidad de progresión profesional
-   Media: 0.207
-   Interpretación: Más alto = ascenso más rápido
+🔧 FASE 4: ENGINEER - Creando features de digital wellness
+✅ Features digitales creadas: 6
 
-✅ stability_index: Índice de estabilidad laboral
-   Media: 4.477
-   Interpretación: Más alto = mayor lealtad/estabilidad
-
-✅ promotion_gap: Brecha entre rol actual y última promoción
-   Media: 2.306
-   Interpretación: Positivo = tiempo desde promoción &gt; tiempo en rol
-
-✅ satisfaction_variance: Consistencia en satisfacción
-   Media: 1.197
-   Interpretación: Bajo = satisfacción consistente, Alto = mixta
-
-✅ income_education_ratio: Compensación vs nivel educativo
-   Media: 3.181
-   Interpretación: Más alto = mejor compensado para su educación
-
-✅ FASE 4 COMPLETADA - 5 nuevas features creadas
-📊 Features: ['career_progression_rate', 'stability_index', 'promotion_gap', 'satisfaction_variance', 'income_education_ratio']
-📋 Ahora ejecuta la Fase 5 para reportar y exportar resultados
+📈 PERFORMANCE BY USER COHORT:
+   EarlyAdopters: Wellness=0.543, Efficiency=6.287, AppTime=271min
+   Growth: Wellness=0.542, Efficiency=6.265, AppTime=272min
+   Expansion: Wellness=0.540, Efficiency=6.195, AppTime=275min
+   Recent: Wellness=0.542, Efficiency=6.397, AppTime=267min
 </pre>
 </div>
 </div>
@@ -8979,72 +8865,77 @@ Tipos de datos: 35 columnas
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-python"><pre><span></span><span class="c1"># ================================================================</span>
-<span class="c1"># BLOQUE 11: 📋 FASE 5: REPORTAR - Documentar Insights de RH y Exportar Dataset</span>
+<span class="c1"># BLOQUE 11: 📋 FASE 5: REPORTAR - Documentar Features de Digital Wrllness y Exportar Dataset</span>
 <span class="c1"># ================================================================</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📋 FASE 5: REPORTAR - Documentando valor extraído"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📋 FASE 5: REPORTAR - Exportando dataset digital enriquecido"</span><span class="p">)</span>
 
-<span class="c1"># Resumen completo del análisis</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 REPORTE FINAL - FRAMEWORK VDRER APLICADO:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🔍 Variables 'inútiles' analizadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">suspicious_vars</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'suspicious_vars'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'N/A'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   💎 Insights de negocio encontrados: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">insights_found</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'insights_found'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'N/A'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   ⚙️ Features derivadas creadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'new_features_created'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'N/A'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📊 REPORTE FINAL DIGITAL:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   💎 Insights de digital behavior extraídos: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">insights_found</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   📱 Features de mobile analytics creadas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   📈 Dimensiones finales: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="c1"># Análisis de correlación con attrition de nuevas features</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📈 CORRELACIÓN CON ATTRITION (nuevas features):"</span><span class="p">)</span>
-<span class="k">if</span> <span class="s1">'new_features_created'</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
-    <span class="c1"># Crear variable numérica de attrition para correlaciones</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">'attrition_numeric'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'attrition'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Yes'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="c1"># Digital wellness distribution</span>
+<span class="n">wellness_categories</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'digital_wellness_index'</span><span class="p">],</span>
+                           <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+                           <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'Poor'</span><span class="p">,</span> <span class="s1">'Fair'</span><span class="p">,</span> <span class="s1">'Good'</span><span class="p">,</span> <span class="s1">'Excellent'</span><span class="p">])</span>
+<span class="n">wellness_dist</span> <span class="o">=</span> <span class="n">wellness_categories</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🌟 DIGITAL WELLNESS DISTRIBUTION:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'Poor'</span><span class="p">,</span> <span class="s1">'Fair'</span><span class="p">,</span> <span class="s1">'Good'</span><span class="p">,</span> <span class="s1">'Excellent'</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">wellness_dist</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">wellness_dist</span><span class="p">[</span><span class="n">category</span><span class="p">]</span>
+        <span class="n">pct</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> users (</span><span class="si">{</span><span class="n">pct</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">new_features_created</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'float64'</span><span class="p">,</span> <span class="s1">'int64'</span><span class="p">]:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">corr</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'attrition_numeric'</span><span class="p">])</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">corr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   • </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">: No se pudo calcular correlación"</span><span class="p">)</span>
+<span class="c1"># Engagement level distribution</span>
+<span class="n">engagement_dist</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'engagement_level'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">⚡ USER ENGAGEMENT DISTRIBUTION:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'Light'</span><span class="p">,</span> <span class="s1">'Moderate'</span><span class="p">,</span> <span class="s1">'Heavy'</span><span class="p">,</span> <span class="s1">'Extreme'</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">engagement_dist</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">engagement_dist</span><span class="p">[</span><span class="n">level</span><span class="p">]</span>
+        <span class="n">pct</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> users (</span><span class="si">{</span><span class="n">pct</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
 
-<span class="c1"># ROI del análisis (simulado)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💰 ESTIMACIÓN DE VALOR GENERADO:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   💡 Insights de políticas empresariales: 3"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   📊 Features predictivas nuevas: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_features_created</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'new_features_created'</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">locals</span><span class="p">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   🎯 Preparación para KPIs Sesión 8: Completa"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   💎 Transformación: 'Desperdicio' → Valor empresarial"</span><span class="p">)</span>
+<span class="c1"># Ecosystem preference analysis</span>
+<span class="n">ecosystem_dist</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'ecosystem_preference'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">🏢 ECOSYSTEM PREFERENCE:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ecosystem</span> <span class="ow">in</span> <span class="n">ecosystem_dist</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">ecosystem_dist</span><span class="p">[</span><span class="n">ecosystem</span><span class="p">]</span>
+    <span class="n">pct</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">ecosystem</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> users (</span><span class="si">{</span><span class="n">pct</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
 
-<span class="c1"># Guardar dataset enriquecido</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💾 EXPORTANDO DATASET ENRIQUECIDO..."</span><span class="p">)</span>
+<span class="c1"># Export enhanced dataset</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">filename_enriched</span> <span class="o">=</span> <span class="s1">'hr_value_extracted_python.csv'</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename_enriched</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Guardado como: </span><span class="si">{</span><span class="n">filename_enriched</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s1">'screen_time_value_extracted_python.csv'</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Guardado como: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="c1"># Descargar automáticamente</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
-    <span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">filename_enriched</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📥 ¡Archivo descargado automáticamente!"</span><span class="p">)</span>
+    <span class="c1"># Download if in Colab</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+        <span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📥 ¡Archivo descargado automáticamente!"</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"📝 Archivo listo para descargar manualmente"</span><span class="p">)</span>
 
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠️ Error en exportación: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"🎉 ACTIVIDAD 6 COMPLETADA - FRAMEWORK VDRER APLICADO EXITOSAMENTE"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"🚀 ¡Dataset listo para crear dashboard en Power BI!"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"🎉 SCREEN TIME ANALYTICS VDRER COMPLETADO"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"🚀 ¡Dataset listo para Digital Behavior Dashboard en Power BI!"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
 
-<span class="c1"># Mensaje de aprendizaje</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📚 REFLEXIÓN DE APRENDIZAJE:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Has aplicado exitosamente el Framework VDRER:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Validaste la calidad de datos"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Descubriste variables aparentemente 'inútiles'"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Reutilizaste esas variables para extraer insights valiosos"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Engineaste nuevas features derivadas"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Reportaste y documentaste todo el proceso"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💡 ¡Has transformado 'basura digital' en oro empresarial!"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">📚 DIGITAL INSIGHTS SUMMARY:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Has aplicado VDRER a datos de comportamiento digital"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Transformaste IDs 'técnicos' en user intelligence"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Creaste digital wellness index, device efficiency, user engagement"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✅ Preparaste base para mobile analytics y UX optimization"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">💡 ¡Has convertido metadatos móviles en oro de user experience!"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9058,37 +8949,37 @@ Tipos de datos: 35 columnas
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-📋 FASE 5: REPORTAR - Documentando valor extraído
+📋 FASE 5: REPORTAR - Exportando dataset digital enriquecido
 
-📊 REPORTE FINAL - FRAMEWORK VDRER APLICADO:
-   🔍 Variables 'inútiles' analizadas: 9
-   💎 Insights de negocio encontrados: 3
-   ⚙️ Features derivadas creadas: 5
-   📈 Dimensiones finales: (1470, 42)
+📊 REPORTE FINAL DIGITAL:
+   💎 Insights de digital behavior extraídos: 6
+   📱 Features de mobile analytics creadas: 6
+   📈 Dimensiones finales: (700, 24)
 
-📈 CORRELACIÓN CON ATTRITION (nuevas features):
-   • career_progression_rate: 0.171
-   • stability_index: -0.131
-   • promotion_gap: -0.159
-   • satisfaction_variance: 0.018
-   • income_education_ratio: -0.165
+🌟 DIGITAL WELLNESS DISTRIBUTION:
+   Poor: 15 users (2.1%)
+   Fair: 414 users (59.1%)
+   Good: 271 users (38.7%)
+   Excellent: 0 users (0.0%)
 
-💰 ESTIMACIÓN DE VALOR GENERADO:
-   💡 Insights de políticas empresariales: 3
-   📊 Features predictivas nuevas: 5
-   🎯 Preparación para KPIs Sesión 8: Completa
-   💎 Transformación: 'Desperdicio' → Valor empresarial
+⚡ USER ENGAGEMENT DISTRIBUTION:
+   Light: 232 users (33.1%)
+   Moderate: 193 users (27.6%)
+   Heavy: 139 users (19.9%)
+   Extreme: 136 users (19.4%)
 
-💾 EXPORTANDO DATASET ENRIQUECIDO...
-✅ Guardado como: hr_value_extracted_python.csv
+🏢 ECOSYSTEM PREFERENCE:
+   Google: 554 users (79.1%)
+   Apple: 146 users (20.9%)
+✅ Guardado como: screen_time_value_extracted_python.csv
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="fc77f88b-daba-492a-a78a-89515012d7b1" tabindex="0">
+<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="524fca8a-e727-4a6b-9b91-b5c0960a5071" tabindex="0">
 <script type="text/javascript">
-var element = document.getElementById('fc77f88b-daba-492a-a78a-89515012d7b1');
+var element = document.getElementById('524fca8a-e727-4a6b-9b91-b5c0960a5071');
 
     async function download(id, filename, size) {
       if (!google.colab.kernel.accessAllowed) {
@@ -9135,10 +9026,10 @@ var element = document.getElementById('fc77f88b-daba-492a-a78a-89515012d7b1');
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="8e223172-35a7-45a0-84a3-5536d14b21aa" tabindex="0">
+<div class="jp-RenderedJavaScript jp-OutputArea-output" data-mime-type="application/javascript" id="a8a78ce6-861d-4934-886c-998719e914f6" tabindex="0">
 <script type="text/javascript">
-var element = document.getElementById('8e223172-35a7-45a0-84a3-5536d14b21aa');
-download("download_355f4816-af36-4994-8261-7bafa51d8503", "hr_value_extracted_python.csv", 331567)
+var element = document.getElementById('a8a78ce6-861d-4934-886c-998719e914f6');
+download("download_d8a9afa0-9269-48d2-92bf-1cb24d05012a", "screen_time_value_extracted_python.csv", 138961)
 </script>
 </div>
 </div>
@@ -9148,19 +9039,17 @@ download("download_355f4816-af36-4994-8261-7bafa51d8503", "hr_value_extracted_py
 <pre>📥 ¡Archivo descargado automáticamente!
 
 ======================================================================
-🎉 ACTIVIDAD 6 COMPLETADA - FRAMEWORK VDRER APLICADO EXITOSAMENTE
-🚀 ¡Dataset listo para crear dashboard en Power BI!
+🎉 SCREEN TIME ANALYTICS VDRER COMPLETADO
+🚀 ¡Dataset listo para Digital Behavior Dashboard en Power BI!
 ======================================================================
 
-📚 REFLEXIÓN DE APRENDIZAJE:
-Has aplicado exitosamente el Framework VDRER:
-✅ Validaste la calidad de datos
-✅ Descubriste variables aparentemente 'inútiles'
-✅ Reutilizaste esas variables para extraer insights valiosos
-✅ Engineaste nuevas features derivadas
-✅ Reportaste y documentaste todo el proceso
+📚 DIGITAL INSIGHTS SUMMARY:
+✅ Has aplicado VDRER a datos de comportamiento digital
+✅ Transformaste IDs 'técnicos' en user intelligence
+✅ Creaste digital wellness index, device efficiency, user engagement
+✅ Preparaste base para mobile analytics y UX optimization
 
-💡 ¡Has transformado 'basura digital' en oro empresarial!
+💡 ¡Has convertido metadatos móviles en oro de user experience!
 </pre>
 </div>
 </div>
