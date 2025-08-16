@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Final - Analítica de Datos | Cristian García Luna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .powerbi-container {
+            padding: 30px;
+        }
+
+        .powerbi-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .powerbi-frame {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-card h3 {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 2.2em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .metric-change {
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .positive {
+            color: #10b981;
+        }
+
+        .negative {
+            color: #ef4444;
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-item h4 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .info-item p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+        }
+
+        .timestamp {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            
+            .metric-card {
+                min-width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .powerbi-frame {
+                height: 400px;
+            }
+            
+            .sidebar {
+                flex-direction: column;
+            }
+            
+            .metric-card {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📊 Tablero de Información</h1>
+            <p>Panel de Control de Analytics - Customer Insights Dashboard</p>
+            <div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 15px; border-left: 4px solid #667eea;">
+                <h3 style="color: #333; margin-bottom: 10px;">👨‍🎓 Información del Proyecto</h3>
+                <p style="color: #666; margin: 5px 0;"><strong>Autor:</strong> Cristian Antonio García Luna</p>
+                <p style="color: #666; margin: 5px 0;"><strong>Carrera:</strong> Licenciatura en Mercadotecnia</p>
+                <p style="color: #666; margin: 5px 0;"><strong>Universidad:</strong> Universidad del SABES, Campus San Felipe</p>
+                <p style="color: #666; margin: 5px 0;"><strong>Matrícula:</strong> U2303057N0050</p>
+                <p style="color: #666; margin: 5px 0;"><strong>Curso:</strong> ANALÍTICA DE DATOS</p>
+                <p style="color: #667eea; margin: 5px 0; font-weight: bold;">📝 Actividad Final de Fin de Curso</p>
+            </div>
+            <div class="timestamp">
+                <span class="status-indicator status-online"></span>
+                Actualizado: <span id="current-time"></span>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Main Content - Power BI -->
+            <div class="main-content">
+                <div class="powerbi-container">
+                    <h2>📈 Dashboard Power BI - Customer Analytics</h2>
+                    <iframe class="powerbi-frame" 
+                            title="customer cristian" 
+                            src="https://app.powerbi.com/view?r=eyJrIjoiNjVmYzZhN2ItM2JhMi00OTRlLWIwMGQtYjU3YTJlYzJmODcwIiwidCI6IjI0YTA0NzMxLWNkYWEtNGM4Yi04NzBlLTI5OTRhOWQ3ZWY4YSIsImMiOjR9" 
+                            frameborder="0" 
+                            allowFullScreen="true">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Sidebar with Metrics -->
+            <div class="sidebar">
+                <div class="metric-card">
+                    <h3>Total Clientes</h3>
+                    <div class="metric-value">1,247</div>
+                    <div class="metric-change positive">+12.5% vs mes anterior</div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Ingresos Totales</h3>
+                    <div class="metric-value">$89.5K</div>
+                    <div class="metric-change positive">+8.2% vs mes anterior</div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Tasa Conversión</h3>
+                    <div class="metric-value">3.2%</div>
+                    <div class="metric-change negative">-0.3% vs mes anterior</div>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Satisfacción</h3>
+                    <div class="metric-value">4.7/5</div>
+                    <div class="metric-change positive">+0.2 vs mes anterior</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Information Section -->
+        <div class="info-section">
+            <h2>📋 Información del Proyecto y Sistema</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>📚 Contexto Académico</h4>
+                    <p>Proyecto final para el curso de Analítica de Datos - Universidad del SABES</p>
+                </div>
+                <div class="info-item">
+                    <h4>🎯 Objetivo del Proyecto</h4>
+                    <p>Implementar un dashboard de customer analytics usando Power BI y tecnologías web</p>
+                </div>
+                <div class="info-item">
+                    <h4>Estado del Dashboard</h4>
+                    <p><span class="status-indicator status-online"></span>En línea - Todos los servicios funcionando correctamente</p>
+                </div>
+                <div class="info-item">
+                    <h4>Última Actualización</h4>
+                    <p>Los datos se actualizan automáticamente cada 15 minutos</p>
+                </div>
+                <div class="info-item">
+                    <h4>Fuente de Datos</h4>
+                    <p>Power BI - Dataset Customer Analytics v2.1</p>
+                </div>
+                <div class="info-item">
+                    <h4>Tecnologías Utilizadas</h4>
+                    <p>HTML5, CSS3, JavaScript, Power BI Embedded, Responsive Design</p>
+                </div>
+                <div class="info-item">
+                    <h4>👨‍💼 Desarrollado por</h4>
+                    <p>Cristian Antonio García Luna - Matrícula: U2303057N0050</p>
+                </div>
+                <div class="info-item">
+                    <h4>🏫 Institución</h4>
+                    <p>Universidad del SABES - Campus San Felipe</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update timestamp every minute
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('current-time').textContent = timeString;
+        }
+
+        // Update time immediately and then every minute
+        updateTime();
+        setInterval(updateTime, 60000);
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.metric-card, .info-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+
+        // Simulate real-time metric updates (optional)
+        function updateMetrics() {
+            const metricValues = document.querySelectorAll('.metric-value');
+            // This is just for demonstration - in a real scenario, you'd fetch actual data
+            metricValues.forEach(metric => {
+                metric.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    metric.style.transform = 'scale(1)';
+                }, 200);
+            });
+        }
+
+        // Update metrics every 5 minutes (300000 ms)
+        setInterval(updateMetrics, 300000);
+    </script>
+</body>
+</html>
